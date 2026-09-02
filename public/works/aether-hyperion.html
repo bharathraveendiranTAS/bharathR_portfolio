@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AETHER HYPERION — Pure Electric Hyper-Performance</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            carbon: {
+              950: '#050507',
+              900: '#09090D',
+              850: '#0E0E14',
+              800: '#14141E',
+              700: '#1E1E2B',
+              600: '#2C2C3D',
+              400: '#75758F'
+            },
+            amber: {
+              300: '#FDE68A',
+              400: '#FBBF24',
+              500: '#F59E0B',
+              600: '#D97706',
+              900: '#78350F',
+              950: '#451A03'
+            },
+            titanium: '#E2E8F0'
+          },
+          fontFamily: {
+            display: ['"Rajdhani"', 'sans-serif'],
+            sans: ['"Space Grotesk"', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          boxShadow: {
+            'amber-glow': '0 0 40px -8px rgba(245, 158, 11, 0.45)',
+            'amber-glow-lg': '0 0 70px -10px rgba(245, 158, 11, 0.6)',
+            'hud-card': '0 20px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Rajdhani, Space Grotesk, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Rajdhani:wght@500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #050507;
+      color: #F8FAFC;
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-display { font-family: 'Rajdhani', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Volumetric Carbon Fiber Weave Pattern */
+    .carbon-texture {
+      background-size: 16px 16px;
+      background-image: 
+        linear-gradient(45deg, rgba(255, 255, 255, 0.018) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.018) 75%),
+        linear-gradient(45deg, rgba(255, 255, 255, 0.018) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.018) 75%);
+      background-position: 0 0, 8px 8px;
+    }
+
+    /* Precision Grid Overlay */
+    .hud-grid {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(245, 158, 11, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(245, 158, 11, 0.035) 1px, transparent 1px);
+    }
+
+    /* Glass HUD telemetry card */
+    .hud-panel {
+      background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.07) 0%, rgba(14, 14, 20, 0.85) 75%);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hud-panel:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+
+    @keyframes amberPulse {
+      0%, 100% { opacity: 0.35; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.08); }
+    }
+    .animate-amber-pulse {
+      animation: amberPulse 6s infinite ease-in-out;
+    }
+
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: #050507; }
+    ::-webkit-scrollbar-thumb { background: #1E1E2B; border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: #F59E0B; }
+
+    ::selection {
+      background-color: #F59E0B;
+      color: #050507;
+    }
+  </style>
+</head>
+
+<body class="bg-carbon-950 text-slate-100 antialiased selection:bg-amber-500 selection:text-black">
+
+  <!-- BACKGROUND ILLUMINATION & TEXTURES -->
+  <div class="fixed inset-0 pointer-events-none z-0 carbon-texture opacity-80"></div>
+  <div class="fixed inset-0 pointer-events-none z-0 hud-grid opacity-60"></div>
+  <div class="fixed top-20 right-1/4 w-[600px] h-[500px] bg-amber-500/10 rounded-full blur-[160px] pointer-events-none z-0 animate-amber-pulse"></div>
+  <div class="fixed -bottom-20 -left-20 w-[500px] h-[500px] bg-amber-600/5 rounded-full blur-[140px] pointer-events-none z-0"></div>
+
+  <!-- FIXED FLOATING HUD TELEMETRY METERS (DESKTOP) -->
+  <div class="fixed top-24 left-6 z-40 hidden 2xl:flex flex-col gap-4 text-[10px] font-mono text-slate-400 select-none pointer-events-none">
+    <div class="hud-panel px-3 py-2 rounded-lg flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
+      <span class="text-white font-bold tracking-widest">INVERTER 800V SiC</span>
+      <span class="text-amber-400">ONLINE</span>
+    </div>
+    <div class="text-[9px] text-slate-500 space-y-0.5 tracking-wider">
+      <div>CHASSIS: MONOCOQUE T1000</div>
+      <div>VECTORING: 4-WHEEL STEER</div>
+      <div>TELEMETRY LINK: 5G DUAL-BAND</div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-carbon-950/85 backdrop-blur-xl transition-all">
+    <div class="max-w-[1440px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+      
+      <a href="#" class="flex items-center space-x-3.5 group">
+        <div class="w-9 h-9 rounded bg-amber-500 flex items-center justify-center font-display font-extrabold text-carbon-950 text-xl tracking-tighter shadow-amber-glow group-hover:scale-105 transition-transform duration-300">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 22 12 18 22 22 12 2"></polygon>
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display text-lg tracking-[0.25em] font-extrabold text-white uppercase flex items-center gap-1.5">
+            AETHER <span class="text-amber-400 font-medium">HYPERION</span>
+          </span>
+          <span class="text-[9px] font-mono tracking-widest text-slate-400 uppercase">Track-Tested Electric Architecture</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center space-x-10 text-xs font-mono uppercase tracking-[0.18em] text-slate-400">
+        <a href="#hypercar" class="hover:text-amber-400 transition-colors py-1 flex items-center gap-1">
+          <span>01. Monocoque</span>
+        </a>
+        <a href="#aerodynamics" class="hover:text-amber-400 transition-colors py-1 flex items-center gap-1">
+          <span>02. Aerodynamics</span>
+        </a>
+        <a href="#powertrain" class="hover:text-amber-400 transition-colors py-1 flex items-center gap-1">
+          <span>03. Tri-Motor</span>
+        </a>
+        <a href="#specs" class="hover:text-amber-400 transition-colors py-1 flex items-center gap-1">
+          <span>04. Telemetry</span>
+        </a>
+      </nav>
+
+      <div class="flex items-center space-x-4">
+        <button onclick="toggleConfigDrawer()" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded border border-amber-500/40 hover:border-amber-400 bg-amber-950/20 text-amber-300 text-xs font-mono tracking-wider uppercase transition-all shadow-amber-glow">
+          <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i>
+          <span>Configure Studio</span>
+        </button>
+
+        <button onclick="openReservationModal()" class="px-5 py-2.5 rounded bg-amber-500 hover:bg-amber-400 text-carbon-950 font-display font-extrabold text-sm tracking-wider uppercase transition-all shadow-amber-glow hover:shadow-amber-glow-lg flex items-center gap-2">
+          <span>Reserve Allocation</span>
+          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="relative z-10">
+
+    <!-- HERO SECTION -->
+    <section id="hypercar" class="pt-8 pb-20 lg:pt-14 lg:pb-28 max-w-[1440px] mx-auto px-6 lg:px-12 overflow-hidden">
+      
+      <div class="flex flex-wrap items-center justify-between pb-4 border-b border-white/10 text-xs font-mono text-slate-400 uppercase tracking-widest gap-4">
+        <div class="flex items-center gap-2.5">
+          <span class="text-amber-400 font-bold">[PROJECT PHASE: HOMOLOGATION]</span>
+          <span class="text-slate-600">/</span>
+          <span>NÜRBURGRING LAP TARGET: 6:28.4</span>
+        </div>
+        <div class="flex items-center gap-6 text-[11px]">
+          <span class="hidden sm:inline">CARBON CHASSIS #001 OF 150</span>
+          <span class="text-white font-bold flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            ACTIVE DOWNFORCE ACTIVE
+          </span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 pt-8 items-center">
+        
+        <div class="lg:col-span-5 space-y-7">
+          
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded border border-amber-500/30 bg-amber-950/30 text-amber-400 text-xs font-mono tracking-widest uppercase">
+            <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>1,420 HP Tri-Motor Inverter</span>
+          </div>
+
+          <h1 class="font-display text-5xl sm:text-6xl xl:text-7xl font-extrabold uppercase leading-[0.94] tracking-tight text-white">
+            Relentless <br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-white">
+              Velocity.
+            </span> <br/>
+            Zero Compromise.
+          </h1>
+
+          <p class="text-slate-300 text-sm sm:text-base font-light leading-relaxed max-w-lg">
+            Sculpted by sub-millimeter wind tunnel fluid dynamics and encased in an aerospace autoclave carbon tub. The Aether Hyperion delivers 1.74s 0–60 mph acceleration with active ground-effect downforce.
+          </p>
+
+          <div class="grid grid-cols-3 gap-3 pt-2 font-mono">
+            
+            <div class="p-3.5 rounded-lg bg-carbon-900 border border-white/10 hover:border-amber-500/40 transition-colors">
+              <span class="text-[10px] uppercase text-slate-400 block tracking-widest">0–60 MPH</span>
+              <span class="font-display text-3xl font-extrabold text-amber-400 mt-0.5 block">1.74<span class="text-base text-white font-mono">s</span></span>
+              <span class="text-[9px] text-slate-500 mt-0.5 block">Sub-2.0s Real World</span>
+            </div>
+
+            <div class="p-3.5 rounded-lg bg-carbon-900 border border-white/10 hover:border-amber-500/40 transition-colors">
+              <span class="text-[10px] uppercase text-slate-400 block tracking-widest">Peak Power</span>
+              <span class="font-display text-3xl font-extrabold text-white mt-0.5 block">1,420<span class="text-base text-amber-400 font-mono">hp</span></span>
+              <span class="text-[9px] text-slate-500 mt-0.5 block">1,059 kW AWD</span>
+            </div>
+
+            <div class="p-3.5 rounded-lg bg-carbon-900 border border-white/10 hover:border-amber-500/40 transition-colors">
+              <span class="text-[10px] uppercase text-slate-400 block tracking-widest">Top Speed</span>
+              <span class="font-display text-3xl font-extrabold text-amber-400 mt-0.5 block">248<span class="text-base text-white font-mono">mph</span></span>
+              <span class="text-[9px] text-slate-500 mt-0.5 block">400 km/h Governed</span>
+            </div>
+
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+            <button onclick="toggleConfigDrawer()" class="px-7 py-4 rounded bg-amber-500 hover:bg-amber-400 text-carbon-950 font-display font-extrabold text-sm tracking-wider uppercase transition-all shadow-amber-glow hover:shadow-amber-glow-lg flex items-center justify-center gap-2">
+              <i data-lucide="wrench" class="w-4 h-4"></i>
+              <span>Customize Hyperion Spec</span>
+            </button>
+            <button onclick="switchAeroMode('track')" class="px-6 py-4 rounded border border-white/15 hover:border-white/40 text-white font-mono text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-2 bg-carbon-900/60">
+              <i data-lucide="gauge" class="w-4 h-4 text-amber-400"></i>
+              <span>Engage Track Mode</span>
+            </button>
+          </div>
+
+        </div>
+
+        <div class="lg:col-span-7 relative">
+          
+          <div class="hud-panel rounded-2xl p-5 sm:p-7 shadow-hud-card border border-white/15 relative overflow-hidden">
+            
+            <div class="flex flex-wrap items-center justify-between pb-4 border-b border-white/10 text-xs font-mono gap-3">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                <span class="text-white font-bold tracking-widest">WIND TUNNEL TELEMETRY</span>
+              </div>
+              
+              <div class="flex items-center gap-1.5 bg-carbon-950 p-1 rounded border border-white/10 text-[10px]">
+                <button onclick="switchAeroMode('vmax')" class="aero-tab px-2.5 py-1 rounded text-slate-400 hover:text-white transition-colors" data-aero="vmax">V-MAX (0.198 Cd)</button>
+                <button onclick="switchAeroMode('track')" class="aero-tab px-2.5 py-1 rounded bg-amber-500 text-carbon-950 font-bold transition-colors" data-aero="track">TRACK (850KG DOWNFORCE)</button>
+                <button onclick="switchAeroMode('efficiency')" class="aero-tab px-2.5 py-1 rounded text-slate-400 hover:text-white transition-colors" data-aero="efficiency">CRUISE (ECO)</button>
+              </div>
+            </div>
+
+            <div class="relative my-4 h-[320px] sm:h-[380px] w-full bg-carbon-950/80 rounded-xl border border-white/5 overflow-hidden group">
+              <canvas id="windTunnelCanvas" class="w-full h-full block cursor-crosshair"></canvas>
+              
+              <div class="absolute top-3 left-3 text-[10px] font-mono text-amber-400/90 pointer-events-none flex items-center gap-2">
+                <i data-lucide="crosshair" class="w-3.5 h-3.5"></i>
+                <span id="aeroDragDisplay">DRAG COEFFICIENT: 0.198 Cd</span>
+              </div>
+
+              <div class="absolute top-3 right-3 text-[10px] font-mono text-slate-400 pointer-events-none">
+                AXIAL DOWNFORCE: <span class="text-amber-400 font-bold" id="downforceVal">850 KG @ 180MPH</span>
+              </div>
+
+              <div class="absolute bottom-3 left-3 bg-carbon-900/90 border border-amber-500/30 px-3 py-1.5 rounded text-[11px] font-mono text-slate-300 pointer-events-none flex items-center gap-2 backdrop-blur-md">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                <span>WING ANGLE: <span class="text-amber-400 font-bold" id="wingAngleDisplay">24.5° ATTACK</span></span>
+              </div>
+
+              <div class="absolute bottom-3 right-3 bg-carbon-900/90 border border-white/10 px-3 py-1.5 rounded text-[10px] font-mono text-slate-400 pointer-events-none">
+                LAMINAR REYNOLDS NO: 4.2 × 10⁶
+              </div>
+            </div>
+
+            <div class="grid grid-cols-4 gap-2 pt-3 border-t border-white/10 text-center font-mono">
+              <div class="p-2 rounded bg-carbon-900/90 border border-white/5">
+                <span class="text-[9px] text-slate-400 uppercase block">Battery Cap</span>
+                <span class="text-xs font-bold text-white mt-0.5 block">118 kWh</span>
+              </div>
+              <div class="p-2 rounded bg-carbon-900/90 border border-white/5">
+                <span class="text-[9px] text-slate-400 uppercase block">800V Charge</span>
+                <span class="text-xs font-bold text-amber-400 mt-0.5 block">10–80% 11m</span>
+              </div>
+              <div class="p-2 rounded bg-carbon-900/90 border border-white/5">
+                <span class="text-[9px] text-slate-400 uppercase block">Lateral Grip</span>
+                <span class="text-xs font-bold text-white mt-0.5 block">1.48 G</span>
+              </div>
+              <div class="p-2 rounded bg-carbon-900/90 border border-white/5">
+                <span class="text-[9px] text-slate-400 uppercase block">Dry Weight</span>
+                <span class="text-xs font-bold text-amber-400 mt-0.5 block">1,680 kg</span>
+              </div>
+            </div>
+
+            <div class="mt-3 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+              <span class="flex items-center gap-1.5 text-slate-400">
+                <i data-lucide="mouse-pointer" class="w-3.5 h-3.5 text-amber-400"></i> Hover & move cursor to deflect particle slipstream
+              </span>
+              <button onclick="randomizeAirSpeed()" class="text-amber-400 hover:underline">
+                Inject Gust Vortex ↻
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: DRAG COEFFICIENT & ACTIVE AERODYNAMICS GAUGE -->
+    <section id="aerodynamics" class="border-y border-white/10 bg-carbon-900/60 backdrop-blur-lg py-12">
+      <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <div class="lg:col-span-4 space-y-3">
+            <span class="text-xs font-mono uppercase tracking-widest text-amber-400 font-bold block">Active Ground-Effect Architecture</span>
+            <h2 class="font-display text-3xl sm:text-4xl font-extrabold uppercase text-white tracking-tight">
+              0.198 Cd Airfoil Sculpting
+            </h2>
+            <p class="text-slate-400 text-xs sm:text-sm font-light leading-relaxed">
+              Automated underfloor venturi tunnels and active dual-element carbon rear aerofoils modulate ground-effect suction at triple-digit speeds.
+            </p>
+          </div>
+
+          <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono">
+            
+            <div class="p-5 rounded-xl bg-carbon-950 border border-white/10 relative overflow-hidden">
+              <div class="flex justify-between items-start text-xs">
+                <span class="text-slate-400">FRONT VENTURI SUCTION</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+              </div>
+              <div class="text-3xl font-display font-extrabold text-white mt-2">420 <span class="text-sm font-mono text-amber-400">kgf</span></div>
+              <div class="w-full bg-carbon-800 h-1.5 rounded-full mt-3 overflow-hidden">
+                <div class="bg-amber-400 h-full w-[78%]"></div>
+              </div>
+              <span class="text-[10px] text-slate-500 mt-2 block">Active splitter flaps engaged</span>
+            </div>
+
+            <div class="p-5 rounded-xl bg-carbon-950 border border-white/10 relative overflow-hidden">
+              <div class="flex justify-between items-start text-xs">
+                <span class="text-slate-400">REAR AIR-BRAKE TORQUE</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+              </div>
+              <div class="text-3xl font-display font-extrabold text-amber-400 mt-2">1,200 <span class="text-sm font-mono text-white">Nm</span></div>
+              <div class="w-full bg-carbon-800 h-1.5 rounded-full mt-3 overflow-hidden">
+                <div class="bg-amber-400 h-full w-[92%]"></div>
+              </div>
+              <span class="text-[10px] text-slate-500 mt-2 block">Deployment speed: 120ms</span>
+            </div>
+
+            <div class="p-5 rounded-xl bg-carbon-950 border border-white/10 relative overflow-hidden">
+              <div class="flex justify-between items-start text-xs">
+                <span class="text-slate-400">EPA RANGE ESTIMATE</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              </div>
+              <div class="text-3xl font-display font-extrabold text-white mt-2">570 <span class="text-sm font-mono text-emerald-400">MILES</span></div>
+              <div class="w-full bg-carbon-800 h-1.5 rounded-full mt-3 overflow-hidden">
+                <div class="bg-emerald-400 h-full w-[85%]"></div>
+              </div>
+              <span class="text-[10px] text-slate-500 mt-2 block">917 km High-Speed WLTP</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: TRI-MOTOR TORQUE VECTORING SIMULATOR -->
+    <section id="powertrain" class="py-24 max-w-[1440px] mx-auto px-6 lg:px-12">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-5 space-y-6">
+          <div class="inline-flex items-center gap-2 text-xs font-mono tracking-widest text-amber-400 bg-amber-950/40 border border-amber-500/30 px-3 py-1 rounded">
+            <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+            <span>DETERMINISTIC TRACTION MGMT</span>
+          </div>
+
+          <h2 class="font-display text-4xl sm:text-5xl font-extrabold uppercase text-white tracking-tight">
+            Infinite Torque Vectoring Matrix
+          </h2>
+
+          <p class="text-slate-300 text-sm font-light leading-relaxed">
+            Three independent permanent-magnet synchronous motors calculate millisecond torque-split per wheel. Tailor your bias from front-steer apex precision to 100% rear track drift dynamics.
+          </p>
+
+          <div class="bg-carbon-900 p-5 rounded-xl border border-white/10 space-y-3 font-mono">
+            <div class="flex justify-between text-xs">
+              <span class="text-slate-300 uppercase">AWD Power Bias Ratio</span>
+              <span id="torqueBiasVal" class="text-amber-400 font-bold">30% F / 70% R (Track Bias)</span>
+            </div>
+            <input type="range" id="torqueSlider" min="0" max="100" value="70" oninput="updateTorqueSplit()" class="w-full accent-amber-500 cursor-pointer h-2 bg-carbon-800 rounded-lg">
+            <div class="flex justify-between text-[10px] text-slate-500">
+              <span>50/50 Neutral Launch</span>
+              <span>100% Drift Oversteer</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 font-mono">
+            <div class="p-4 rounded-lg bg-carbon-900 border border-amber-500/20">
+              <span class="text-[10px] text-slate-400 uppercase block">Front Dual-Inverter</span>
+              <span id="frontKwDisplay" class="text-xl font-bold text-white mt-1 block">318 kW (426 HP)</span>
+            </div>
+            <div class="p-4 rounded-lg bg-carbon-900 border border-amber-500/20">
+              <span class="text-[10px] text-slate-400 uppercase block">Rear Primary Motor</span>
+              <span id="rearKwDisplay" class="text-xl font-bold text-amber-400 mt-1 block">741 kW (994 HP)</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="lg:col-span-7 hud-panel p-6 sm:p-8 rounded-2xl border border-white/15 relative">
+          <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-6 font-mono text-xs">
+            <div>
+              <span class="text-amber-400 font-bold uppercase">Chassis Load Telemetry</span>
+              <div class="text-white font-bold text-sm mt-0.5">Real-Time Inverter Flux Distribution</div>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10px]">
+              Response: 1.2ms
+            </span>
+          </div>
+
+          <div class="h-64 w-full relative">
+            <canvas id="powertrainCanvas" class="w-full h-full block"></canvas>
+          </div>
+
+          <div class="mt-4 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between text-xs font-mono text-slate-400 gap-3">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-1 bg-amber-400 inline-block"></span> Active Inverter Power Flow</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-1 bg-slate-500 inline-block"></span> Regenerative Kinetic Recovery</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SPECIFICATIONS BENCHMARK MATRIX -->
+    <section id="specs" class="py-20 bg-carbon-900/50 border-t border-white/10">
+      <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <span class="text-xs font-mono uppercase tracking-widest text-amber-400 font-bold">Engineering Benchmark</span>
+            <h2 class="font-display text-4xl sm:text-5xl font-extrabold uppercase text-white tracking-tight mt-1">
+              Homologation Telemetry
+            </h2>
+          </div>
+          <p class="text-slate-400 text-sm max-w-md font-light">
+            Empirical dynamometer and track telemetry verified across European test circuits.
+          </p>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-white/10 bg-carbon-950/80 backdrop-blur-xl shadow-2xl">
+          <table class="w-full text-left border-collapse font-mono text-xs">
+            <thead>
+              <tr class="border-b border-white/10 bg-carbon-900/80 text-[11px] uppercase tracking-wider text-slate-400">
+                <th class="py-4 px-6 font-medium">Metric Specification</th>
+                <th class="py-4 px-6 font-medium text-right">Aether Hyperion GT</th>
+                <th class="py-4 px-6 font-medium text-right">Legacy Supercar V12</th>
+                <th class="py-4 px-6 font-medium text-right">Standard Performance EV</th>
+                <th class="py-4 px-6 font-medium text-center">Telemetry Index</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              
+              <tr class="bg-amber-950/20 border-l-2 border-l-amber-500 hover:bg-amber-950/30 transition-colors">
+                <td class="py-4 px-6 font-bold text-white flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                  <span>0–100 km/h (0–62 mph)</span>
+                </td>
+                <td class="py-4 px-6 text-right text-amber-400 font-bold">1.74 sec</td>
+                <td class="py-4 px-6 text-right text-slate-400">2.85 sec</td>
+                <td class="py-4 px-6 text-right text-slate-400">3.10 sec</td>
+                <td class="py-4 px-6 text-center text-amber-300 font-bold">Class Leader</td>
+              </tr>
+
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-4 px-6 text-slate-300">1/4 Mile Elapsed Time</td>
+                <td class="py-4 px-6 text-right text-amber-400 font-bold">8.62 sec @ 168 mph</td>
+                <td class="py-4 px-6 text-right text-slate-400">9.90 sec @ 142 mph</td>
+                <td class="py-4 px-6 text-right text-slate-400">10.40 sec</td>
+                <td class="py-4 px-6 text-center text-slate-400">NHRA Certified</td>
+              </tr>
+
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-4 px-6 text-slate-300">Continuous 800V Thermal Laps</td>
+                <td class="py-4 px-6 text-right text-amber-400 font-bold">14 Full Attack Laps</td>
+                <td class="py-4 px-6 text-right text-slate-400">Thermal Throttle 6 Laps</td>
+                <td class="py-4 px-6 text-right text-slate-400">2 Laps De-rate</td>
+                <td class="py-4 px-6 text-center text-emerald-400">Zero De-rate</td>
+              </tr>
+
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-4 px-6 text-slate-300">Braking Distance (100–0 km/h)</td>
+                <td class="py-4 px-6 text-right text-amber-400 font-bold">28.4 meters (Carbon Ceramic)</td>
+                <td class="py-4 px-6 text-right text-slate-400">31.2 meters</td>
+                <td class="py-4 px-6 text-right text-slate-400">34.5 meters</td>
+                <td class="py-4 px-6 text-center text-slate-400">10-Piston Monobloc</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION BANNER -->
+    <section class="py-24 max-w-[1440px] mx-auto px-6 lg:px-12">
+      <div class="rounded-3xl p-8 sm:p-14 bg-gradient-to-b from-carbon-850 to-carbon-950 border border-white/15 relative overflow-hidden text-center shadow-amber-glow">
+        
+        <div class="absolute -left-20 -top-20 w-80 h-80 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <span class="text-xs font-mono uppercase tracking-[0.25em] text-amber-400 font-bold">Strictly Limited to 150 Homologated Builds</span>
+        <h2 class="font-display text-4xl sm:text-6xl font-extrabold uppercase text-white tracking-tight mt-3 mb-4">
+          Secure Your Allocation Slot.
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto font-light mb-8 leading-relaxed">
+          Production begins Q1 2027 in Zurich. Each chassis is tailored to bespoke driver ergonomics and aerodynamic track configurations.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button onclick="openReservationModal()" class="w-full sm:w-auto px-8 py-4 rounded bg-amber-500 hover:bg-amber-400 text-carbon-950 font-display font-extrabold text-sm tracking-wider uppercase transition-all shadow-amber-glow">
+            Initiate $25,000 Allocation Deposit
+          </button>
+          <button onclick="toggleConfigDrawer()" class="w-full sm:w-auto px-6 py-4 rounded border border-white/20 hover:border-white/40 text-white font-mono text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-2">
+            <i data-lucide="sliders" class="w-4 h-4 text-amber-400"></i>
+            <span>Launch Interactive Visualizer</span>
+          </button>
+        </div>
+
+        <div class="mt-8 font-mono text-[11px] text-slate-500">
+          Compliant with FIA GT Safety Regulations & Global Homologation Standards
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 bg-carbon-950 py-12 text-slate-500 text-xs font-mono">
+    <div class="max-w-[1440px] mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+      
+      <div class="flex items-center space-x-3">
+        <div class="w-6 h-6 rounded bg-amber-500 text-carbon-950 flex items-center justify-center font-display font-bold text-xs">
+          A
+        </div>
+        <span class="font-display font-extrabold text-white tracking-widest text-sm">AETHER HYPERION MOTORS</span>
+        <span class="text-slate-700">|</span>
+        <span>High Performance Technologies AG</span>
+      </div>
+
+      <div class="flex items-center space-x-6 text-[11px]">
+        <a href="#" class="hover:text-amber-400 transition-colors">Track Telemetry Privacy</a>
+        <a href="#" class="hover:text-amber-400 transition-colors">FIA Homologation</a>
+        <a href="#" class="hover:text-amber-400 transition-colors">Carbon Autoclave Specs</a>
+        <a href="#" class="hover:text-amber-400 transition-colors">Owner Concierge</a>
+      </div>
+
+      <div class="text-[11px] text-slate-600">
+        © 2026 Aether Motors AG. All rights reserved.
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- SLIDE-OVER CONFIGURE DRAWER -->
+  <div id="configDrawerOverlay" onclick="toggleConfigDrawer()" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+  <div id="configDrawer" class="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-carbon-900 border-l border-white/15 p-6 sm:p-8 overflow-y-auto transform translate-x-full transition-transform duration-300 shadow-2xl font-mono text-xs">
+    
+    <div class="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+        <span class="font-display text-lg font-extrabold uppercase text-white tracking-wider">Aether Bespoke Studio</span>
+      </div>
+      <button onclick="toggleConfigDrawer()" class="text-slate-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <div class="p-4 rounded-xl bg-carbon-950 border border-amber-500/30 mb-6 space-y-2">
+      <div class="flex justify-between items-baseline">
+        <span class="text-slate-400 uppercase text-[10px]">Estimated Build Value:</span>
+        <span id="configTotalPrice" class="font-display text-2xl font-extrabold text-amber-400">$2,450,000</span>
+      </div>
+      <div class="text-[10px] text-slate-500 flex justify-between">
+        <span>CHASSIS REF: HYPERION-SPEC-084</span>
+        <span class="text-emerald-400 font-bold">ALLOTMENT VALID</span>
+      </div>
+    </div>
+
+    <div class="space-y-3 mb-6">
+      <label class="block text-white uppercase font-bold tracking-wider text-[11px]">Exterior Carbon Finish</label>
+      <div class="grid grid-cols-2 gap-2.5">
+        
+        <button onclick="setFinish('Obsidian Raw Carbon', 0)" class="finish-btn p-3 rounded bg-carbon-800 border-2 border-amber-500 text-left transition-all" data-finish="0">
+          <span class="w-3 h-3 rounded-full bg-black border border-white/30 inline-block mr-1"></span>
+          <span class="text-white font-bold block mt-1">Obsidian Carbon</span>
+          <span class="text-[10px] text-slate-400">Standard ($0)</span>
+        </button>
+
+        <button onclick="setFinish('Solaris Amber Pearl', 45000)" class="finish-btn p-3 rounded bg-carbon-950 border border-white/10 text-left transition-all" data-finish="1">
+          <span class="w-3 h-3 rounded-full bg-amber-500 inline-block mr-1"></span>
+          <span class="text-white font-bold block mt-1">Solaris Amber</span>
+          <span class="text-[10px] text-amber-400">+$45,000</span>
+        </button>
+
+        <button onclick="setFinish('Liquid Ghost Titanium', 32000)" class="finish-btn p-3 rounded bg-carbon-950 border border-white/10 text-left transition-all" data-finish="2">
+          <span class="w-3 h-3 rounded-full bg-slate-300 inline-block mr-1"></span>
+          <span class="text-white font-bold block mt-1">Liquid Titanium</span>
+          <span class="text-[10px] text-amber-400">+$32,000</span>
+        </button>
+
+        <button onclick="setFinish('Verde Racing Green', 38000)" class="finish-btn p-3 rounded bg-carbon-950 border border-white/10 text-left transition-all" data-finish="3">
+          <span class="w-3 h-3 rounded-full bg-emerald-600 inline-block mr-1"></span>
+          <span class="text-white font-bold block mt-1">Verde Monolith</span>
+          <span class="text-[10px] text-amber-400">+$38,000</span>
+        </button>
+
+      </div>
+    </div>
+
+    <div class="space-y-3 mb-6">
+      <label class="block text-white uppercase font-bold tracking-wider text-[11px]">Wheel Aerodynamics</label>
+      <div class="space-y-2">
+        <label class="flex items-center justify-between p-3 rounded bg-carbon-950 border border-white/10 cursor-pointer hover:border-amber-500/40">
+          <div class="flex items-center gap-2">
+            <input type="radio" name="wheels" checked onchange="setWheels(0)" class="accent-amber-500">
+            <span class="text-slate-200">20"/21" Aero-Turbine Forged Carbon</span>
+          </div>
+          <span class="text-slate-400">Included</span>
+        </label>
+        <label class="flex items-center justify-between p-3 rounded bg-carbon-950 border border-white/10 cursor-pointer hover:border-amber-500/40">
+          <div class="flex items-center gap-2">
+            <input type="radio" name="wheels" onchange="setWheels(28000)" class="accent-amber-500">
+            <span class="text-slate-200">Ultra-Light Centerlock Magnesium Track</span>
+          </div>
+          <span class="text-amber-400">+$28,000</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="space-y-3 mb-8">
+      <label class="block text-white uppercase font-bold tracking-wider text-[11px]">Track Package & Telemetry</label>
+      <label class="flex items-center justify-between p-3 rounded bg-carbon-950 border border-white/10 cursor-pointer hover:border-amber-500/40">
+        <div class="flex items-center gap-2">
+          <input type="checkbox" id="trackPackCheck" onchange="toggleTrackPack()" class="accent-amber-500">
+          <span class="text-slate-200">FIA Rollcage + Pit-Lane WSS Radio</span>
+        </div>
+        <span class="text-amber-400">+$55,000</span>
+      </label>
+    </div>
+
+    <button onclick="openReservationModal()" class="w-full py-4 rounded bg-amber-500 hover:bg-amber-400 text-carbon-950 font-display font-extrabold text-base tracking-wider uppercase transition-all shadow-amber-glow">
+      Lock Specification & Reserve
+    </button>
+  </div>
+
+  <!-- MODAL: VIP ALLOCATION CONCIERGE -->
+  <div id="reservationModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-carbon-900 border border-white/20 rounded-2xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl transform scale-95 transition-transform duration-300" id="reservationModalCard">
+      
+      <button onclick="closeReservationModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-2 mb-2">
+        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+        <span class="text-xs font-mono uppercase tracking-widest text-amber-400 font-bold">Private Concierge Desk</span>
+      </div>
+
+      <h3 class="font-display text-3xl font-extrabold uppercase text-white tracking-tight">Reserve Aether Hyperion</h3>
+      <p class="text-xs text-slate-400 mt-1 mb-6 font-light">
+        Submit VIP credentials for priority delivery queue allotment.
+      </p>
+
+      <form id="reservationForm" onsubmit="handleReservationSubmit(event)" class="space-y-4 text-xs font-mono">
+        <div>
+          <label class="block text-slate-300 uppercase mb-1">Full Name / Entity</label>
+          <input required type="text" placeholder="Lord Harrison Sterling" class="w-full bg-carbon-950 border border-white/10 rounded p-3 text-white focus:outline-none focus:border-amber-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 uppercase mb-1">Private Email</label>
+            <input required type="email" placeholder="sterling@private-vault.ch" class="w-full bg-carbon-950 border border-white/10 rounded p-3 text-white focus:outline-none focus:border-amber-500">
+          </div>
+          <div>
+            <label class="block text-slate-300 uppercase mb-1">Country Delivery Node</label>
+            <input required type="text" placeholder="Monaco / Geneva / Tokyo" class="w-full bg-carbon-950 border border-white/10 rounded p-3 text-white focus:outline-none focus:border-amber-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 uppercase mb-1">Track Experience</label>
+          <select class="w-full bg-carbon-950 border border-white/10 rounded p-3 text-white focus:outline-none focus:border-amber-500">
+            <option>FIA Superlicense / Competition</option>
+            <option>Advanced Track Club Member</option>
+            <option>Private Collector Mandate</option>
+          </select>
+        </div>
+
+        <button type="submit" class="w-full py-4 bg-amber-500 hover:bg-amber-400 text-carbon-950 font-display font-extrabold text-sm uppercase tracking-wider rounded transition-all mt-4 shadow-amber-glow">
+          Confirm Priority Allocation Deposit
+        </button>
+      </form>
+
+      <div id="reservationSuccess" class="hidden text-center py-6 space-y-4 font-mono">
+        <div class="w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center mx-auto">
+          <i data-lucide="check" class="w-6 h-6"></i>
+        </div>
+        <h4 class="font-display text-xl font-extrabold uppercase text-white">Chassis Allotment Confirmed</h4>
+        <div class="bg-carbon-950 p-3 rounded border border-white/10 text-amber-400 text-xs">
+          SERIAL NUMBER: HYPERION-GT-№042/150
+        </div>
+        <p class="text-xs text-slate-400">Our chief test driver will contact your personal concierge for custom seat mold appointments.</p>
+        <button onclick="closeReservationModal()" class="px-6 py-2 bg-carbon-800 border border-white/10 rounded text-xs text-white uppercase font-bold">Dismiss</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-carbon-900 border border-amber-500/40 text-white px-4 py-3 rounded-lg shadow-amber-glow font-mono text-xs flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <i data-lucide="gauge" class="w-4 h-4 text-amber-400"></i>
+    <span id="toastMsg">Aerodynamic trim re-calibrated.</span>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    const tunnelCanvas = document.getElementById('windTunnelCanvas');
+    const tunnelCtx = tunnelCanvas ? tunnelCanvas.getContext('2d') : null;
+    let tWidth, tHeight;
+    let particles = [];
+    let mouseX = 0;
+    let mouseY = 0;
+    let currentAeroMode = 'track';
+
+    function resizeTunnelCanvas() {
+      if (!tunnelCanvas) return;
+      const rect = tunnelCanvas.getBoundingClientRect();
+      tWidth = tunnelCanvas.width = rect.width * (window.devicePixelRatio || 1);
+      tHeight = tunnelCanvas.height = rect.height * (window.devicePixelRatio || 1);
+      initWindParticles();
+    }
+
+    function initWindParticles() {
+      particles = [];
+      const count = 120;
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * tWidth,
+          y: Math.random() * tHeight,
+          speed: 3.5 + Math.random() * 4.5,
+          length: 20 + Math.random() * 35,
+          color: Math.random() > 0.3 ? '#F59E0B' : '#FFFFFF',
+          opacity: 0.2 + Math.random() * 0.7
+        });
+      }
+    }
+
+    function drawCarSilhouette(cx, cy, scale) {
+      if (!tunnelCtx) return;
+
+      tunnelCtx.save();
+      tunnelCtx.translate(cx, cy);
+      tunnelCtx.scale(scale, scale);
+
+      tunnelCtx.beginPath();
+      tunnelCtx.ellipse(0, 58, 220, 18, 0, 0, Math.PI * 2);
+      tunnelCtx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+      tunnelCtx.fill();
+
+      tunnelCtx.beginPath();
+      tunnelCtx.moveTo(-210, 48);
+      tunnelCtx.lineTo(-170, 44);
+      tunnelCtx.quadraticCurveTo(-140, 20, -90, 12);
+      tunnelCtx.quadraticCurveTo(-50, 8, -10, -28);
+      tunnelCtx.quadraticCurveTo(30, -38, 70, -28);
+      tunnelCtx.quadraticCurveTo(120, -10, 170, 15);
+      tunnelCtx.lineTo(210, 22);
+      tunnelCtx.lineTo(215, 48);
+      tunnelCtx.lineTo(150, 52);
+      tunnelCtx.lineTo(-160, 52);
+      tunnelCtx.closePath();
+
+      const carGrad = tunnelCtx.createLinearGradient(-210, -40, 210, 50);
+      carGrad.addColorStop(0, '#1E1E2B');
+      carGrad.addColorStop(0.5, '#0E0E14');
+      carGrad.addColorStop(1, '#050507');
+      tunnelCtx.fillStyle = carGrad;
+      tunnelCtx.fill();
+
+      tunnelCtx.strokeStyle = '#F59E0B';
+      tunnelCtx.lineWidth = 2.2;
+      tunnelCtx.stroke();
+
+      tunnelCtx.beginPath();
+      tunnelCtx.moveTo(-45, 6);
+      tunnelCtx.lineTo(-5, -24);
+      tunnelCtx.quadraticCurveTo(35, -34, 65, -24);
+      tunnelCtx.lineTo(95, 4);
+      tunnelCtx.closePath();
+      tunnelCtx.fillStyle = 'rgba(245, 158, 11, 0.18)';
+      tunnelCtx.fill();
+      tunnelCtx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+      tunnelCtx.lineWidth = 1;
+      tunnelCtx.stroke();
+
+      let wingAngle = -12;
+      if (currentAeroMode === 'track') wingAngle = -28;
+      else if (currentAeroMode === 'vmax') wingAngle = -5;
+
+      tunnelCtx.save();
+      tunnelCtx.translate(175, 5);
+      tunnelCtx.rotate((wingAngle * Math.PI) / 180);
+      tunnelCtx.beginPath();
+      tunnelCtx.rect(-20, -5, 42, 6);
+      tunnelCtx.fillStyle = '#F59E0B';
+      tunnelCtx.shadowColor = '#F59E0B';
+      tunnelCtx.shadowBlur = 14;
+      tunnelCtx.fill();
+      tunnelCtx.restore();
+
+      tunnelCtx.beginPath();
+      tunnelCtx.moveTo(165, 20);
+      tunnelCtx.lineTo(170, 8);
+      tunnelCtx.moveTo(185, 20);
+      tunnelCtx.lineTo(185, 8);
+      tunnelCtx.strokeStyle = '#75758F';
+      tunnelCtx.lineWidth = 2;
+      tunnelCtx.stroke();
+
+      const drawWheel = (wx, wy) => {
+        tunnelCtx.beginPath();
+        tunnelCtx.arc(wx, wy, 26, 0, Math.PI * 2);
+        tunnelCtx.fillStyle = '#09090D';
+        tunnelCtx.fill();
+        tunnelCtx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+        tunnelCtx.lineWidth = 3;
+        tunnelCtx.stroke();
+
+        tunnelCtx.beginPath();
+        tunnelCtx.arc(wx, wy, 14, -0.4, 0.8);
+        tunnelCtx.strokeStyle = '#F59E0B';
+        tunnelCtx.lineWidth = 4;
+        tunnelCtx.stroke();
+      };
+
+      drawWheel(-115, 45);
+      drawWheel(125, 45);
+
+      tunnelCtx.beginPath();
+      tunnelCtx.moveTo(-205, 40);
+      tunnelCtx.lineTo(-180, 36);
+      tunnelCtx.strokeStyle = '#FFFFFF';
+      tunnelCtx.lineWidth = 3;
+      tunnelCtx.shadowColor = '#FFFFFF';
+      tunnelCtx.shadowBlur = 10;
+      tunnelCtx.stroke();
+
+      tunnelCtx.beginPath();
+      tunnelCtx.moveTo(205, 30);
+      tunnelCtx.lineTo(215, 30);
+      tunnelCtx.strokeStyle = '#EF4444';
+      tunnelCtx.lineWidth = 3;
+      tunnelCtx.shadowColor = '#EF4444';
+      tunnelCtx.shadowBlur = 8;
+      tunnelCtx.stroke();
+
+      tunnelCtx.restore();
+    }
+
+    function renderWindTunnel() {
+      if (!tunnelCtx || !tunnelCanvas) return;
+
+      tunnelCtx.clearRect(0, 0, tWidth, tHeight);
+
+      const cx = tWidth * 0.5;
+      const cy = tHeight * 0.58;
+      const scale = (tWidth / 680) * 1.1;
+
+      tunnelCtx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+      tunnelCtx.lineWidth = 1;
+      for (let i = 0; i < 6; i++) {
+        const y = (tHeight / 5) * i;
+        tunnelCtx.beginPath();
+        tunnelCtx.moveTo(0, y);
+        tunnelCtx.lineTo(tWidth, y);
+        tunnelCtx.stroke();
+      }
+
+      particles.forEach(p => {
+        p.x += p.speed;
+        if (p.x > tWidth + 50) {
+          p.x = -50;
+          p.y = Math.random() * tHeight;
+        }
+
+        const dx = p.x - cx;
+        const dy = p.y - cy;
+        let deflectionY = 0;
+
+        if (dx > -240 * scale && dx < 220 * scale && dy > -60 * scale && dy < 60 * scale) {
+          deflectionY = Math.sin((dx + 240 * scale) / (460 * scale) * Math.PI) * -38 * scale;
+        }
+
+        tunnelCtx.beginPath();
+        tunnelCtx.moveTo(p.x, p.y + deflectionY);
+        tunnelCtx.lineTo(p.x + p.length, p.y + deflectionY);
+        tunnelCtx.strokeStyle = p.color;
+        tunnelCtx.globalAlpha = p.opacity;
+        tunnelCtx.lineWidth = 1.2;
+        tunnelCtx.stroke();
+        tunnelCtx.globalAlpha = 1.0;
+      });
+
+      drawCarSilhouette(cx, cy, scale);
+
+      requestAnimationFrame(renderWindTunnel);
+    }
+
+    if (tunnelCanvas) {
+      tunnelCanvas.addEventListener('mousemove', (e) => {
+        const rect = tunnelCanvas.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+      });
+    }
+
+    function switchAeroMode(mode) {
+      currentAeroMode = mode;
+
+      document.querySelectorAll('.aero-tab').forEach(btn => {
+        btn.classList.remove('bg-amber-500', 'text-carbon-950', 'font-bold');
+        btn.classList.add('text-slate-400');
+      });
+      const activeBtn = document.querySelector(`[data-aero="${mode}"]`);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-400');
+        activeBtn.classList.add('bg-amber-500', 'text-carbon-950', 'font-bold');
+      }
+
+      const dragEl = document.getElementById('aeroDragDisplay');
+      const downforceEl = document.getElementById('downforceVal');
+      const wingEl = document.getElementById('wingAngleDisplay');
+
+      if (mode === 'vmax') {
+        dragEl.textContent = 'DRAG COEFFICIENT: 0.198 Cd';
+        downforceEl.textContent = '380 KG @ 248MPH';
+        wingEl.textContent = '5.0° V-MAX STREAM';
+      } else if (mode === 'track') {
+        dragEl.textContent = 'DRAG COEFFICIENT: 0.312 Cd';
+        downforceEl.textContent = '850 KG @ 180MPH';
+        wingEl.textContent = '24.5° TRACK ATTACK';
+      } else {
+        dragEl.textContent = 'DRAG COEFFICIENT: 0.224 Cd';
+        downforceEl.textContent = '490 KG @ 130MPH';
+        wingEl.textContent = '12.0° EFFICIENCY';
+      }
+
+      showToast(`Aero Configuration switched to: ${mode.toUpperCase()}`);
+    }
+
+    function randomizeAirSpeed() {
+      initWindParticles();
+      showToast('Wind Tunnel slipstream turbulence refreshed to 220 km/h baseline.');
+    }
+
+    const ptCanvas = document.getElementById('powertrainCanvas');
+    const ptCtx = ptCanvas ? ptCanvas.getContext('2d') : null;
+
+    function resizePtCanvas() {
+      if (!ptCanvas) return;
+      const rect = ptCanvas.getBoundingClientRect();
+      ptCanvas.width = rect.width * (window.devicePixelRatio || 1);
+      ptCanvas.height = rect.height * (window.devicePixelRatio || 1);
+      drawPowertrainTelemetry();
+    }
+
+    function updateTorqueSplit() {
+      const slider = document.getElementById('torqueSlider');
+      const rearPct = parseInt(slider.value);
+      const frontPct = 100 - rearPct;
+
+      const biasLabel = document.getElementById('torqueBiasVal');
+      biasLabel.textContent = `${frontPct}% F / ${rearPct}% R (${rearPct > 65 ? 'Drift/Track Bias' : 'Launch Neutral'})`;
+
+      const totalKw = 1059;
+      const frontKw = Math.round((frontPct / 100) * totalKw);
+      const rearKw = totalKw - frontKw;
+
+      document.getElementById('frontKwDisplay').textContent = `${frontKw} kW (${Math.round(frontKw * 1.341)} HP)`;
+      document.getElementById('rearKwDisplay').textContent = `${rearKw} kW (${Math.round(rearKw * 1.341)} HP)`;
+
+      drawPowertrainTelemetry();
+    }
+
+    function drawPowertrainTelemetry() {
+      if (!ptCtx || !ptCanvas) return;
+      const w = ptCanvas.width;
+      const h = ptCanvas.height;
+      const slider = document.getElementById('torqueSlider');
+      const rearRatio = slider ? parseInt(slider.value) / 100 : 0.7;
+
+      ptCtx.clearRect(0, 0, w, h);
+
+      ptCtx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+      ptCtx.lineWidth = 2;
+      ptCtx.strokeRect(w * 0.25, h * 0.2, w * 0.5, h * 0.6);
+
+      ptCtx.fillStyle = 'rgba(14, 14, 20, 0.8)';
+      ptCtx.fillRect(w * 0.32, h * 0.28, w * 0.36, h * 0.44);
+      ptCtx.strokeStyle = '#F59E0B';
+      ptCtx.strokeRect(w * 0.32, h * 0.28, w * 0.36, h * 0.44);
+
+      ptCtx.fillStyle = '#FFFFFF';
+      ptCtx.font = '10px JetBrains Mono';
+      ptCtx.fillText('800V SiC PACK', w * 0.41, h * 0.52);
+
+      const frontAlpha = (1 - rearRatio) * 1.5;
+      ptCtx.fillStyle = `rgba(245, 158, 11, ${Math.max(0.2, frontAlpha)})`;
+      ptCtx.fillRect(w * 0.22, h * 0.15, w * 0.08, h * 0.2);
+      ptCtx.fillRect(w * 0.70, h * 0.15, w * 0.08, h * 0.2);
+
+      const rearAlpha = rearRatio * 1.2;
+      ptCtx.fillStyle = `rgba(245, 158, 11, ${rearAlpha})`;
+      ptCtx.shadowColor = '#F59E0B';
+      ptCtx.shadowBlur = 12;
+      ptCtx.fillRect(w * 0.20, h * 0.65, w * 0.12, h * 0.22);
+      ptCtx.fillRect(w * 0.68, h * 0.65, w * 0.12, h * 0.22);
+      ptCtx.shadowBlur = 0;
+    }
+
+    let basePrice = 2450000;
+    let finishPrice = 0;
+    let wheelPrice = 0;
+    let trackPackPrice = 0;
+
+    function toggleConfigDrawer() {
+      const drawer = document.getElementById('configDrawer');
+      const overlay = document.getElementById('configDrawerOverlay');
+      const isOpen = !drawer.classList.contains('translate-x-full');
+
+      if (isOpen) {
+        drawer.classList.add('translate-x-full');
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+      } else {
+        drawer.classList.remove('translate-x-full');
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    function setFinish(name, price) {
+      finishPrice = price;
+      updatePrice();
+      showToast(`Exterior Finish selected: ${name}`);
+    }
+
+    function setWheels(price) {
+      wheelPrice = price;
+      updatePrice();
+    }
+
+    function toggleTrackPack() {
+      const check = document.getElementById('trackPackCheck');
+      trackPackPrice = check.checked ? 55000 : 0;
+      updatePrice();
+    }
+
+    function updatePrice() {
+      const total = basePrice + finishPrice + wheelPrice + trackPackPrice;
+      const priceEl = document.getElementById('configTotalPrice');
+      if (priceEl) {
+        priceEl.textContent = `$${total.toLocaleString()}`;
+      }
+    }
+
+    function openReservationModal() {
+      const modal = document.getElementById('reservationModal');
+      const card = document.getElementById('reservationModalCard');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-95');
+      card.classList.add('scale-100');
+    }
+
+    function closeReservationModal() {
+      const modal = document.getElementById('reservationModal');
+      const card = document.getElementById('reservationModalCard');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+
+      setTimeout(() => {
+        document.getElementById('reservationForm').classList.remove('hidden');
+        document.getElementById('reservationSuccess').classList.add('hidden');
+      }, 300);
+    }
+
+    function handleReservationSubmit(e) {
+      e.preventDefault();
+      document.getElementById('reservationForm').classList.add('hidden');
+      document.getElementById('reservationSuccess').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = msg;
+
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3500);
+    }
+
+    window.addEventListener('load', () => {
+      resizeTunnelCanvas();
+      resizePtCanvas();
+      renderWindTunnel();
+      updateTorqueSplit();
+    });
+
+    window.addEventListener('resize', () => {
+      resizeTunnelCanvas();
+      resizePtCanvas();
+    });
+  </script>
+
+</body>
+</html>

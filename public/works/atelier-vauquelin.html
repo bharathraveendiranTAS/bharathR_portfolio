@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATELIER VAUQUELIN — Contemporary Architecture & Spatial Monograph</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            alabaster: '#F8F9FA',
+            espresso: {
+              950: '#110F0D',
+              900: '#181513',
+              800: '#231F1C',
+              700: '#38322E',
+              500: '#685F59',
+              400: '#8E847D',
+              200: '#D5CEC7'
+            },
+            linen: {
+              50: '#FAF8F5',
+              100: '#F4F0EB',
+              200: '#EFECE6',
+              300: '#E5DFD6',
+              400: '#D9D0C3',
+              500: '#C2B6A5'
+            },
+            terracotta: {
+              400: '#D97757',
+              500: '#C15C3D',
+              600: '#A3462A'
+            },
+            sage: {
+              400: '#94A395',
+              500: '#6F8071'
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            display: ['"Syne"', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
+            mono: ['"Space Mono"', 'monospace']
+          },
+          letterSpacing: {
+            'ultra-wide': '0.22em',
+            'tightest': '-0.04em'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Cormorant Garamond, Syne, Plus Jakarta Sans, Space Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #F8F9FA;
+      color: #181513;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+    .font-display { font-family: 'Syne', sans-serif; }
+    .font-mono { font-family: 'Space Mono', monospace; }
+
+    .arch-grid {
+      background-size: 48px 48px;
+      background-image: 
+        linear-gradient(to right, rgba(24, 21, 19, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(24, 21, 19, 0.035) 1px, transparent 1px);
+    }
+
+    .editorial-shadow {
+      box-shadow: 0 30px 60px -15px rgba(24, 21, 19, 0.07), 0 0 0 1px rgba(24, 21, 19, 0.04);
+    }
+
+    .editorial-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(24, 21, 19, 0.08);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .editorial-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -10px rgba(24, 21, 19, 0.09);
+      border-color: rgba(24, 21, 19, 0.2);
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    ::selection {
+      background-color: #181513;
+      color: #F8F9FA;
+    }
+  </style>
+</head>
+
+<body class="bg-alabaster text-espresso-900 antialiased selection:bg-espresso-900 selection:text-alabaster">
+
+  <!-- BACKGROUND GRID -->
+  <div class="fixed inset-0 pointer-events-none z-0 arch-grid"></div>
+
+  <!-- FLOATING EDITORIAL COORDINATE TELEMETRY -->
+  <div class="fixed top-24 left-6 z-40 hidden xl:flex flex-col gap-6 text-[10px] font-mono tracking-widest text-espresso-400 uppercase pointer-events-none select-none">
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-terracotta-500 animate-pulse"></span>
+      <span id="coordDisplay">48°51'24"N · 2°21'07"E</span>
+    </div>
+    <div class="h-12 w-[1px] bg-espresso-200 ml-[3px]"></div>
+    <div class="rotate-180 [writing-mode:vertical-lr] text-espresso-500">
+      ELEVATION 142.4M · AZIMUTH 214°
+    </div>
+  </div>
+
+  <div class="fixed bottom-10 right-8 z-40 hidden xl:flex flex-col items-end gap-2 text-[10px] font-mono text-espresso-400 uppercase pointer-events-none select-none">
+    <div class="flex items-center gap-2">
+      <span class="text-espresso-700">SOLAR LUX LEVEL</span>
+      <span class="text-terracotta-600 font-bold" id="luxVal">64,200 LX</span>
+    </div>
+    <span>ANNUALIZED CARBON OFFSET: -84.2%</span>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header class="sticky top-0 z-50 border-b border-espresso-900/10 bg-alabaster/90 backdrop-blur-md transition-all">
+    <div class="max-w-[1440px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+      
+      <a href="#" class="flex items-center gap-4 group">
+        <div class="w-8 h-8 border border-espresso-900 flex items-center justify-center font-serif text-lg font-bold group-hover:bg-espresso-900 group-hover:text-alabaster transition-colors duration-300">
+          V
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display text-sm tracking-widest font-extrabold text-espresso-900 uppercase">
+            Atelier Vauquelin
+          </span>
+          <span class="text-[9px] font-mono tracking-widest text-espresso-400 uppercase">
+            Architectes & Urbanistes · Paris / Zürich
+          </span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center space-x-10 text-xs uppercase tracking-ultra-wide font-sans text-espresso-700">
+        <a href="#monograph" class="hover:text-espresso-950 transition-colors py-1 relative group">
+          <span>01. Monograph</span>
+          <span class="absolute bottom-0 left-0 w-0 h-[1px] bg-espresso-900 group-hover:w-full transition-all duration-300"></span>
+        </a>
+        <a href="#projects" class="hover:text-espresso-950 transition-colors py-1 relative group">
+          <span>02. Selected Works</span>
+          <span class="absolute bottom-0 left-0 w-0 h-[1px] bg-espresso-900 group-hover:w-full transition-all duration-300"></span>
+        </a>
+        <a href="#materiality" class="hover:text-espresso-950 transition-colors py-1 relative group">
+          <span>03. Materiality</span>
+          <span class="absolute bottom-0 left-0 w-0 h-[1px] bg-espresso-900 group-hover:w-full transition-all duration-300"></span>
+        </a>
+        <a href="#studio" class="hover:text-espresso-950 transition-colors py-1 relative group">
+          <span>04. Manifesto</span>
+          <span class="absolute bottom-0 left-0 w-0 h-[1px] bg-espresso-900 group-hover:w-full transition-all duration-300"></span>
+        </a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <button onclick="openCommissionModal()" class="px-5 py-2.5 bg-espresso-900 hover:bg-espresso-800 text-alabaster font-sans text-xs tracking-wider uppercase transition-all duration-200 flex items-center gap-2 group">
+          <span>Inquire Commission</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="relative z-10">
+
+    <!-- HERO SECTION -->
+    <section id="monograph" class="pt-12 pb-24 lg:pt-16 lg:pb-32 max-w-[1440px] mx-auto px-6 lg:px-12 overflow-hidden">
+      
+      <div class="flex flex-wrap items-center justify-between pb-6 border-b border-espresso-900/10 text-[11px] font-mono text-espresso-400 uppercase tracking-widest gap-4">
+        <div class="flex items-center gap-3">
+          <span class="text-espresso-900 font-bold">[MONOGRAPH № 09]</span>
+          <span class="text-espresso-200">/</span>
+          <span>MONOLITHIC TECTONICS & SHADOW FORM</span>
+        </div>
+        <div class="flex items-center gap-6">
+          <span>PRITZKER NOMINEE RETROSPECTIVE 2026</span>
+          <span class="hidden sm:inline text-espresso-900 font-semibold">ISSUE EDITION: 1/500</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-12 items-start">
+        
+        <div class="lg:col-span-6 flex flex-col justify-between space-y-10">
+          
+          <div class="space-y-6">
+            <div class="inline-flex items-center gap-2 text-xs font-mono tracking-widest text-espresso-500 uppercase">
+              <span class="w-4 h-[1px] bg-terracotta-500"></span>
+              <span>Architectural Rigour · Spatial Permanence</span>
+            </div>
+
+            <h1 class="font-serif text-5xl sm:text-6xl xl:text-7xl font-normal leading-[0.98] text-espresso-950 tracking-tightest">
+              Silence carved in <br/>
+              <span class="font-display font-extrabold uppercase italic tracking-normal text-espresso-900">
+                Poured Stone
+              </span> <br/>
+              & Solitary Light.
+            </h1>
+
+            <p class="text-espresso-700 text-base sm:text-lg max-w-lg font-normal leading-relaxed pt-2">
+              We design contemplative monoliths that bridge mineral permanence and ethereal sunlight. Rooted in brutalist clarity, tectonic honesty, and high-altitude alpine precision.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4 pt-6 border-t border-espresso-900/10">
+            <div class="bg-linen-100 p-4 border border-espresso-900/5">
+              <span class="text-[10px] font-mono uppercase tracking-widest text-espresso-400 block">Form Index</span>
+              <span class="font-serif text-2xl sm:text-3xl font-bold text-espresso-900 mt-1 block">0.84</span>
+              <span class="text-[10px] text-espresso-500 mt-0.5 block">Thermal Mass Ratio</span>
+            </div>
+
+            <div class="bg-linen-100 p-4 border border-espresso-900/5">
+              <span class="text-[10px] font-mono uppercase tracking-widest text-espresso-400 block">Completed</span>
+              <span class="font-serif text-2xl sm:text-3xl font-bold text-espresso-900 mt-1 block">48</span>
+              <span class="text-[10px] text-espresso-500 mt-0.5 block">Civic & Private Works</span>
+            </div>
+
+            <div class="bg-linen-100 p-4 border border-espresso-900/5">
+              <span class="text-[10px] font-mono uppercase tracking-widest text-espresso-400 block">Materiality</span>
+              <span class="font-serif text-2xl sm:text-3xl font-bold text-terracotta-600 mt-1 block">100%</span>
+              <span class="text-[10px] text-espresso-500 mt-0.5 block">Quarried Limestone</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+            <a href="#projects" class="px-8 py-4 bg-espresso-900 hover:bg-espresso-800 text-alabaster font-sans text-xs tracking-widest uppercase transition-all duration-300 text-center">
+              Explore Project Folio
+            </a>
+            <button onclick="toggleElevationGrid()" id="gridToggleBtn" class="px-6 py-4 border border-espresso-900/20 hover:border-espresso-900 text-espresso-900 font-mono text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-2">
+              <i data-lucide="compass" class="w-4 h-4 text-terracotta-500"></i>
+              <span id="gridBtnText">Inspect Wireframe Tectonics</span>
+            </button>
+          </div>
+
+        </div>
+
+        <div class="lg:col-span-6 relative">
+          
+          <div class="editorial-card rounded-none p-6 sm:p-8 bg-white border border-espresso-900/15 relative overflow-hidden editorial-shadow">
+            
+            <div class="flex items-center justify-between pb-6 border-b border-espresso-900/10 text-xs font-mono">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-espresso-900"></span>
+                <span class="text-espresso-900 font-bold uppercase tracking-wider">PROJECT REF: 042 — VILLA VALS</span>
+              </div>
+              <span class="text-espresso-400 uppercase tracking-widest">GRAUBÜNDEN, CH</span>
+            </div>
+
+            <div class="relative my-6 h-[340px] sm:h-[400px] w-full bg-linen-50 border border-espresso-900/10 overflow-hidden group">
+              <canvas id="archHeroCanvas" class="w-full h-full block cursor-crosshair"></canvas>
+
+              <div class="absolute top-4 left-4 bg-alabaster/90 backdrop-blur-md px-3 py-1.5 border border-espresso-900/10 text-[10px] font-mono text-espresso-700 pointer-events-none">
+                SECTION A-A' · SCALE 1:50
+              </div>
+
+              <div class="absolute bottom-4 right-4 bg-alabaster/90 backdrop-blur-md px-3 py-1.5 border border-espresso-900/10 text-[10px] font-mono text-terracotta-600 flex items-center gap-1.5 pointer-events-none">
+                <i data-lucide="sun" class="w-3 h-3"></i>
+                <span id="sunAltitude">ZENITH: +44.2° (SOLSTICE)</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-4 border-t border-espresso-900/10 font-mono text-center">
+              <div class="p-2.5 bg-linen-100/60 border border-espresso-900/5">
+                <span class="text-[9px] uppercase tracking-widest text-espresso-400 block">Concrete Type</span>
+                <span class="text-xs font-bold text-espresso-900 mt-0.5 block">Board-Marked C35</span>
+              </div>
+              <div class="p-2.5 bg-linen-100/60 border border-espresso-900/5">
+                <span class="text-[9px] uppercase tracking-widest text-espresso-400 block">Aperture Span</span>
+                <span class="text-xs font-bold text-espresso-900 mt-0.5 block">14.8m Cantilever</span>
+              </div>
+              <div class="p-2.5 bg-linen-100/60 border border-espresso-900/5">
+                <span class="text-[9px] uppercase tracking-widest text-espresso-400 block">Thermal U-Val</span>
+                <span class="text-xs font-bold text-espresso-900 mt-0.5 block">0.11 W/m²K</span>
+              </div>
+            </div>
+
+            <div class="mt-4 flex items-center justify-between text-[11px] text-espresso-400 font-mono">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="move" class="w-3.5 h-3.5 text-espresso-700"></i> Click & drag to rotate elevation angle
+              </span>
+              <button onclick="resetElevation()" class="text-espresso-900 hover:text-terracotta-600 font-semibold underline">
+                Default Axonometry ↻
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- HORIZONTAL PROJECT REEL -->
+    <section id="projects" class="py-24 bg-linen-200/60 border-y border-espresso-900/10">
+      <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+        
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
+          <div>
+            <span class="text-xs font-mono uppercase tracking-ultra-wide text-terracotta-600 font-bold block mb-2">Curated Folio · 2022–2026</span>
+            <h2 class="font-serif text-4xl sm:text-5xl font-normal text-espresso-950 tracking-tightest">
+              Selected Spatial Monographs
+            </h2>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="filterProjects('ALL')" class="proj-tab px-4 py-2 bg-espresso-900 text-alabaster text-xs font-mono uppercase tracking-wider transition-all" data-category="ALL">All Typologies</button>
+            <button onclick="filterProjects('RESIDENTIAL')" class="proj-tab px-4 py-2 bg-white text-espresso-700 border border-espresso-900/15 hover:border-espresso-900 text-xs font-mono uppercase tracking-wider transition-all" data-category="RESIDENTIAL">Residential</button>
+            <button onclick="filterProjects('CULTURAL')" class="proj-tab px-4 py-2 bg-white text-espresso-700 border border-espresso-900/15 hover:border-espresso-900 text-xs font-mono uppercase tracking-wider transition-all" data-category="CULTURAL">Cultural</button>
+            <button onclick="filterProjects('MONOLITHIC')" class="proj-tab px-4 py-2 bg-white text-espresso-700 border border-espresso-900/15 hover:border-espresso-900 text-xs font-mono uppercase tracking-wider transition-all" data-category="MONOLITHIC">Pavilions</button>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div id="projectReel" class="flex gap-8 overflow-x-auto no-scrollbar pb-6 scroll-smooth">
+          </div>
+
+          <div class="flex items-center justify-between pt-6 border-t border-espresso-900/10 font-mono text-xs text-espresso-500">
+            <div class="flex items-center gap-2">
+              <span id="currentProjectIndex">01</span>
+              <span>/</span>
+              <span>06</span>
+              <span class="ml-4 text-espresso-400">PAGINATION CURATED PER VOL. IX</span>
+            </div>
+
+            <div class="flex items-center space-x-3">
+              <button onclick="scrollReel(-1)" class="w-10 h-10 border border-espresso-900/20 hover:border-espresso-900 hover:bg-espresso-900 hover:text-alabaster transition-colors flex items-center justify-center">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+              </button>
+              <button onclick="scrollReel(1)" class="w-10 h-10 border border-espresso-900/20 hover:border-espresso-900 hover:bg-espresso-900 hover:text-alabaster transition-colors flex items-center justify-center">
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: MATERIALITY & TECTONIC MATRIX -->
+    <section id="materiality" class="py-24 max-w-[1440px] mx-auto px-6 lg:px-12">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        <div class="lg:col-span-5 space-y-6">
+          <span class="text-xs font-mono uppercase tracking-ultra-wide text-terracotta-600 font-bold block">Tectonic Registry</span>
+          <h2 class="font-serif text-4xl sm:text-5xl font-normal text-espresso-950 tracking-tightest leading-tight">
+            Raw Materiality & Mineral Sourcing
+          </h2>
+          <p class="text-espresso-700 text-sm sm:text-base font-normal leading-relaxed">
+            Every structure begins in the quarry. We select natural limestone, scorched larch, and porous travertine characterized by mineral inclusions, tactile grain, and centuries-long weathering lifespans.
+          </p>
+
+          <div id="materialDetailCard" class="bg-linen-100 p-6 border border-espresso-900/10 space-y-3 font-mono text-xs">
+            <div class="flex justify-between items-center text-espresso-400">
+              <span id="matCode">MAT_ID: QRY-704</span>
+              <span class="text-terracotta-600 font-bold" id="matOrigin">VALS, SWITZERLAND</span>
+            </div>
+            <h3 class="font-serif text-2xl font-bold text-espresso-900" id="matName">Valser Quarzite Gneiss</h3>
+            <p class="text-espresso-600 font-sans text-xs leading-relaxed" id="matDesc">
+              Metamorphic stone split along natural foliation beds. Unmatched acoustic absorption and high compressive resistance against thermal alpine freezing cycles.
+            </p>
+            <div class="pt-3 border-t border-espresso-900/10 flex justify-between text-[10px] text-espresso-500">
+              <span>Density: 2,690 kg/m³</span>
+              <span>Porosity: 0.28%</span>
+              <span>Embodied CO₂: 12 kg/t</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
+          
+          <div onclick="selectMaterial(0)" class="material-card p-6 bg-white border border-espresso-900/10 hover:border-espresso-900 cursor-pointer transition-all duration-200">
+            <div class="h-36 w-full bg-[#E5DFD6] flex items-center justify-center relative overflow-hidden mb-4 border border-espresso-900/5">
+              <div class="absolute inset-0 opacity-40 bg-[radial-gradient(#181513_1px,transparent_1px)] [background-size:8px_8px]"></div>
+              <span class="font-serif italic text-2xl text-espresso-700">Valser Quarzite</span>
+            </div>
+            <div class="flex justify-between items-baseline font-mono text-xs">
+              <span class="font-bold text-espresso-900">01. Alpine Quartzite</span>
+              <span class="text-terracotta-600">CH Quarry</span>
+            </div>
+          </div>
+
+          <div onclick="selectMaterial(1)" class="material-card p-6 bg-white border border-espresso-900/10 hover:border-espresso-900 cursor-pointer transition-all duration-200">
+            <div class="h-36 w-full bg-[#D5CEC7] flex items-center justify-center relative overflow-hidden mb-4 border border-espresso-900/5">
+              <div class="absolute inset-0 opacity-20 bg-[linear-gradient(45deg,#181513_25%,transparent_25%,transparent_75%,#181513_75%,#181513)] [background-size:16px_16px]"></div>
+              <span class="font-serif italic text-2xl text-espresso-700">Roman Travertine</span>
+            </div>
+            <div class="flex justify-between items-baseline font-mono text-xs">
+              <span class="font-bold text-espresso-900">02. Navona Travertine</span>
+              <span class="text-terracotta-600">Tivoli, IT</span>
+            </div>
+          </div>
+
+          <div onclick="selectMaterial(2)" class="material-card p-6 bg-white border border-espresso-900/10 hover:border-espresso-900 cursor-pointer transition-all duration-200">
+            <div class="h-36 w-full bg-[#231F1C] flex items-center justify-center relative overflow-hidden mb-4 border border-espresso-900/5 text-alabaster">
+              <span class="font-serif italic text-2xl text-linen-300">Yakisugi Larch</span>
+            </div>
+            <div class="flex justify-between items-baseline font-mono text-xs">
+              <span class="font-bold text-espresso-900">03. Charred Timber</span>
+              <span class="text-terracotta-600">Nagano, JP</span>
+            </div>
+          </div>
+
+          <div onclick="selectMaterial(3)" class="material-card p-6 bg-white border border-espresso-900/10 hover:border-espresso-900 cursor-pointer transition-all duration-200">
+            <div class="h-36 w-full bg-[#EAE6DF] flex items-center justify-center relative overflow-hidden mb-4 border border-espresso-900/5">
+              <div class="absolute inset-0 opacity-30 bg-[radial-gradient(#C15C3D_1px,transparent_1px)] [background-size:12px_12px]"></div>
+              <span class="font-serif italic text-2xl text-espresso-700">Lime Pozzolana</span>
+            </div>
+            <div class="flex justify-between items-baseline font-mono text-xs">
+              <span class="font-bold text-espresso-900">04. Pozzolanic Mortar</span>
+              <span class="text-terracotta-600">Naples, IT</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: STUDIO MANIFESTO & PRINCIPLES -->
+    <section id="studio" class="py-24 bg-espresso-950 text-alabaster border-t border-espresso-900">
+      <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+        
+        <div class="max-w-3xl mb-16">
+          <span class="text-xs font-mono uppercase tracking-ultra-wide text-terracotta-400 font-bold block mb-3">Manifesto</span>
+          <h2 class="font-serif text-4xl sm:text-6xl font-normal text-white leading-tight tracking-tightest">
+            Architecture is the geometry of quietness.
+          </h2>
+          <p class="text-espresso-200 text-base sm:text-lg font-light mt-6 leading-relaxed">
+            In an era of fleeting digital ephemera, our practice commits to permanent physical structures. Every wall must hold mass; every opening must frame sky; every corridor must honour the procession of shadow.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12 border-t border-white/10 font-sans">
+          
+          <div class="space-y-4">
+            <span class="font-mono text-xs text-terracotta-400 block font-bold">01 / GEOMETRIC FIDELITY</span>
+            <h3 class="font-serif text-2xl font-bold text-white">Pure Axial Alignment</h3>
+            <p class="text-espresso-200 text-xs sm:text-sm font-light leading-relaxed">
+              Eliminating non-structural ornament. Space is shaped exclusively by primary stereometric volumes and strict solar alignment.
+            </p>
+          </div>
+
+          <div class="space-y-4">
+            <span class="font-mono text-xs text-terracotta-400 block font-bold">02 / ACOUSTIC DENSITY</span>
+            <h3 class="font-serif text-2xl font-bold text-white">The Sound of Mass</h3>
+            <p class="text-espresso-200 text-xs sm:text-sm font-light leading-relaxed">
+              High thermal and acoustic dampening. Stepping across our thresholds transitions the inhabitant from chaotic urban noise to meditative silence.
+            </p>
+          </div>
+
+          <div class="space-y-4">
+            <span class="font-mono text-xs text-terracotta-400 block font-bold">03 / CENTURY LIFESPAN</span>
+            <h3 class="font-serif text-2xl font-bold text-white">Patina as Inscription</h3>
+            <p class="text-espresso-200 text-xs sm:text-sm font-light leading-relaxed">
+              We design buildings that improve with rain, lichen, and atmospheric oxidation. Weathering is not degradation; it is completion.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION BANNER -->
+    <section class="py-24 max-w-[1440px] mx-auto px-6 lg:px-12 text-center">
+      <div class="bg-linen-100 p-10 sm:p-16 border border-espresso-900/10 relative overflow-hidden">
+        
+        <div class="max-w-2xl mx-auto space-y-6">
+          <span class="text-xs font-mono uppercase tracking-ultra-wide text-espresso-500 font-bold block">Commission Inquiries 2026 / 2027</span>
+          <h2 class="font-serif text-4xl sm:text-5xl font-normal text-espresso-950 tracking-tightest">
+            Initiate a Private Architectural Commission
+          </h2>
+          <p class="text-espresso-700 text-sm sm:text-base font-normal leading-relaxed">
+            We accept four private commissions and two civic cultural projects per academic year. Direct dialogues begin with spatial site analysis.
+          </p>
+          <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button onclick="openCommissionModal()" class="px-8 py-4 bg-espresso-900 hover:bg-espresso-800 text-alabaster font-sans text-xs tracking-widest uppercase transition-all">
+              Schedule Preliminary Briefing
+            </button>
+            <button onclick="copyOfficeAddress()" id="copyAddressBtn" class="px-6 py-4 bg-white border border-espresso-900/20 hover:border-espresso-900 text-espresso-900 font-mono text-xs uppercase tracking-wider transition-all flex items-center gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4 text-terracotta-600"></i>
+              <span>Studio: 14 Rue Vauquelin, 75005 Paris</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-espresso-900/10 bg-alabaster py-14 text-espresso-600 text-xs font-mono">
+    <div class="max-w-[1440px] mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+      
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 border border-espresso-900 flex items-center justify-center font-serif text-xs font-bold text-espresso-900">
+          V
+        </div>
+        <span class="font-display font-extrabold text-espresso-900 uppercase tracking-widest">Atelier Vauquelin</span>
+        <span class="text-espresso-300">|</span>
+        <span class="text-espresso-500">Order of Architects Registration № 84920-IDF</span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-6 text-[11px] text-espresso-500">
+        <a href="#" class="hover:text-espresso-900 transition-colors">Ordre des Architectes</a>
+        <a href="#" class="hover:text-espresso-900 transition-colors">SIA Switzerland</a>
+        <a href="#" class="hover:text-espresso-900 transition-colors">Environmental Disclosures</a>
+        <a href="#" class="hover:text-espresso-900 transition-colors">Monograph Index</a>
+      </div>
+
+      <div class="text-[11px] text-espresso-400">
+        © 2026 Atelier Vauquelin S.A.S. All rights reserved.
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- MODAL: PRIVATE COMMISSION INQUIRY DIALOG -->
+  <div id="commissionModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-espresso-950/70 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-alabaster border border-espresso-900/20 rounded-none max-w-xl w-full p-6 sm:p-10 relative editorial-shadow transform scale-95 transition-transform duration-300" id="commissionModalCard">
+      
+      <button onclick="closeCommissionModal()" class="absolute top-6 right-6 text-espresso-400 hover:text-espresso-900 transition-colors">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-2 mb-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-terracotta-600"></span>
+        <span class="text-[10px] font-mono uppercase tracking-ultra-wide text-espresso-400 font-bold">Studio Dossier Intake</span>
+      </div>
+
+      <h3 class="font-serif text-3xl font-bold text-espresso-950 tracking-tightest">Private Commission Request</h3>
+      <p class="text-xs text-espresso-600 mt-1 mb-6 leading-relaxed font-normal">
+        Kindly outline the geographic location, target site topography, and estimated gross external area (GEA).
+      </p>
+
+      <form id="commissionForm" onsubmit="handleCommissionSubmit(event)" class="space-y-4 text-xs font-sans">
+        <div>
+          <label class="block text-espresso-700 uppercase tracking-widest text-[10px] font-mono mb-1 font-bold">Principal Sponsor / Client Name</label>
+          <input required type="text" placeholder="e.g. Fondation d'Art Contemporain" class="w-full bg-white border border-espresso-900/20 rounded-none p-3 text-espresso-900 focus:outline-none focus:border-espresso-900 transition-colors">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-espresso-700 uppercase tracking-widest text-[10px] font-mono mb-1 font-bold">Confidential Email</label>
+            <input required type="email" placeholder="sponsor@atelier.ch" class="w-full bg-white border border-espresso-900/20 rounded-none p-3 text-espresso-900 focus:outline-none focus:border-espresso-900 transition-colors">
+          </div>
+          <div>
+            <label class="block text-espresso-700 uppercase tracking-widest text-[10px] font-mono mb-1 font-bold">Site Location / Coordinates</label>
+            <input required type="text" placeholder="e.g. Engadin Valley, CH" class="w-full bg-white border border-espresso-900/20 rounded-none p-3 text-espresso-900 focus:outline-none focus:border-espresso-900 transition-colors">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-espresso-700 uppercase tracking-widest text-[10px] font-mono mb-1 font-bold">Typology</label>
+            <select class="w-full bg-white border border-espresso-900/20 rounded-none p-3 text-espresso-900 focus:outline-none focus:border-espresso-900 transition-colors">
+              <option>Alpine Monolithic Residence</option>
+              <option>Civic Pavilion & Museum</option>
+              <option>Winery & Subterranean Cellar</option>
+              <option>Heritage Restoration & Extension</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-espresso-700 uppercase tracking-widest text-[10px] font-mono mb-1 font-bold">Projected Schedule</label>
+            <select class="w-full bg-white border border-espresso-900/20 rounded-none p-3 text-espresso-900 focus:outline-none focus:border-espresso-900 transition-colors">
+              <option>Immediate (Q3 2026)</option>
+              <option>Early 2027 Planning</option>
+              <option>Feasibility & Competition</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-4 bg-espresso-900 hover:bg-espresso-800 text-alabaster font-mono text-xs uppercase tracking-widest transition-all mt-4">
+          Transmit Commission Brief
+        </button>
+      </form>
+
+      <div id="commissionSuccess" class="hidden text-center py-8 space-y-4 font-mono">
+        <div class="w-12 h-12 rounded-full bg-linen-200 text-espresso-900 border border-espresso-900/20 flex items-center justify-center mx-auto">
+          <i data-lucide="check" class="w-6 h-6 text-terracotta-600"></i>
+        </div>
+        <h4 class="font-serif text-2xl font-bold text-espresso-900">Brief Received</h4>
+        <p class="text-xs text-espresso-600 font-sans max-w-sm mx-auto">
+          Senior partner Henri Vauquelin will review site topography and reach out within 48 hours.
+        </p>
+        <button onclick="closeCommissionModal()" class="px-6 py-2 bg-espresso-900 text-alabaster text-xs uppercase tracking-widest">Dismiss</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-espresso-900 text-alabaster border border-white/20 px-5 py-3.5 shadow-2xl font-mono text-xs flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <i data-lucide="info" class="w-4 h-4 text-terracotta-400"></i>
+    <span id="toastMsg">Studio notification dispatched.</span>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    const heroCanvas = document.getElementById('archHeroCanvas');
+    const heroCtx = heroCanvas ? heroCanvas.getContext('2d') : null;
+    let canvasW, canvasH;
+    let rotX = -0.45;
+    let rotY = 0.65;
+    let isDragging = false;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+    let showWireframe = false;
+
+    function resizeHeroCanvas() {
+      if (!heroCanvas) return;
+      const rect = heroCanvas.getBoundingClientRect();
+      canvasW = heroCanvas.width = rect.width * (window.devicePixelRatio || 1);
+      canvasH = heroCanvas.height = rect.height * (window.devicePixelRatio || 1);
+      drawAxonometry();
+    }
+
+    const monolithBlocks = [
+      { x: 0, y: 30, z: 0, w: 140, h: 25, d: 90, color: '#D9D0C3' },
+      { x: -20, y: -20, z: -10, w: 110, h: 50, d: 80, color: '#E5DFD6' },
+      { x: 15, y: -50, z: 15, w: 55, h: 70, d: 50, color: '#F4F0EB' },
+      { x: 35, y: -80, z: -25, w: 30, h: 100, d: 30, color: '#C2B6A5' }
+    ];
+
+    function project3D(x, y, z, cx, cy, scale) {
+      const cosY = Math.cos(rotY);
+      const sinY = Math.sin(rotY);
+      const x1 = x * cosY - z * sinY;
+      const z1 = z * cosY + x * sinY;
+
+      const cosX = Math.cos(rotX);
+      const sinX = Math.sin(rotX);
+      const y2 = y * cosX - z1 * sinX;
+      const z2 = z1 * cosX + y * sinX;
+
+      return {
+        x: cx + x1 * scale,
+        y: cy + y2 * scale,
+        depth: z2
+      };
+    }
+
+    function drawBlock(block, cx, cy, scale) {
+      const hw = block.w / 2;
+      const hh = block.h / 2;
+      const hd = block.d / 2;
+
+      const v = [
+        { x: block.x - hw, y: block.y - hh, z: block.z - hd },
+        { x: block.x + hw, y: block.y - hh, z: block.z - hd },
+        { x: block.x + hw, y: block.y + hh, z: block.z - hd },
+        { x: block.x - hw, y: block.y + hh, z: block.z - hd },
+        { x: block.x - hw, y: block.y - hh, z: block.z + hd },
+        { x: block.x + hw, y: block.y - hh, z: block.z + hd },
+        { x: block.x + hw, y: block.y + hh, z: block.z + hd },
+        { x: block.x - hw, y: block.y + hh, z: block.z + hd }
+      ].map(pt => project3D(pt.x, pt.y, pt.z, cx, cy, scale));
+
+      const faces = [
+        { indices: [0, 1, 2, 3], shade: 0.8 },
+        { indices: [4, 5, 6, 7], shade: 0.95 },
+        { indices: [0, 1, 5, 4], shade: 1.15 },
+        { indices: [2, 3, 7, 6], shade: 0.6 },
+        { indices: [0, 3, 7, 4], shade: 0.75 },
+        { indices: [1, 2, 6, 5], shade: 0.88 }
+      ];
+
+      faces.forEach(f => {
+        f.avgZ = (v[f.indices[0]].depth + v[f.indices[1]].depth + v[f.indices[2]].depth + v[f.indices[3]].depth) / 4;
+      });
+      faces.sort((a, b) => a.avgZ - b.avgZ);
+
+      faces.forEach(face => {
+        heroCtx.beginPath();
+        heroCtx.moveTo(v[face.indices[0]].x, v[face.indices[0]].y);
+        for (let i = 1; i < 4; i++) {
+          heroCtx.lineTo(v[face.indices[i]].x, v[face.indices[i]].y);
+        }
+        heroCtx.closePath();
+
+        if (showWireframe) {
+          heroCtx.strokeStyle = '#181513';
+          heroCtx.lineWidth = 1;
+          heroCtx.stroke();
+          heroCtx.fillStyle = 'rgba(239, 236, 230, 0.3)';
+          heroCtx.fill();
+        } else {
+          heroCtx.fillStyle = block.color;
+          heroCtx.fill();
+          heroCtx.strokeStyle = 'rgba(24, 21, 19, 0.4)';
+          heroCtx.lineWidth = 1;
+          heroCtx.stroke();
+        }
+      });
+    }
+
+    function drawAxonometry() {
+      if (!heroCtx || !heroCanvas) return;
+      heroCtx.clearRect(0, 0, canvasW, canvasH);
+
+      const cx = canvasW / 2;
+      const cy = canvasH / 2 + 20;
+      const scale = (canvasW / 550) * 1.05;
+
+      heroCtx.strokeStyle = 'rgba(24, 21, 19, 0.08)';
+      heroCtx.lineWidth = 1;
+
+      const gridSize = 8;
+      const step = 45;
+      for (let i = -gridSize; i <= gridSize; i++) {
+        const p1 = project3D(i * step, 55, -gridSize * step, cx, cy, scale);
+        const p2 = project3D(i * step, 55, gridSize * step, cx, cy, scale);
+        heroCtx.beginPath();
+        heroCtx.moveTo(p1.x, p1.y);
+        heroCtx.lineTo(p2.x, p2.y);
+        heroCtx.stroke();
+
+        const p3 = project3D(-gridSize * step, 55, i * step, cx, cy, scale);
+        const p4 = project3D(gridSize * step, 55, i * step, cx, cy, scale);
+        heroCtx.beginPath();
+        heroCtx.moveTo(p3.x, p3.y);
+        heroCtx.lineTo(p4.x, p4.y);
+        heroCtx.stroke();
+      }
+
+      monolithBlocks.forEach(b => drawBlock(b, cx, cy, scale));
+
+      const sunAngle = (rotY * 57.3).toFixed(1);
+      const sunEl = document.getElementById('sunAltitude');
+      if (sunEl) {
+        sunEl.textContent = `AZIMUTH: ${Math.abs(sunAngle)}° · ZENITH: +44.2°`;
+      }
+    }
+
+    if (heroCanvas) {
+      heroCanvas.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - lastMouseX;
+        const dy = e.clientY - lastMouseY;
+
+        rotY += dx * 0.01;
+        rotX = Math.max(-1.1, Math.min(0.2, rotX + dy * 0.01));
+
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+        drawAxonometry();
+      });
+
+      window.addEventListener('mouseup', () => { isDragging = false; });
+
+      heroCanvas.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          isDragging = true;
+          lastMouseX = e.touches[0].clientX;
+          lastMouseY = e.touches[0].clientY;
+        }
+      });
+
+      window.addEventListener('touchmove', (e) => {
+        if (!isDragging || e.touches.length !== 1) return;
+        const dx = e.touches[0].clientX - lastMouseX;
+        const dy = e.touches[0].clientY - lastMouseY;
+
+        rotY += dx * 0.01;
+        rotX = Math.max(-1.1, Math.min(0.2, rotX + dy * 0.01));
+
+        lastMouseX = e.touches[0].clientX;
+        lastMouseY = e.touches[0].clientY;
+        drawAxonometry();
+      });
+
+      window.addEventListener('touchend', () => { isDragging = false; });
+    }
+
+    function toggleElevationGrid() {
+      showWireframe = !showWireframe;
+      const text = document.getElementById('gridBtnText');
+      if (text) {
+        text.textContent = showWireframe ? "View Solid Monolith Masses" : "Inspect Wireframe Tectonics";
+      }
+      drawAxonometry();
+      showToast(showWireframe ? "Wireframe Structural Matrix Activated" : "Mineral Mass Shading Restored");
+    }
+
+    function resetElevation() {
+      rotX = -0.45;
+      rotY = 0.65;
+      drawAxonometry();
+      showToast("Axonometric Camera Reset to 45°/35°");
+    }
+
+    const projectsData = [
+      {
+        id: "01",
+        name: "Sanctuary of St. Moritz",
+        cat: "RESIDENTIAL",
+        location: "St. Moritz, Switzerland",
+        year: "2025",
+        area: "1,240 m²",
+        stone: "Alpine Valser Gneiss",
+        desc: "Subterranean cliffside retreat embedded 18 metres directly into solid granite strata."
+      },
+      {
+        id: "02",
+        name: "Kyoto Pavilion of Shadows",
+        cat: "MONOLITHIC",
+        location: "Arashiyama, Japan",
+        year: "2024",
+        area: "480 m²",
+        stone: "Yakisugi & Basalt",
+        desc: "A singular timber and dark volcanic stone courtyard framing seasonal autumn maple foliage."
+      },
+      {
+        id: "03",
+        name: "Musée des Tectoniques",
+        cat: "CULTURAL",
+        location: "Aix-en-Provence, France",
+        year: "2026",
+        area: "4,850 m²",
+        stone: "Quarried Beaulieu Limestone",
+        desc: "Civic exhibition hall characterized by 12-metre unreinforced limestone cantilevers."
+      },
+      {
+        id: "04",
+        name: "Engadin Valley Observatory",
+        cat: "MONOLITHIC",
+        location: "Pontresina, Switzerland",
+        year: "2025",
+        area: "620 m²",
+        stone: "Precast Dolomite Concrete",
+        desc: "High-altitude astronomical research outpost oriented towards the celestial Polaris axis."
+      },
+      {
+        id: "05",
+        name: "Villa Navona Cloister",
+        cat: "RESIDENTIAL",
+        location: "Tivoli, Italy",
+        year: "2023",
+        area: "890 m²",
+        stone: "Roman Travertine",
+        desc: "Minimalist peristyle residence framing reflective thermal water basins."
+      },
+      {
+        id: "06",
+        name: "Lisbon Atlantic Pavilion",
+        cat: "CULTURAL",
+        location: "Cascais, Portugal",
+        year: "2024",
+        area: "1,600 m²",
+        stone: "Scorched Pozzolanic Cast",
+        desc: "Brutalist maritime structure weathering salt sea spray on jagged Atlantic basalt cliffs."
+      }
+    ];
+
+    let currentCategory = 'ALL';
+
+    function renderProjects() {
+      const reel = document.getElementById('projectReel');
+      if (!reel) return;
+
+      const filtered = projectsData.filter(p => currentCategory === 'ALL' || p.cat === currentCategory);
+
+      reel.innerHTML = filtered.map((proj) => `
+        <div class="min-w-[320px] sm:min-w-[420px] lg:min-w-[460px] bg-white border border-espresso-900/10 p-6 sm:p-8 flex flex-col justify-between editorial-card">
+          <div>
+            <div class="flex justify-between items-start text-xs font-mono pb-4 border-b border-espresso-900/10 mb-6">
+              <span class="text-terracotta-600 font-bold">${proj.id} // ${proj.cat}</span>
+              <span class="text-espresso-400">${proj.year}</span>
+            </div>
+
+            <div class="h-56 w-full bg-linen-100 border border-espresso-900/10 relative flex items-center justify-center mb-6 overflow-hidden">
+              <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#181513_1px,transparent_1px)] [background-size:12px_12px]"></div>
+              <div class="w-24 h-32 border-2 border-espresso-900 flex items-center justify-center font-serif text-3xl font-light text-espresso-800">
+                № ${proj.id}
+              </div>
+              <div class="absolute bottom-3 left-3 font-mono text-[9px] text-espresso-500 uppercase tracking-widest">
+                ${proj.area} · ${proj.stone}
+              </div>
+            </div>
+
+            <h3 class="font-serif text-3xl font-bold text-espresso-950 tracking-tightest mb-2">${proj.name}</h3>
+            <p class="text-espresso-600 text-xs sm:text-sm font-normal leading-relaxed mb-6">
+              ${proj.desc}
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-espresso-900/10 flex items-center justify-between font-mono text-xs">
+            <span class="text-espresso-500">${proj.location}</span>
+            <button onclick="inspectProject('${proj.name}')" class="text-espresso-900 hover:text-terracotta-600 font-bold flex items-center gap-1">
+              <span>Inspect Monograph</span> →
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterProjects(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.proj-tab').forEach(btn => {
+        btn.classList.remove('bg-espresso-900', 'text-alabaster');
+        btn.classList.add('bg-white', 'text-espresso-700');
+      });
+      const activeBtn = document.querySelector(`[data-category="${cat}"]`);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-white', 'text-espresso-700');
+        activeBtn.classList.add('bg-espresso-900', 'text-alabaster');
+      }
+      renderProjects();
+    }
+
+    function scrollReel(dir) {
+      const reel = document.getElementById('projectReel');
+      if (reel) {
+        reel.scrollBy({ left: dir * 460, behavior: 'smooth' });
+      }
+    }
+
+    function inspectProject(name) {
+      showToast(`Opening Architectural Monograph folio for: ${name}`);
+    }
+
+    const materialsDatabase = [
+      {
+        code: "QRY-704",
+        origin: "VALS, SWITZERLAND",
+        name: "Valser Quarzite Gneiss",
+        desc: "Metamorphic stone split along natural foliation beds. Unmatched acoustic absorption and high compressive resistance against thermal alpine freezing cycles.",
+        density: "2,690 kg/m³",
+        porosity: "0.28%",
+        co2: "12 kg/t"
+      },
+      {
+        code: "QRY-112",
+        origin: "TIVOLI, ITALY",
+        name: "Navona Classico Travertine",
+        desc: "Sedimentary limestone deposited by geothermal springs. Characterized by elongated porous voids, warm ivory hue, and tactile honeycomb texture.",
+        density: "2,420 kg/m³",
+        porosity: "4.10%",
+        co2: "18 kg/t"
+      },
+      {
+        code: "TIM-890",
+        origin: "NAGANO, JAPAN",
+        name: "Shou Sugi Ban Scorched Larch",
+        desc: "Surface-charred Japanese coniferous timber. The deep carbonized soot layer forms an organic barrier against rain, insect rot, and wildfire ignition.",
+        density: "590 kg/m³",
+        porosity: "0.00% (Sealed)",
+        co2: "-820 kg/t (Net Negative)"
+      },
+      {
+        code: "MTR-305",
+        origin: "NAPLES, ITALY",
+        name: "Roman Pozzolanic Hydraulic Mortar",
+        desc: "Volcanic ash lime binder that continues to chemically harden through underwater calcium silicate hydrate crystallization across centuries.",
+        density: "1,850 kg/m³",
+        porosity: "1.20%",
+        co2: "45 kg/t"
+      }
+    ];
+
+    function selectMaterial(idx) {
+      const m = materialsDatabase[idx];
+      if (!m) return;
+
+      document.getElementById('matCode').textContent = `MAT_ID: ${m.code}`;
+      document.getElementById('matOrigin').textContent = m.origin;
+      document.getElementById('matName').textContent = m.name;
+      document.getElementById('matDesc').textContent = m.desc;
+
+      const card = document.getElementById('materialDetailCard');
+      card.classList.add('bg-white');
+      setTimeout(() => card.classList.remove('bg-white'), 300);
+
+      showToast(`Tectonic Specimen switched to: ${m.name}`);
+    }
+
+    function openCommissionModal() {
+      const modal = document.getElementById('commissionModal');
+      const card = document.getElementById('commissionModalCard');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-95');
+      card.classList.add('scale-100');
+    }
+
+    function closeCommissionModal() {
+      const modal = document.getElementById('commissionModal');
+      const card = document.getElementById('commissionModalCard');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+
+      setTimeout(() => {
+        document.getElementById('commissionForm').classList.remove('hidden');
+        document.getElementById('commissionSuccess').classList.add('hidden');
+      }, 300);
+    }
+
+    function handleCommissionSubmit(e) {
+      e.preventDefault();
+      document.getElementById('commissionForm').classList.add('hidden');
+      document.getElementById('commissionSuccess').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = msg;
+
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3500);
+    }
+
+    function copyOfficeAddress() {
+      const addr = "Atelier Vauquelin, 14 Rue Vauquelin, 75005 Paris, France";
+      const el = document.createElement('textarea');
+      el.value = addr;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      showToast("Studio Atelier coordinates copied to clipboard.");
+    }
+
+    window.addEventListener('load', () => {
+      resizeHeroCanvas();
+      renderProjects();
+    });
+
+    window.addEventListener('resize', () => {
+      resizeHeroCanvas();
+    });
+  </script>
+
+</body>
+</html>

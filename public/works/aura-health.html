@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA HEALTH — Futuristic Genomic Intelligence & Longevity Platform</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            midnight: '#0F172A',
+            clinical: '#F8FAFC',
+            ice: {
+              50: '#F0FDF4',
+              100: '#E0F2FE',
+              200: '#BAE6FD',
+              300: '#7DD3FC',
+              500: '#0EA5E9',
+              600: '#0284C7'
+            },
+            teal: {
+              400: '#2DD4BF',
+              500: '#14B8A6',
+              600: '#0D9488',
+              900: '#134E4A',
+              950: '#042F2E'
+            },
+            emerald: {
+              400: '#34D399',
+              500: '#10B981',
+              600: '#059669'
+            },
+            slate: {
+              850: '#152033',
+              900: '#0F172A',
+              950: '#080C15'
+            }
+          },
+          fontFamily: {
+            display: ['"Outfit"', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
+            mono: ['"DM Mono"', 'monospace']
+          },
+          boxShadow: {
+            'frosted': '0 20px 45px -10px rgba(15, 23, 42, 0.07), 0 0 0 1px rgba(255, 255, 255, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
+            'glow-teal': '0 0 45px -10px rgba(20, 184, 166, 0.35)',
+            'glow-ice': '0 0 55px -12px rgba(14, 165, 233, 0.25)',
+            'card-soft': '0 12px 35px -5px rgba(15, 23, 42, 0.05), 0 0 0 1px rgba(226, 232, 240, 0.8)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Outfit, Plus Jakarta Sans, DM Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #F8FAFC;
+      color: #0F172A;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-display { font-family: 'Outfit', sans-serif; }
+    .font-mono { font-family: 'DM Mono', monospace; }
+
+    .glass-frosted {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+    }
+
+    .glass-frosted-dark {
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .clinical-mesh {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(14, 165, 233, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(14, 165, 233, 0.04) 1px, transparent 1px);
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.08); }
+    }
+    .animate-pulse-glow {
+      animation: pulseGlow 5s infinite ease-in-out;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #F8FAFC; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0D9488; }
+  </style>
+</head>
+
+<body class="bg-clinical text-midnight antialiased selection:bg-teal-500 selection:text-white">
+
+  <!-- BACKGROUND ILLUMINATION & MESH -->
+  <div class="fixed inset-0 pointer-events-none z-0 clinical-mesh"></div>
+  <div class="fixed top-12 left-1/2 -translate-x-1/2 w-[750px] h-[550px] bg-gradient-to-tr from-ice-100/70 via-teal-500/10 to-transparent rounded-full blur-[140px] pointer-events-none z-0 animate-pulse-glow"></div>
+  <div class="fixed bottom-0 right-10 w-[500px] h-[450px] bg-emerald-400/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+
+  <!-- CLINICAL TELEMETRY FLOATER -->
+  <div class="fixed top-24 right-6 z-40 hidden 2xl:flex flex-col gap-3 text-[11px] font-mono text-slate-500 pointer-events-none select-none">
+    <div class="glass-frosted p-3 rounded-xl shadow-card-soft flex items-center gap-2.5">
+      <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+      <span class="font-semibold text-midnight">BIO-MESH NODE #704</span>
+      <span class="text-teal-600 font-bold">ACTIVE</span>
+    </div>
+    <div class="glass-frosted p-3 rounded-xl shadow-card-soft text-right">
+      <span class="block text-[10px] text-slate-400 uppercase">SYNCHRONIZATION</span>
+      <span class="font-bold text-midnight">99.98% GENOMIC FIDELITY</span>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-xl transition-all">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      
+      <a href="#" class="flex items-center gap-3.5 group">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-teal-500 to-ice-500 p-[1.5px] shadow-glow-teal group-hover:scale-105 transition-transform duration-300">
+          <div class="w-full h-full bg-white rounded-[14px] flex items-center justify-center text-teal-600 font-display font-extrabold text-lg">
+            <i data-lucide="dna" class="w-5 h-5"></i>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-1.5">
+            <span class="font-display font-extrabold text-lg text-midnight tracking-tight">AURA</span>
+            <span class="text-xs font-mono font-bold tracking-widest text-teal-600 bg-teal-50 border border-teal-200 px-1.5 py-0.5 rounded-md">HEALTH</span>
+          </div>
+          <span class="text-[10px] font-mono tracking-wider text-slate-500 uppercase">Precision Genomic Telemetry</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center space-x-8 text-xs font-semibold uppercase tracking-wider text-slate-600">
+        <a href="#genomics" class="hover:text-teal-600 transition-colors py-1 flex items-center gap-1">
+          <span>Genomics 3.0</span>
+        </a>
+        <a href="#vitals" class="hover:text-teal-600 transition-colors py-1 flex items-center gap-1">
+          <span>Continuous Vitals</span>
+        </a>
+        <a href="#biomarkers" class="hover:text-teal-600 transition-colors py-1 flex items-center gap-1">
+          <span>Biomarkers</span>
+        </a>
+        <a href="#clinical-ai" class="hover:text-teal-600 transition-colors py-1 flex items-center gap-1">
+          <span>Clinical Engine</span>
+        </a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-ice-50 border border-ice-200 text-[11px] font-mono text-teal-800">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-teal-600"></i>
+          <span>HIPAA & CLIA CERTIFIED</span>
+        </div>
+
+        <button onclick="openPortalModal()" class="px-5 py-2.5 rounded-xl bg-midnight hover:bg-slate-800 text-white font-semibold text-xs tracking-wider uppercase flex items-center gap-2 transition-all shadow-card-soft hover:shadow-glow-teal hover:-translate-y-0.5 active:translate-y-0">
+          <span>Patient Portal</span>
+          <i data-lucide="arrow-up-right" class="w-4 h-4 text-teal-400"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="relative z-10">
+
+    <!-- HERO SECTION -->
+    <section id="genomics" class="pt-12 pb-20 lg:pt-18 lg:pb-28 max-w-7xl mx-auto px-6 text-center relative overflow-hidden">
+      
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-slate-200/90 shadow-card-soft text-xs font-mono text-slate-700 mb-8 backdrop-blur-md">
+        <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+        <span class="font-semibold text-teal-800">NEXT-GEN SEQUENCING V4.8</span>
+        <span class="text-slate-300">|</span>
+        <span class="text-slate-500">WHOLE EXOME 100X COVERAGE</span>
+      </div>
+
+      <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-midnight max-w-4xl mx-auto leading-[1.08]">
+        Your Biology, Decoded. <br/>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-ice-500 to-emerald-600">
+          Genomic Telemetry in Real Time.
+        </span>
+      </h1>
+
+      <p class="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto mt-6 font-normal leading-relaxed">
+        Autonomous health intelligence platform synthesizing whole-genome sequencing, cellular epigenetic clocks, and sub-second cardiovascular metrics into predictive longevity protocols.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+        <button onclick="openPortalModal()" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-teal-600 to-ice-600 hover:from-teal-500 hover:to-ice-500 text-white font-bold text-sm tracking-wide uppercase transition-all shadow-glow-teal hover:-translate-y-0.5 flex items-center justify-center gap-2.5">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          <span>Start DNA Sequencing Kit</span>
+        </button>
+        <button onclick="toggleDnaMode()" id="dnaModeBtn" class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white border border-slate-200 hover:border-teal-500 text-midnight font-mono text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-card-soft">
+          <i data-lucide="layers" class="w-4 h-4 text-teal-600"></i>
+          <span id="dnaBtnLabel">Highlight Nucleotide Bonds</span>
+        </button>
+      </div>
+
+      <div class="relative mt-12 max-w-5xl mx-auto h-[480px] sm:h-[540px] flex items-center justify-center">
+        
+        <div class="relative w-full h-full flex items-center justify-center">
+          <canvas id="dnaCanvas" class="w-full h-full block cursor-grab active:cursor-grabbing"></canvas>
+          <div class="absolute bottom-6 left-1/2 -translate-x-1/2 w-64 h-16 rounded-full border border-teal-500/20 bg-teal-500/5 blur-[1px] pointer-events-none transform rotateX(70deg)"></div>
+        </div>
+
+        <div class="absolute top-4 left-2 sm:left-6 glass-frosted p-4 sm:p-5 rounded-2xl shadow-frosted text-left max-w-[210px] sm:max-w-[240px] border border-white/90 hover:scale-105 transition-transform duration-300 pointer-events-auto">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-500 mb-1">
+            <span class="flex items-center gap-1 text-teal-600 font-bold">
+              <i data-lucide="heart-pulse" class="w-3.5 h-3.5 animate-bounce"></i> ECG LIVE
+            </span>
+            <span class="text-[10px] bg-emerald-50 text-emerald-700 font-semibold px-1.5 py-0.5 rounded">RHYTHM</span>
+          </div>
+          <div class="flex items-baseline gap-1.5 mt-1">
+            <span class="text-2xl sm:text-3xl font-extrabold font-mono text-midnight" id="liveBpm">68</span>
+            <span class="text-xs font-mono text-slate-500">BPM</span>
+          </div>
+          <div class="h-8 w-full mt-2">
+            <canvas id="miniEcgCanvas" class="w-full h-full block"></canvas>
+          </div>
+          <span class="text-[10px] font-mono text-emerald-600 mt-1 block">Sinus rhythm stable · HRV 74ms</span>
+        </div>
+
+        <div class="absolute top-4 right-2 sm:right-6 glass-frosted p-4 sm:p-5 rounded-2xl shadow-frosted text-left max-w-[210px] sm:max-w-[240px] border border-white/90 hover:scale-105 transition-transform duration-300 pointer-events-auto">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-500 mb-1">
+            <span class="flex items-center gap-1 text-ice-600 font-bold">
+              <i data-lucide="hourglass" class="w-3.5 h-3.5"></i> HORVATH CLOCK
+            </span>
+            <span class="text-[10px] bg-ice-50 text-ice-700 font-semibold px-1.5 py-0.5 rounded">-4.8 YRS</span>
+          </div>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="text-2xl sm:text-3xl font-extrabold font-mono text-midnight">32.4</span>
+            <span class="text-xs font-mono text-slate-500">BIO AGE</span>
+          </div>
+          <div class="w-full bg-slate-100 h-2 rounded-full mt-3 overflow-hidden border border-slate-200">
+            <div class="bg-gradient-to-r from-teal-500 to-emerald-400 h-full w-[72%] rounded-full"></div>
+          </div>
+          <span class="text-[10px] font-mono text-slate-500 mt-2 block">DNA Methylation: Optimal Deceleration</span>
+        </div>
+
+        <div class="absolute bottom-6 left-2 sm:left-10 glass-frosted p-4 sm:p-5 rounded-2xl shadow-frosted text-left max-w-[200px] sm:max-w-[230px] border border-white/90 hover:scale-105 transition-transform duration-300 pointer-events-auto">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-500 mb-1">
+            <span class="text-teal-700 font-bold">spO₂ TISSUE</span>
+            <span class="text-emerald-600 font-mono font-bold">99.2%</span>
+          </div>
+          <div class="text-xl sm:text-2xl font-extrabold font-mono text-midnight mt-1">54.2 <span class="text-xs font-normal text-slate-500">VO2 Max</span></div>
+          <div class="flex items-center gap-1.5 mt-2 text-[10px] font-mono text-teal-700">
+            <i data-lucide="trending-up" class="w-3 h-3 text-emerald-500"></i> Top 2% in cohort age
+          </div>
+        </div>
+
+        <div class="absolute bottom-6 right-2 sm:right-10 glass-frosted p-4 sm:p-5 rounded-2xl shadow-frosted text-left max-w-[200px] sm:max-w-[230px] border border-white/90 hover:scale-105 transition-transform duration-300 pointer-events-auto">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-500 mb-1">
+            <span class="text-ice-600 font-bold">TELOMERE CAP</span>
+            <span class="text-teal-600 font-mono font-bold">7.8 kb</span>
+          </div>
+          <div class="text-xl sm:text-2xl font-extrabold font-mono text-midnight mt-1">94.8 <span class="text-xs font-normal text-slate-500">Cell Health</span></div>
+          <div class="flex items-center gap-1.5 mt-2 text-[10px] font-mono text-slate-600">
+            <i data-lucide="check-circle" class="w-3 h-3 text-emerald-500"></i> Mitochondrial peak output
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-4 flex items-center justify-center gap-2 text-xs font-mono text-slate-400">
+        <i data-lucide="mouse-pointer" class="w-3.5 h-3.5 text-teal-600"></i>
+        <span>Drag left or right to inspect base pair sequences (Adenine, Thymine, Cytosine, Guanine)</span>
+      </div>
+
+    </section>
+
+    <!-- REAL-TIME VITALS TELEMETRY BAR -->
+    <section id="vitals" class="border-y border-slate-200/90 bg-white/70 backdrop-blur-lg py-8">
+      <div class="max-w-7xl mx-auto px-6">
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+          
+          <div class="pt-4 md:pt-0 md:px-6 first:pl-0">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-500 mb-1">
+              <span class="uppercase">Continuous Glucose (CGM)</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            </div>
+            <div class="text-3xl font-extrabold font-mono text-midnight">92 <span class="text-sm font-normal text-slate-400">mg/dL</span></div>
+            <span class="text-[11px] font-mono text-emerald-600 mt-1 block">Variability: ±4% (Optimal fasting)</span>
+          </div>
+
+          <div class="pt-4 md:pt-0 md:px-6">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-500 mb-1">
+              <span class="uppercase">Resting Blood Pressure</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            </div>
+            <div class="text-3xl font-extrabold font-mono text-midnight" id="liveBP">116/76 <span class="text-sm font-normal text-slate-400">mmHg</span></div>
+            <span class="text-[11px] font-mono text-teal-600 mt-1 block">Mean Arterial Pressure: 89</span>
+          </div>
+
+          <div class="pt-4 md:pt-0 md:px-6">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-500 mb-1">
+              <span class="uppercase">Deep Sleep Architecture</span>
+              <span class="w-2 h-2 rounded-full bg-ice-500"></span>
+            </div>
+            <div class="text-3xl font-extrabold font-mono text-midnight">2h 18m <span class="text-sm font-normal text-slate-400">REM/Deep</span></div>
+            <span class="text-[11px] font-mono text-emerald-600 mt-1 block">Recovery Score: 96 / 100</span>
+          </div>
+
+          <div class="pt-4 md:pt-0 md:px-6 last:pr-0">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-500 mb-1">
+              <span class="uppercase">Systemic Inflammation</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            </div>
+            <div class="text-3xl font-extrabold font-mono text-teal-600">0.24 <span class="text-sm font-normal text-slate-400">hs-CRP</span></div>
+            <span class="text-[11px] font-mono text-emerald-600 mt-1 block">Ultra-low cardiovascular risk</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: BIOMARKER DIAGNOSTIC MATRIX & CLINICAL SUITE -->
+    <section id="biomarkers" class="py-24 max-w-7xl mx-auto px-6">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-teal-600 font-bold">Comprehensive Epigenetic Panel</span>
+          <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-midnight tracking-tight mt-2">
+            Clinical-Grade Biomarkers
+          </h2>
+        </div>
+        <p class="text-slate-600 text-sm max-w-md font-normal leading-relaxed">
+          Over 120 validated biological endpoints analyzed continuously via decentralized blood assays, genetic chips, and wearable telemetry streams.
+        </p>
+      </div>
+
+      <div class="glass-frosted p-4 rounded-2xl mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 border border-slate-200">
+        
+        <div class="relative w-full sm:w-80">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+          <input 
+            type="text" 
+            id="biomarkerSearch"
+            oninput="filterBiomarkers()"
+            placeholder="Search ApoB, Telomeres, Cortisol..." 
+            class="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs font-mono text-midnight placeholder-slate-400 focus:outline-none focus:border-teal-500 transition-colors"
+          />
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+          <button onclick="setCategoryFilter('ALL')" class="bio-btn px-3.5 py-1.5 rounded-lg text-xs font-mono bg-midnight text-white font-bold transition-all" data-cat="ALL">All Endpoints</button>
+          <button onclick="setCategoryFilter('CARDIO')" class="bio-btn px-3.5 py-1.5 rounded-lg text-xs font-mono bg-white text-slate-600 hover:text-midnight border border-slate-200 transition-all" data-cat="CARDIO">Cardiovascular</button>
+          <button onclick="setCategoryFilter('METABOLIC')" class="bio-btn px-3.5 py-1.5 rounded-lg text-xs font-mono bg-white text-slate-600 hover:text-midnight border border-slate-200 transition-all" data-cat="METABOLIC">Metabolic</button>
+          <button onclick="setCategoryFilter('GENOMIC')" class="bio-btn px-3.5 py-1.5 rounded-lg text-xs font-mono bg-white text-slate-600 hover:text-midnight border border-slate-200 transition-all" data-cat="GENOMIC">Genomics</button>
+        </div>
+
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="biomarkerGrid">
+      </div>
+
+    </section>
+
+    <!-- SECTION: BIOMETRIC CALIBRATION & LONGEVITY FORECAST ENGINE -->
+    <section id="clinical-ai" class="py-20 bg-gradient-to-b from-white to-ice-50/60 border-t border-slate-200">
+      <div class="max-w-7xl mx-auto px-6">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <div class="lg:col-span-5 space-y-6">
+            <div class="inline-flex items-center gap-2 text-xs font-mono tracking-widest text-teal-700 bg-teal-50 border border-teal-200 px-3.5 py-1.5 rounded-full">
+              <i data-lucide="sliders" class="w-3.5 h-3.5 text-teal-600"></i>
+              <span>DYNAMIC INTERVENTION ENGINE</span>
+            </div>
+
+            <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-midnight tracking-tight">
+              Calibrate Your Longevity Trajectory
+            </h2>
+
+            <p class="text-slate-600 text-sm font-normal leading-relaxed">
+              Simulate the biological impact of targeted caloric restriction, Zone-2 VO2 conditioning, and therapeutic NAD+ precursors on your cellular methylation slope.
+            </p>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-card-soft space-y-2">
+              <div class="flex justify-between text-xs font-mono">
+                <span class="text-slate-700 font-semibold uppercase">Sleep Quality & Deep REM</span>
+                <span id="sleepSliderVal" class="text-teal-600 font-bold">8.5 hrs / night</span>
+              </div>
+              <input type="range" id="sleepSlider" min="5" max="10" step="0.5" value="8.5" oninput="updateLongevityForecast()" class="w-full accent-teal-600 cursor-pointer h-1.5 bg-slate-200 rounded-lg">
+              <div class="flex justify-between text-[10px] font-mono text-slate-400">
+                <span>5 hrs (Deficit)</span>
+                <span>10 hrs (Restorative)</span>
+              </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-card-soft space-y-2">
+              <div class="flex justify-between text-xs font-mono">
+                <span class="text-slate-700 font-semibold uppercase">Zone-2 Cardiovascular Target</span>
+                <span id="zone2SliderVal" class="text-teal-600 font-bold">180 mins / week</span>
+              </div>
+              <input type="range" id="zone2Slider" min="30" max="360" step="15" value="180" oninput="updateLongevityForecast()" class="w-full accent-teal-600 cursor-pointer h-1.5 bg-slate-200 rounded-lg">
+              <div class="flex justify-between text-[10px] font-mono text-slate-400">
+                <span>30 mins</span>
+                <span>360 mins Peak</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 pt-2">
+              <div class="p-4 rounded-2xl bg-teal-950 text-white border border-teal-800">
+                <span class="text-[10px] font-mono uppercase text-teal-300 block">Projected Healthspan Delta</span>
+                <span class="text-2xl font-extrabold font-mono text-emerald-400 mt-1 block" id="healthspanDelta">+7.4 Years</span>
+              </div>
+              <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-card-soft">
+                <span class="text-[10px] font-mono uppercase text-slate-500 block">Telomere Attrition Rate</span>
+                <span class="text-2xl font-extrabold font-mono text-teal-600 mt-1 block" id="attritionVal">-38% Slowdown</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="lg:col-span-7 glass-frosted p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-card-soft">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-200 mb-6">
+              <div>
+                <span class="text-xs font-mono uppercase text-slate-500">Predictive Epigenetic Curve</span>
+                <div class="text-lg font-bold font-display text-midnight mt-0.5">Biological Age vs Chronological Time</div>
+              </div>
+              <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono text-xs font-semibold">
+                98.4% Statistical Significance
+              </span>
+            </div>
+
+            <div class="h-64 w-full relative">
+              <canvas id="forecastCanvas" class="w-full h-full block"></canvas>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between text-xs font-mono text-slate-600 gap-3">
+              <span class="flex items-center gap-1.5"><span class="w-3 h-1 bg-teal-500 rounded-full inline-block"></span> Aura Optimized Trajectory</span>
+              <span class="flex items-center gap-1.5"><span class="w-3 h-1 bg-slate-400 rounded-full inline-block"></span> Standard Population Median</span>
+              <span class="flex items-center gap-1.5"><span class="w-3 h-1 bg-emerald-400 rounded-full inline-block"></span> Maximum Phenotypic Target</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION BANNER -->
+    <section class="py-24 max-w-7xl mx-auto px-6">
+      <div class="rounded-3xl p-8 sm:p-14 bg-midnight text-white border border-slate-800 relative overflow-hidden text-center shadow-glow-teal">
+        
+        <div class="absolute -left-20 -top-20 w-80 h-80 bg-teal-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-ice-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <span class="text-xs font-mono uppercase tracking-widest text-teal-400 font-bold">Clinical Genomic Enrollment</span>
+        <h2 class="font-display text-3xl sm:text-5xl font-extrabold tracking-tight mt-3 mb-4">
+          Own Your Genetic Code Before Symptoms Appear.
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto font-normal mb-8 leading-relaxed">
+          Order the clinical-grade whole genome kit and integrate with certified longevity physicians across 45 countries.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button onclick="openPortalModal()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-teal-500 to-ice-500 hover:from-teal-400 hover:to-ice-400 text-midnight font-bold text-xs font-mono uppercase tracking-wider transition-all shadow-glow-teal">
+            Order Clinical DNA Kit ($490)
+          </button>
+          <button onclick="copyClinicData()" id="copyClinicBtn" class="w-full sm:w-auto px-6 py-4 rounded-xl bg-slate-850 hover:bg-slate-800 text-white font-mono text-xs border border-white/10 transition-all flex items-center justify-center gap-2">
+            <i data-lucide="file-text" class="w-4 h-4 text-teal-400"></i>
+            <span>Sample Clinical Diagnostic Report (PDF)</span>
+          </button>
+        </div>
+
+        <div class="mt-8 font-mono text-[11px] text-slate-400">
+          CLIA Certified Lab Partner · CAP Accredited · 100% End-to-End Encryption
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-200 bg-white py-12 text-slate-500 text-xs font-mono">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+      
+      <div class="flex items-center space-x-3">
+        <div class="w-6 h-6 rounded-lg bg-teal-500 text-white flex items-center justify-center font-bold text-xs">
+          A
+        </div>
+        <span class="font-bold text-midnight font-display tracking-tight text-sm">AURA HEALTH SYSTEMS</span>
+        <span class="text-slate-300">|</span>
+        <span>Genomic Diagnostics Corp.</span>
+      </div>
+
+      <div class="flex items-center space-x-6 text-[11px]">
+        <a href="#" class="hover:text-teal-600 transition-colors">HIPAA Charter</a>
+        <a href="#" class="hover:text-teal-600 transition-colors">Genomic Privacy</a>
+        <a href="#" class="hover:text-teal-600 transition-colors">CLIA Compliance</a>
+        <a href="#" class="hover:text-teal-600 transition-colors">Physician Network</a>
+      </div>
+
+      <div class="text-[11px] text-slate-400">
+        © 2026 Aura Health Genomics Inc. All rights reserved.
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- MODAL: PATIENT PORTAL -->
+  <div id="portalModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight/70 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-white border border-slate-200 rounded-3xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl transform scale-95 transition-transform duration-300" id="portalModalCard">
+      
+      <button onclick="closePortalModal()" class="absolute top-5 right-5 text-slate-400 hover:text-midnight transition-colors">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-2 mb-2">
+        <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+        <span class="text-xs font-mono uppercase tracking-widest text-teal-700 font-bold">Encrypted Telehealth Intake</span>
+      </div>
+
+      <h3 class="font-display text-2xl font-bold text-midnight tracking-tight">Access Patient Telemetry Portal</h3>
+      <p class="text-xs text-slate-500 mt-1 mb-6 font-normal">
+        Enter your clinical token or register for a whole-genome sequencing kit.
+      </p>
+
+      <form id="portalForm" onsubmit="handlePortalSubmit(event)" class="space-y-4 text-xs font-sans">
+        <div>
+          <label class="block text-slate-700 uppercase tracking-wider text-[10px] font-mono mb-1 font-bold">Full Legal Name</label>
+          <input required type="text" placeholder="Dr. Julian Ross" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-midnight focus:outline-none focus:border-teal-500 transition-colors">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-700 uppercase tracking-wider text-[10px] font-mono mb-1 font-bold">Secure Email</label>
+            <input required type="email" placeholder="julian@aurahealth.org" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-midnight focus:outline-none focus:border-teal-500 transition-colors">
+          </div>
+          <div>
+            <label class="block text-slate-700 uppercase tracking-wider text-[10px] font-mono mb-1 font-bold">Diagnostic Focus</label>
+            <select class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-midnight focus:outline-none focus:border-teal-500 transition-colors">
+              <option>Longevity & Epigenetics</option>
+              <option>Cardiovascular Prevention</option>
+              <option>Metabolic Optimization</option>
+              <option>Rare Variant Genome Scan</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-teal-600 to-ice-600 hover:from-teal-500 hover:to-ice-500 text-white font-bold uppercase tracking-wider rounded-xl transition-all mt-4 shadow-card-soft font-mono">
+          Authenticate & Initialize Portal
+        </button>
+      </form>
+
+      <div id="portalSuccess" class="hidden text-center py-6 space-y-4 font-mono">
+        <div class="w-12 h-12 rounded-full bg-teal-50 text-teal-600 border border-teal-200 flex items-center justify-center mx-auto">
+          <i data-lucide="check" class="w-6 h-6"></i>
+        </div>
+        <h4 class="font-display text-lg font-bold text-midnight uppercase">Patient Credentials Verified</h4>
+        <p class="text-xs text-slate-600">Sample collection kit dispatched with overnight tracking to registered address.</p>
+        <button onclick="closePortalModal()" class="px-6 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg text-xs text-midnight uppercase font-semibold">Dismiss</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-midnight text-white border border-teal-500/40 px-4 py-3 rounded-2xl shadow-2xl font-mono text-xs flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <i data-lucide="activity" class="w-4 h-4 text-teal-400"></i>
+    <span id="toastMsg">Telemetry synchronization complete.</span>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    const dnaCanvas = document.getElementById('dnaCanvas');
+    const dnaCtx = dnaCanvas ? dnaCanvas.getContext('2d') : null;
+    let dnaW, dnaH;
+    let dnaRotation = 0;
+    let dnaSpeed = 0.015;
+    let isDnaDragging = false;
+    let lastDnaMouseX = 0;
+    let highlightBonds = false;
+
+    function resizeDnaCanvas() {
+      if (!dnaCanvas) return;
+      const rect = dnaCanvas.getBoundingClientRect();
+      dnaW = dnaCanvas.width = rect.width * (window.devicePixelRatio || 1);
+      dnaH = dnaCanvas.height = rect.height * (window.devicePixelRatio || 1);
+    }
+
+    function drawDnaHelix() {
+      if (!dnaCtx || !dnaCanvas) return;
+      dnaCtx.clearRect(0, 0, dnaW, dnaH);
+
+      const numPoints = 28;
+      const radius = dnaW * 0.16;
+      const verticalSpread = dnaH * 0.85;
+      const startY = dnaH * 0.08;
+      const stepY = verticalSpread / numPoints;
+      const centerX = dnaW / 2;
+
+      const baseColors = ['#0D9488', '#0EA5E9', '#10B981', '#6366F1'];
+      const pairs = [];
+
+      for (let i = 0; i < numPoints; i++) {
+        const angle = i * 0.45 + dnaRotation;
+        const y = startY + i * stepY;
+
+        const x1 = centerX + Math.cos(angle) * radius;
+        const z1 = Math.sin(angle);
+
+        const x2 = centerX + Math.cos(angle + Math.PI) * radius;
+        const z2 = Math.sin(angle + Math.PI);
+
+        pairs.push({
+          y,
+          x1,
+          z1,
+          x2,
+          z2,
+          avgZ: (z1 + z2) / 2,
+          colorIdx: i % baseColors.length
+        });
+      }
+
+      pairs.sort((a, b) => a.avgZ - b.avgZ);
+
+      pairs.forEach(p => {
+        dnaCtx.beginPath();
+        dnaCtx.moveTo(p.x1, p.y);
+        dnaCtx.lineTo(p.x2, p.y);
+        dnaCtx.strokeStyle = highlightBonds ? 'rgba(13, 148, 136, 0.65)' : 'rgba(15, 23, 42, 0.15)';
+        dnaCtx.lineWidth = highlightBonds ? 3 * (window.devicePixelRatio || 1) : 1.5 * (window.devicePixelRatio || 1);
+        dnaCtx.stroke();
+
+        const midX = (p.x1 + p.x2) / 2;
+        dnaCtx.beginPath();
+        dnaCtx.arc(midX, p.y, 2.5 * (window.devicePixelRatio || 1), 0, Math.PI * 2);
+        dnaCtx.fillStyle = baseColors[p.colorIdx];
+        dnaCtx.fill();
+
+        const scale1 = 0.8 + (p.z1 + 1) * 0.4;
+        const nodeRad1 = 6 * scale1 * (window.devicePixelRatio || 1);
+        dnaCtx.beginPath();
+        dnaCtx.arc(p.x1, p.y, nodeRad1, 0, Math.PI * 2);
+        dnaCtx.fillStyle = p.z1 > 0 ? '#0D9488' : '#99F6E4';
+        dnaCtx.shadowColor = '#0D9488';
+        dnaCtx.shadowBlur = p.z1 > 0 ? 12 : 2;
+        dnaCtx.fill();
+        dnaCtx.shadowBlur = 0;
+
+        const scale2 = 0.8 + (p.z2 + 1) * 0.4;
+        const nodeRad2 = 6 * scale2 * (window.devicePixelRatio || 1);
+        dnaCtx.beginPath();
+        dnaCtx.arc(p.x2, p.y, nodeRad2, 0, Math.PI * 2);
+        dnaCtx.fillStyle = p.z2 > 0 ? '#0EA5E9' : '#BAE6FD';
+        dnaCtx.shadowColor = '#0EA5E9';
+        dnaCtx.shadowBlur = p.z2 > 0 ? 12 : 2;
+        dnaCtx.fill();
+        dnaCtx.shadowBlur = 0;
+      });
+
+      if (!isDnaDragging) {
+        dnaRotation += dnaSpeed;
+      }
+
+      requestAnimationFrame(drawDnaHelix);
+    }
+
+    if (dnaCanvas) {
+      dnaCanvas.addEventListener('mousedown', (e) => {
+        isDnaDragging = true;
+        lastDnaMouseX = e.clientX;
+      });
+      window.addEventListener('mousemove', (e) => {
+        if (!isDnaDragging) return;
+        const dx = e.clientX - lastDnaMouseX;
+        dnaRotation += dx * 0.01;
+        lastDnaMouseX = e.clientX;
+      });
+      window.addEventListener('mouseup', () => { isDnaDragging = false; });
+
+      dnaCanvas.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          isDnaDragging = true;
+          lastDnaMouseX = e.touches[0].clientX;
+        }
+      });
+      window.addEventListener('touchmove', (e) => {
+        if (!isDnaDragging || e.touches.length !== 1) return;
+        const dx = e.touches[0].clientX - lastDnaMouseX;
+        dnaRotation += dx * 0.01;
+        lastDnaMouseX = e.touches[0].clientX;
+      });
+      window.addEventListener('touchend', () => { isDnaDragging = false; });
+    }
+
+    function toggleDnaMode() {
+      highlightBonds = !highlightBonds;
+      const label = document.getElementById('dnaBtnLabel');
+      if (label) {
+        label.textContent = highlightBonds ? 'Normal Base Pair View' : 'Highlight Nucleotide Bonds';
+      }
+      showToast(highlightBonds ? 'Hydrogen Base Bonds Highlighted' : 'Standard Phosphodiester Backbone View');
+    }
+
+    const ecgCanvas = document.getElementById('miniEcgCanvas');
+    const ecgCtx = ecgCanvas ? ecgCanvas.getContext('2d') : null;
+    let ecgX = 0;
+    let ecgPoints = [];
+
+    function resizeEcgCanvas() {
+      if (!ecgCanvas) return;
+      const rect = ecgCanvas.getBoundingClientRect();
+      ecgCanvas.width = rect.width * (window.devicePixelRatio || 1);
+      ecgCanvas.height = rect.height * (window.devicePixelRatio || 1);
+      ecgPoints = new Array(Math.floor(ecgCanvas.width)).fill(ecgCanvas.height / 2);
+    }
+
+    function renderEcgLoop() {
+      if (!ecgCtx || !ecgCanvas) return;
+      const w = ecgCanvas.width;
+      const h = ecgCanvas.height;
+      const mid = h / 2;
+
+      ecgCtx.clearRect(0, 0, w, h);
+
+      const cycle = ecgX % 60;
+      let yVal = mid;
+
+      if (cycle === 15) yVal = mid - 4;
+      else if (cycle === 24) yVal = mid + 3;
+      else if (cycle === 26) yVal = mid - (h * 0.42);
+      else if (cycle === 28) yVal = mid + (h * 0.28);
+      else if (cycle === 38) yVal = mid - 6;
+      else yVal = mid + (Math.random() - 0.5) * 1.5;
+
+      ecgPoints.push(yVal);
+      if (ecgPoints.length > w) ecgPoints.shift();
+
+      ecgCtx.beginPath();
+      for (let i = 0; i < ecgPoints.length; i++) {
+        if (i === 0) ecgCtx.moveTo(i, ecgPoints[i]);
+        else ecgCtx.lineTo(i, ecgPoints[i]);
+      }
+      ecgCtx.strokeStyle = '#10B981';
+      ecgCtx.lineWidth = 2 * (window.devicePixelRatio || 1);
+      ecgCtx.shadowColor = '#10B981';
+      ecgCtx.shadowBlur = 6;
+      ecgCtx.stroke();
+      ecgCtx.shadowBlur = 0;
+
+      ecgX++;
+      requestAnimationFrame(renderEcgLoop);
+    }
+
+    setInterval(() => {
+      const bpm = document.getElementById('liveBpm');
+      if (bpm) {
+        bpm.textContent = Math.floor(66 + Math.random() * 5);
+      }
+    }, 2800);
+
+    const biomarkersData = [
+      {
+        id: "APOB-01",
+        name: "Apolipoprotein B (ApoB)",
+        cat: "CARDIO",
+        value: "62 mg/dL",
+        target: "< 70 mg/dL",
+        status: "Optimal",
+        desc: "Direct quantification of all atherogenic lipid particles. Strongest predictor of arterial plaque insulation."
+      },
+      {
+        id: "TELO-02",
+        name: "Telomere Shortening Velocity",
+        cat: "GENOMIC",
+        value: "18 bp / year",
+        target: "< 35 bp / yr",
+        status: "Optimal",
+        desc: "Replication cap stability measured across peripheral blood mononuclear cells (PBMC)."
+      },
+      {
+        id: "HOMA-03",
+        name: "HOMA-IR Insulin Sensitivity",
+        cat: "METABOLIC",
+        value: "0.82 Score",
+        target: "< 1.0 Score",
+        status: "Optimal",
+        desc: "Homeostatic model assessment of pancreatic beta-cell fasting metabolic efficiency."
+      },
+      {
+        id: "NAD-04",
+        name: "Intracellular NAD+ Pool",
+        cat: "GENOMIC",
+        value: "38.4 µM",
+        target: "> 30.0 µM",
+        status: "Optimal",
+        desc: "Essential coenzyme powering sirtuin (SIRT1-7) DNA repair and mitochondrial ATP oxidative phosphorylation."
+      },
+      {
+        id: "HSCRP-05",
+        name: "High-Sensitivity CRP",
+        cat: "CARDIO",
+        value: "0.24 mg/L",
+        target: "< 0.50 mg/L",
+        status: "Optimal",
+        desc: "Systemic endothelial inflammation assay. Zero micro-vascular chronic inflammatory signals."
+      },
+      {
+        id: "IGF1-06",
+        name: "IGF-1 / FOXO3 Modulation",
+        cat: "METABOLIC",
+        value: "142 ng/mL",
+        target: "120–160 ng/mL",
+        status: "Calibrated",
+        desc: "Insulin-like growth factor balance optimizing cellular autophagy without muscle wasting."
+      }
+    ];
+
+    let currentBioCategory = 'ALL';
+    let searchBioQuery = '';
+
+    function renderBiomarkers() {
+      const grid = document.getElementById('biomarkerGrid');
+      if (!grid) return;
+
+      const filtered = biomarkersData.filter(item => {
+        const matchesCat = currentBioCategory === 'ALL' || item.cat === currentBioCategory;
+        const matchesSearch = item.name.toLowerCase().includes(searchBioQuery.toLowerCase()) ||
+                              item.desc.toLowerCase().includes(searchBioQuery.toLowerCase());
+        return matchesCat && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-3 text-center py-12 text-slate-400 font-mono">No matching clinical biomarkers located.</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(b => `
+        <div class="glass-frosted p-6 rounded-3xl border border-slate-200/90 shadow-card-soft hover:shadow-glow-teal hover:border-teal-400/80 transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="flex justify-between items-center text-xs font-mono mb-4">
+              <span class="text-teal-700 font-bold tracking-wider">${b.id}</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${b.status === 'Optimal' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-ice-50 text-ice-700 border border-ice-200'}">
+                ${b.status}
+              </span>
+            </div>
+
+            <h3 class="font-display text-xl font-bold text-midnight mb-1 group-hover:text-teal-700 transition-colors">${b.name}</h3>
+            
+            <div class="flex items-baseline gap-2 my-3">
+              <span class="text-3xl font-extrabold font-mono text-midnight">${b.value}</span>
+              <span class="text-xs font-mono text-slate-400">Target: ${b.target}</span>
+            </div>
+
+            <p class="text-slate-600 text-xs leading-relaxed font-normal mb-6">
+              ${b.desc}
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-slate-200/70 flex items-center justify-between font-mono text-xs">
+            <span class="text-[10px] text-slate-400 uppercase">CATEGORY: ${b.cat}</span>
+            <button onclick="inspectBiomarker('${b.name}')" class="text-teal-600 hover:text-teal-800 font-bold flex items-center gap-1">
+              <span>Telemetry</span> →
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setCategoryFilter(cat) {
+      currentBioCategory = cat;
+      document.querySelectorAll('.bio-btn').forEach(btn => {
+        btn.classList.remove('bg-midnight', 'text-white', 'font-bold');
+        btn.classList.add('bg-white', 'text-slate-600');
+      });
+      const active = document.querySelector(`[data-cat="${cat}"]`);
+      if (active) {
+        active.classList.remove('bg-white', 'text-slate-600');
+        active.classList.add('bg-midnight', 'text-white', 'font-bold');
+      }
+      renderBiomarkers();
+    }
+
+    function filterBiomarkers() {
+      const input = document.getElementById('biomarkerSearch');
+      searchBioQuery = input ? input.value : '';
+      renderBiomarkers();
+    }
+
+    function inspectBiomarker(name) {
+      showToast(`Accessing longitudinal telemetry history for: ${name}`);
+    }
+
+    const forecastCanvas = document.getElementById('forecastCanvas');
+    const forecastCtx = forecastCanvas ? forecastCanvas.getContext('2d') : null;
+
+    function resizeForecastCanvas() {
+      if (!forecastCanvas) return;
+      const rect = forecastCanvas.getBoundingClientRect();
+      forecastCanvas.width = rect.width * (window.devicePixelRatio || 1);
+      forecastCanvas.height = rect.height * (window.devicePixelRatio || 1);
+      drawForecastCurve();
+    }
+
+    function updateLongevityForecast() {
+      const sleep = parseFloat(document.getElementById('sleepSlider').value);
+      const zone2 = parseInt(document.getElementById('zone2Slider').value);
+
+      document.getElementById('sleepSliderVal').textContent = `${sleep} hrs / night`;
+      document.getElementById('zone2SliderVal').textContent = `${zone2} mins / week`;
+
+      const deltaYears = ((sleep - 6.5) * 1.8 + (zone2 / 60) * 1.2).toFixed(1);
+      const slowdown = Math.min(65, Math.max(10, Math.round((sleep * 3.5) + (zone2 * 0.12))));
+
+      document.getElementById('healthspanDelta').textContent = `+${deltaYears > 0 ? deltaYears : 0.5} Years`;
+      document.getElementById('attritionVal').textContent = `-${slowdown}% Slowdown`;
+
+      drawForecastCurve();
+    }
+
+    function drawForecastCurve() {
+      if (!forecastCtx || !forecastCanvas) return;
+      const w = forecastCanvas.width;
+      const h = forecastCanvas.height;
+      const sleep = parseFloat(document.getElementById('sleepSlider')?.value || 8.5);
+      const zone2 = parseInt(document.getElementById('zone2Slider')?.value || 180);
+
+      forecastCtx.clearRect(0, 0, w, h);
+
+      forecastCtx.strokeStyle = 'rgba(15, 23, 42, 0.06)';
+      forecastCtx.lineWidth = 1;
+      for (let i = 0; i < 5; i++) {
+        const y = (h / 4) * i;
+        forecastCtx.beginPath();
+        forecastCtx.moveTo(0, y);
+        forecastCtx.lineTo(w, y);
+        forecastCtx.stroke();
+      }
+
+      forecastCtx.beginPath();
+      forecastCtx.moveTo(0, h * 0.8);
+      forecastCtx.lineTo(w, h * 0.25);
+      forecastCtx.strokeStyle = 'rgba(148, 163, 184, 0.5)';
+      forecastCtx.setLineDash([4, 4]);
+      forecastCtx.lineWidth = 1.5 * (window.devicePixelRatio || 1);
+      forecastCtx.stroke();
+      forecastCtx.setLineDash([]);
+
+      const targetY = h * 0.8 - ((sleep / 10) * 0.4 + (zone2 / 360) * 0.3) * (h * 0.65);
+
+      forecastCtx.beginPath();
+      forecastCtx.moveTo(0, h * 0.8);
+      forecastCtx.bezierCurveTo(w * 0.4, h * 0.78, w * 0.7, targetY + 20, w, targetY);
+      forecastCtx.strokeStyle = '#0D9488';
+      forecastCtx.lineWidth = 3.5 * (window.devicePixelRatio || 1);
+      forecastCtx.shadowColor = '#0D9488';
+      forecastCtx.shadowBlur = 10;
+      forecastCtx.stroke();
+      forecastCtx.shadowBlur = 0;
+
+      forecastCtx.lineTo(w, h);
+      forecastCtx.lineTo(0, h);
+      forecastCtx.closePath();
+      const grad = forecastCtx.createLinearGradient(0, 0, 0, h);
+      grad.addColorStop(0, 'rgba(13, 148, 136, 0.15)');
+      grad.addColorStop(1, 'rgba(13, 148, 136, 0.0)');
+      forecastCtx.fillStyle = grad;
+      forecastCtx.fill();
+    }
+
+    function openPortalModal() {
+      const modal = document.getElementById('portalModal');
+      const card = document.getElementById('portalModalCard');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-95');
+      card.classList.add('scale-100');
+    }
+
+    function closePortalModal() {
+      const modal = document.getElementById('portalModal');
+      const card = document.getElementById('portalModalCard');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+
+      setTimeout(() => {
+        document.getElementById('portalForm').classList.remove('hidden');
+        document.getElementById('portalSuccess').classList.add('hidden');
+      }, 300);
+    }
+
+    function handlePortalSubmit(e) {
+      e.preventDefault();
+      document.getElementById('portalForm').classList.add('hidden');
+      document.getElementById('portalSuccess').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = msg;
+
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3500);
+    }
+
+    function copyClinicData() {
+      const docLink = "https://aurahealth.org/clinical/reports/GENOME_SAMPLE_489201.pdf";
+      const el = document.createElement('textarea');
+      el.value = docLink;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      showToast("Sample Clinical Diagnostic PDF link copied to clipboard.");
+    }
+
+    window.addEventListener('load', () => {
+      resizeDnaCanvas();
+      resizeEcgCanvas();
+      resizeForecastCanvas();
+      drawDnaHelix();
+      renderEcgLoop();
+      renderBiomarkers();
+      updateLongevityForecast();
+    });
+
+    window.addEventListener('resize', () => {
+      resizeDnaCanvas();
+      resizeEcgCanvas();
+      resizeForecastCanvas();
+      drawForecastCurve();
+    });
+  </script>
+
+</body>
+</html>

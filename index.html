@@ -1,0 +1,2710 @@
+<!doctype html>
+<html lang="en" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bharath Kumar | UI Engineer & Enterprise Accessibility Architecture Specialist</title>
+    <meta name="description" content="Portfolio of Bharath Kumar, Senior UI Engineer and Enterprise Accessibility Architecture Specialist with 6.3+ years experience in WCAG 2.1/2.2 AA compliance, VPAT audits, and Generative AI workflows." />
+    <meta property="og:title" content="Bharath Kumar | UI Engineer & Enterprise Accessibility Architecture Specialist" />
+    <meta property="og:description" content="Senior UI Engineer with 6.3+ years experience bridging complex UX design systems with scalable frontend architectures and WCAG 2.1/2.2 AA compliance." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+            colors: {
+              emerald: {
+                50: '#ecfdf5',
+                100: '#d1fae5',
+                400: '#34d399',
+                500: '#10b981',
+                600: '#059669',
+                700: '#047857',
+              }
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      /* Ensure smooth transitions for dark/light themes */
+      html, body {
+        transition: background-color 0.25s ease, color 0.25s ease;
+      }
+      
+      /* Subtle grid pattern background */
+      .bg-grid-pattern {
+        background-size: 32px 32px;
+        background-image: 
+          linear-gradient(to right, rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+      }
+      .dark .bg-grid-pattern {
+        background-image: 
+          linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #94a3b8;
+        border-radius: 9999px;
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: #334155;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #10b981;
+      }
+
+      /* Modern Portfolio Animations */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* 1. Scroll Reveal Animation with Apple/Linear easing */
+      .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(22px);
+        transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+      }
+      .reveal-on-scroll.is-revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* 2. Interactive Spotlight Card Glow (Linear / Vercel style) */
+      .spotlight-card {
+        position: relative;
+        transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+      }
+      .spotlight-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(16, 185, 129, 0.08), transparent 75%);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s ease;
+        z-index: 1;
+      }
+      .dark .spotlight-card::before {
+        background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(16, 185, 129, 0.12), transparent 75%);
+      }
+      .spotlight-card:hover::before {
+        opacity: 1;
+      }
+
+      /* 3. Smooth tactile micro-interactions */
+      .interactive-lift {
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+      }
+      .interactive-lift:hover {
+        transform: translateY(-2px);
+      }
+      .interactive-lift:active {
+        transform: translateY(0) scale(0.985);
+      }
+
+      /* 4. Active nav link indicator */
+      .nav-link {
+        position: relative;
+        transition: color 0.2s ease;
+      }
+      .nav-link.active-nav {
+        color: #059669;
+        font-weight: 600;
+      }
+      .dark .nav-link.active-nav {
+        color: #34d399;
+      }
+      .nav-link.active-nav::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #10b981;
+        border-radius: 9999px;
+      }
+
+      /* Accessibility: Respect Reduced Motion (WCAG AA) */
+      @media (prefers-reduced-motion: reduce) {
+        .reveal-on-scroll {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+        }
+        html {
+          scroll-behavior: auto !important;
+        }
+        .spotlight-card::before {
+          display: none !important;
+        }
+        .interactive-lift:hover {
+          transform: none !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col relative selection:bg-emerald-500 selection:text-white">
+
+    <!-- Interactive Top Scroll Reading Progress Bar -->
+    <div id="scrollProgress" class="fixed top-0 left-0 h-[2.5px] bg-gradient-to-r from-emerald-500 to-teal-400 z-50 transition-[width] duration-75 ease-out shadow-[0_0_8px_rgba(16,185,129,0.5)] pointer-events-none" style="width: 0%"></div>
+
+    <!-- Subtle Background Ambient Accents -->
+    <div class="fixed inset-0 pointer-events-none z-0 bg-grid-pattern"></div>
+    <div class="fixed -top-40 -right-40 w-96 h-96 bg-emerald-500/10 dark:bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="fixed top-1/2 -left-40 w-96 h-96 bg-teal-500/10 dark:bg-teal-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- ==================== HEADER / NAVBAR ==================== -->
+    <header class="sticky top-0 z-40 w-full border-b border-slate-200/60 dark:border-slate-800/60 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md transition-colors">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        
+        <!-- Minimalist Brand -->
+        <a href="#hero" class="flex items-center gap-2.5 group text-slate-900 dark:text-white tracking-tight">
+          <span class="w-7 h-7 rounded-md bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25 flex items-center justify-center font-mono text-xs font-bold group-hover:scale-105 transition-transform">
+            BK
+          </span>
+          <span class="font-sans font-bold text-sm tracking-tight text-slate-900 dark:text-white">
+            Bharath Kumar
+          </span>
+        </a>
+
+        <!-- Minimalist Desktop Nav Links -->
+        <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600 dark:text-slate-300">
+          <a href="#about" class="nav-link hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">About</a>
+          <a href="#works" class="nav-link hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Works</a>
+          <a href="#projects" class="nav-link hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Projects</a>
+          <a href="#experience" class="nav-link hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Experience</a>
+          <a href="#contact" class="nav-link hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Contact</a>
+        </nav>
+
+        <!-- Right Controls: Theme Toggle + LinkedIn + Clean Resume CTA + Mobile Menu Button -->
+        <div class="flex items-center gap-2 sm:gap-2.5">
+          <!-- LinkedIn Profile CTA -->
+          <a href="https://www.linkedin.com/in/bharath2297" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile (bharath2297)" class="w-8 h-8 rounded-lg text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-900 flex items-center justify-center transition-all hover:scale-105" title="LinkedIn: bharath2297">
+            <i data-lucide="linkedin" class="w-4 h-4"></i>
+          </a>
+
+          <!-- Theme Toggle -->
+          <button id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle color theme" class="w-8 h-8 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 flex items-center justify-center transition-colors">
+            <i id="themeIconSun" data-lucide="sun" class="w-4 h-4 hidden"></i>
+            <i id="themeIconMoon" data-lucide="moon" class="w-4 h-4"></i>
+          </button>
+
+          <!-- Minimalist Resume Button -->
+          <button onclick="openResumeModal()" class="hidden md:inline-flex items-center px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700/80 hover:border-slate-300 dark:hover:border-slate-600 bg-slate-50/50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 font-medium text-xs tracking-tight transition-all interactive-lift">
+            Resume
+          </button>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Open mobile navigation menu" class="md:hidden w-8 h-8 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 flex items-center justify-center">
+            <i id="mobileMenuIconOpen" data-lucide="menu" class="w-4 h-4"></i>
+            <i id="mobileMenuIconClose" data-lucide="x" class="w-4 h-4 hidden"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Minimalist Mobile Dropdown Menu -->
+      <div id="mobileMenu" class="hidden md:hidden border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 px-4 pt-2 pb-4 space-y-1.5 backdrop-blur-md">
+        <a href="#about" onclick="closeMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors">About</a>
+        <a href="#works" onclick="closeMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors">Works</a>
+        <a href="#projects" onclick="closeMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors">Projects</a>
+        <a href="#experience" onclick="closeMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors">Experience</a>
+        <a href="#contact" onclick="closeMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors">Contact</a>
+        <a href="https://www.linkedin.com/in/bharath2297" target="_blank" rel="noopener noreferrer" onclick="closeMobileMenu()" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors">
+          <i data-lucide="linkedin" class="w-4 h-4 text-emerald-500"></i>
+          <span>LinkedIn (in/bharath2297)</span>
+          <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 ml-auto"></i>
+        </a>
+        <div class="pt-2 border-t border-slate-200 dark:border-slate-800">
+          <button onclick="openResumeModal(); closeMobileMenu();" class="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs flex items-center justify-center gap-1.5 transition-colors">
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+            <span>View Resume</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-grow z-10">
+
+      <!-- ==================== 1. HERO SECTION ==================== -->
+      <section id="hero" class="relative pt-16 pb-20 md:pt-24 md:pb-28 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          
+          <!-- Left Content -->
+          <div class="lg:col-span-7 space-y-6 text-left reveal-on-scroll">
+            
+            <!-- Availability Badge -->
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 interactive-lift">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span>6.3+ Years Experience • Bengaluru, India</span>
+            </div>
+
+            <!-- Main Headline -->
+            <div class="space-y-2">
+              <p class="text-sm font-mono tracking-wide text-slate-500 dark:text-slate-400 uppercase">UI Engineer & Enterprise Accessibility Architecture Specialist</p>
+              <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]">
+                Bharath Kumar
+              </h1>
+              <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-600 dark:text-slate-300">
+                Architecting Inclusive, Scalable Frontend Systems.
+              </h2>
+            </div>
+
+            <!-- Value Proposition -->
+            <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-xl font-normal leading-relaxed">
+              Senior UI Engineer bridging complex UX design systems with scalable, production-ready frontend architectures. Proven track record architecting framework-agnostic presentation layers compliant with WCAG 2.1/2.2 AA standards and structural VPAT certifications for enterprise healthcare & SaaS. Google AI Certified in Generative AI workflows & Vibe Coding.
+            </p>
+
+            <!-- Quick Action Buttons -->
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+              <a href="#works" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm transition-all shadow-sm hover:shadow-emerald-500/25 hover:-translate-y-0.5 active:translate-y-0 interactive-lift">
+                <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                <span>Interactive Works</span>
+                <span class="px-1.5 py-0.5 rounded bg-black/20 text-[10px] font-mono font-bold">5 Live</span>
+              </a>
+
+              <a href="#projects" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-medium text-sm transition-all shadow-xs hover:-translate-y-0.5 active:translate-y-0 interactive-lift">
+                <i data-lucide="layers" class="w-4 h-4 text-emerald-500"></i>
+                <span>Enterprise Projects</span>
+              </a>
+
+              <button onclick="openResumeModal()" class="inline-flex items-center gap-2 px-4 py-3 rounded-xl text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200/80 dark:hover:bg-slate-700/80 font-medium text-sm transition-all interactive-lift">
+                <i data-lucide="file-text" class="w-4 h-4 text-emerald-500"></i>
+                <span>Resume</span>
+              </button>
+
+              <a href="#contact" class="inline-flex items-center gap-1.5 px-3 py-3 rounded-xl text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 text-sm font-medium transition-colors interactive-lift">
+                <span>Contact</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </a>
+            </div>
+
+            <!-- Contact & Social Links Cluster with LinkedIn -->
+            <div class="pt-4 flex flex-wrap items-center gap-3 sm:gap-4 text-slate-500 dark:text-slate-400 font-mono text-xs">
+              <a href="https://www.linkedin.com/in/bharath2297" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-600 dark:hover:text-emerald-400 flex items-center gap-1.5 transition-colors font-semibold text-slate-700 dark:text-slate-200 group" title="LinkedIn Profile: bharath2297">
+                <i data-lucide="linkedin" class="w-4 h-4 text-emerald-500 group-hover:scale-110 transition-transform"></i>
+                <span>linkedin.com/in/bharath2297</span>
+              </a>
+              <span class="text-slate-300 dark:text-slate-700 hidden sm:inline">•</span>
+              <a href="mailto:bharathkumar22971997@gmail.com" class="hover:text-emerald-600 dark:hover:text-emerald-400 flex items-center gap-1.5 transition-colors" title="Email Bharath Kumar">
+                <i data-lucide="mail" class="w-4 h-4 text-emerald-500"></i>
+                <span>bharathkumar22971997@gmail.com</span>
+              </a>
+              <span class="text-slate-300 dark:text-slate-700 hidden sm:inline">•</span>
+              <a href="tel:+919626556665" class="hover:text-emerald-600 dark:hover:text-emerald-400 flex items-center gap-1.5 transition-colors" title="Phone">
+                <i data-lucide="phone" class="w-4 h-4 text-emerald-500"></i>
+                <span>+91 96265 56665</span>
+              </a>
+              <span class="text-slate-300 dark:text-slate-700 hidden sm:inline">•</span>
+              <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
+                <i data-lucide="map-pin" class="w-4 h-4 text-emerald-500"></i>
+                <span>Bengaluru, India</span>
+              </span>
+            </div>
+
+          </div>
+
+          <!-- Right: Interactive Code Terminal Card with Spotlight Effect -->
+          <div class="lg:col-span-5 reveal-on-scroll">
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 shadow-xl overflow-hidden font-mono text-xs spotlight-card">
+              
+              <!-- Terminal Header -->
+              <div class="px-4 py-3 bg-slate-100 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <span class="w-3 h-3 rounded-full bg-red-400/80 inline-block"></span>
+                  <span class="w-3 h-3 rounded-full bg-amber-400/80 inline-block"></span>
+                  <span class="w-3 h-3 rounded-full bg-emerald-400/80 inline-block"></span>
+                </div>
+                <span class="text-slate-500 text-[11px]">bharath-specialist.config.ts</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold font-mono">Ready</span>
+                </div>
+              </div>
+
+              <!-- Terminal Content -->
+              <div class="p-5 space-y-3 leading-relaxed text-slate-800 dark:text-slate-300">
+                <div>
+                  <span class="text-purple-600 dark:text-purple-400 font-semibold">export const</span> <span class="text-blue-600 dark:text-blue-400 font-bold">specialist</span> = {
+                </div>
+                <div class="pl-4 space-y-1">
+                  <div><span class="text-slate-500">name:</span> <span class="text-emerald-600 dark:text-emerald-400">"Bharath Kumar"</span>,</div>
+                  <div><span class="text-slate-500">title:</span> <span class="text-emerald-600 dark:text-emerald-400">"Software Developer – UI & Accessibility Lead"</span>,</div>
+                  <div><span class="text-slate-500">linkedin:</span> <a href="https://www.linkedin.com/in/bharath2297" target="_blank" rel="noopener noreferrer" class="text-emerald-600 dark:text-emerald-400 hover:underline">"linkedin.com/in/bharath2297"</a>,</div>
+                  <div><span class="text-slate-500">experience:</span> <span class="text-amber-600 dark:text-amber-400">"6.3 Years"</span>,</div>
+                  <div><span class="text-slate-500">currentCompany:</span> <span class="text-emerald-600 dark:text-emerald-400">"ZeOmega Infotech"</span>,</div>
+                  <div><span class="text-slate-500">location:</span> <span class="text-emerald-600 dark:text-emerald-400">"Bengaluru, India"</span>,</div>
+                  <div><span class="text-slate-500">standards:</span> [</div>
+                  <div class="pl-4 text-emerald-600 dark:text-emerald-400">
+                    "WCAG 2.1/2.2 AA Compliance",<br/>
+                    "Structural VPAT Certifications",<br/>
+                    "Semantic Keyboard & ARIA"
+                  </div>
+                  <div>],</div>
+                  <div><span class="text-slate-500">aiIntegration:</span> <span class="text-teal-600 dark:text-teal-400">"IDE Prompt Eng & Vibe Coding"</span>,</div>
+                  <div><span class="text-slate-500">certification:</span> <span class="text-emerald-600 dark:text-emerald-400">"Google AI Professional Cert"</span><span class="inline-block w-1.5 h-3 bg-emerald-500 animate-pulse ml-1 align-middle"></span></div>
+                </div>
+                <div>};</div>
+
+                <!-- Stats Footer inside Terminal -->
+                <div class="pt-3 border-t border-slate-200 dark:border-slate-800 grid grid-cols-3 gap-2 text-center text-[11px]">
+                  <div class="p-2 rounded bg-slate-50 dark:bg-slate-800/60">
+                    <span class="text-slate-400 block text-[9px] uppercase">Experience</span>
+                    <span class="font-bold text-emerald-600 dark:text-emerald-400 text-sm" data-counter data-target="6.3" data-suffix=" Yrs">6.3 Yrs</span>
+                  </div>
+                  <div class="p-2 rounded bg-slate-50 dark:bg-slate-800/60">
+                    <span class="text-slate-400 block text-[9px] uppercase">Compliance</span>
+                    <span class="font-bold text-emerald-600 dark:text-emerald-400 text-sm">WCAG 2.2 AA</span>
+                  </div>
+                  <div class="p-2 rounded bg-slate-50 dark:bg-slate-800/60">
+                    <span class="text-slate-400 block text-[9px] uppercase">Certification</span>
+                    <span class="font-bold text-emerald-600 dark:text-emerald-400 text-sm">Google AI</span>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==================== 2. ABOUT ME & CORE SKILLS ==================== -->
+      <section id="about" class="py-16 md:py-20 border-t border-slate-200/80 dark:border-slate-800/80 bg-white/50 dark:bg-slate-900/30 reveal-on-scroll">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            
+            <!-- Bio Left -->
+            <div class="lg:col-span-6 space-y-4">
+              <div class="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold uppercase tracking-wider">
+                <i data-lucide="user" class="w-4 h-4"></i>
+                <span>About Me</span>
+              </div>
+              <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                Bridging complex UX systems with accessible architectures.
+              </h2>
+              
+              <div class="space-y-4 text-slate-600 dark:text-slate-300 text-base leading-relaxed">
+                <p>
+                  I'm a <strong>Senior UI Engineer and Enterprise Accessibility Architecture Specialist</strong> with over <strong>6.3 years of engineering experience</strong> bridging complex UX design systems with scalable, production-ready frontend architectures.
+                </p>
+                <p>
+                  I have a proven track record of architecting high-performance, framework-agnostic presentation layers strictly compliant with <strong>WCAG 2.1/2.2 AA standards</strong> and structural <strong>VPAT certifications</strong> for enterprise healthcare and SaaS platforms.
+                </p>
+                <p>
+                  As a <strong>Google AI Professional Certificate</strong> earner, I specialize in integrating Generative AI prompt engineering workflows and <em>Vibe Coding</em> directly into IDE layers to accelerate design-to-code translation, boost prototyping velocity, and eliminate cross-browser layout accessibility regressions.
+                </p>
+              </div>
+
+              <!-- Micro Highlights -->
+              <div class="pt-2 grid grid-cols-2 gap-4 text-sm font-mono">
+                <div class="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+                  <span class="text-xs text-slate-400 uppercase block">Experience</span>
+                  <span class="font-bold text-slate-900 dark:text-white">6.3 Years Exp</span>
+                  <span class="text-xs text-emerald-600 dark:text-emerald-400 block">Lead UI & Accessibility</span>
+                </div>
+                <div class="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+                  <span class="text-xs text-slate-400 uppercase block">Education</span>
+                  <span class="font-bold text-slate-900 dark:text-white">B.E. in ECE</span>
+                  <span class="text-xs text-slate-500 block">Sri Eshwar College of Engineering (2018)</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Core Skills Right (Grouped into 4 Exact Toolkit Categories from Resume) -->
+            <div id="skills" class="lg:col-span-6 space-y-4">
+              
+              <div class="flex items-center justify-between">
+                <div class="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold uppercase tracking-wider">
+                  <i data-lucide="cpu" class="w-4 h-4"></i>
+                  <span>Core Competencies & Technical Toolkit</span>
+                </div>
+                <span class="text-xs font-mono text-slate-400">Technical Arsenal</span>
+              </div>
+
+              <!-- 1. Frontend & Core Architecture -->
+              <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-2">
+                <div class="flex items-center gap-2 font-semibold text-slate-900 dark:text-white text-xs">
+                  <i data-lucide="layout" class="w-4 h-4 text-emerald-500"></i>
+                  <span>Frontend & Core Architecture</span>
+                </div>
+                <div class="flex flex-wrap gap-1.5 text-xs font-mono">
+                  <span class="px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold">Vanilla JavaScript (ES6+)</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Advanced Semantic HTML5</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">CSS3 Architecture</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Modular Layouts</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Cross-Browser Vector Rendering</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Web Components</span>
+                </div>
+              </div>
+
+              <!-- 2. Digital Accessibility & Governance -->
+              <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-2">
+                <div class="flex items-center gap-2 font-semibold text-slate-900 dark:text-white text-xs">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i>
+                  <span>Digital Accessibility & Governance</span>
+                </div>
+                <div class="flex flex-wrap gap-1.5 text-xs font-mono">
+                  <span class="px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold">WCAG 2.1/2.2 AA Compliance</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">VPAT Audits & Analysis</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Screen Readers (NVDA, JAWS, VoiceOver)</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Semantic Keyboard Navigation</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">ARIA Patterns</span>
+                </div>
+              </div>
+
+              <!-- 3. Design Operations & Strategy -->
+              <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-2">
+                <div class="flex items-center gap-2 font-semibold text-slate-900 dark:text-white text-xs">
+                  <i data-lucide="palette" class="w-4 h-4 text-emerald-500"></i>
+                  <span>Design Operations & Strategy</span>
+                </div>
+                <div class="flex flex-wrap gap-1.5 text-xs font-mono">
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Enterprise Design Systems</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Component Tokens</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Interactive Wireframe Extraction</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Advanced Visual Architecture</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Figma</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Adobe XD</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Zeplin</span>
+                </div>
+              </div>
+
+              <!-- 4. AI & SDLC Velocity Optimization -->
+              <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-2">
+                <div class="flex items-center gap-2 font-semibold text-slate-900 dark:text-white text-xs">
+                  <i data-lucide="sparkles" class="w-4 h-4 text-emerald-500"></i>
+                  <span>AI & SDLC Velocity Optimization</span>
+                </div>
+                <div class="flex flex-wrap gap-1.5 text-xs font-mono">
+                  <span class="px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold">Generative AI Systems Deployment</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Advanced IDE Prompt Engineering</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">AI-Assisted Component Prototyping</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Vibe Coding</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">Automated Accessibility Testing</span>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==================== CERTIFICATIONS SECTION ==================== -->
+      <section id="certifications" class="py-12 border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-100/50 dark:bg-slate-900/50 reveal-on-scroll">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="p-6 sm:p-8 rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 via-teal-500/5 to-slate-900/10 dark:from-emerald-950/30 dark:via-slate-900 dark:to-slate-900 shadow-sm relative overflow-hidden spotlight-card">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+              <div class="space-y-3 max-w-3xl">
+                <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
+                  <span class="px-2.5 py-1 rounded-md bg-emerald-600 text-white font-bold flex items-center gap-1.5">
+                    <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                    Google AI Professional Certificate
+                  </span>
+                  <span class="text-slate-500 dark:text-slate-400 font-semibold">Issued Jul 2026 • Coursera</span>
+                </div>
+                <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                  Generative AI Systems, Prompt Engineering & Vibe Coding
+                </h3>
+                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Completed comprehensive 7-course program covering AI Fundamentals, Brainstorming & Planning, Research & Insights, Writing & Communication, Content Creation, Data Analysis, and App Building (Vibe Coding). Built a portfolio of 20+ artifacts applying generative AI tools to workplace automation, prompt engineering, and custom application development.
+                </p>
+              </div>
+
+              <div class="shrink-0 flex flex-col sm:flex-row md:flex-col gap-2.5">
+                <a href="https://coursera.org/verify/professional-cert/TIDIWDX23DK7" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs font-semibold shadow-xs transition-colors">
+                  <i data-lucide="check-check" class="w-4 h-4"></i>
+                  <span>Verify Credential</span>
+                  <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+                <span class="text-[11px] font-mono text-slate-400 text-center">ID: TIDIWDX23DK7</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 2.5 INTERACTIVE WORKS & LIVE PROTOTYPES ==================== -->
+      <section id="works" class="py-16 md:py-24 border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-100/40 dark:bg-slate-900/40 relative reveal-on-scroll">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <!-- Section Header -->
+          <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
+            <div>
+              <div class="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider mb-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Live Engineering Showcase • 5 Standalone Web Architectures</span>
+              </div>
+              <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                Interactive Works Done
+              </h2>
+              <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base max-w-2xl font-normal leading-relaxed mt-3">
+                Production-grade, standalone web applications built from scratch with high-performance Canvas 2D/3D rendering, reactive telemetry, custom design tokens, and zero heavy dependencies. Preview them live in-modal or open them in standalone tabs.
+              </p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="flex items-center gap-3 font-mono text-xs text-slate-500 dark:text-slate-400">
+              <div class="px-3.5 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-4 h-4 text-emerald-500"></i>
+                <span class="font-bold text-slate-900 dark:text-white">5 Live Apps</span>
+              </div>
+              <div class="px-3.5 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex items-center gap-2">
+                <i data-lucide="cpu" class="w-4 h-4 text-cyan-500"></i>
+                <span class="font-bold text-slate-900 dark:text-white">Vanilla Canvas & DOM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Works Filter Tabs -->
+          <div class="flex flex-wrap items-center gap-2 mb-10 font-mono text-xs">
+            <button onclick="filterWorks('all')" class="work-filter-btn px-4 py-2 rounded-xl bg-emerald-600 text-white font-semibold transition-all shadow-xs" data-filter="all">All Works (5)</button>
+            <button onclick="filterWorks('cybersecurity')" class="work-filter-btn px-4 py-2 rounded-xl bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="cybersecurity">Cybersecurity & Kernel</button>
+            <button onclick="filterWorks('automotive')" class="work-filter-btn px-4 py-2 rounded-xl bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="automotive">Automotive & Aero</button>
+            <button onclick="filterWorks('genomics')" class="work-filter-btn px-4 py-2 rounded-xl bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="genomics">Genomics & Longevity</button>
+            <button onclick="filterWorks('architecture')" class="work-filter-btn px-4 py-2 rounded-xl bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="architecture">Spatial Architecture</button>
+            <button onclick="filterWorks('cloud')" class="work-filter-btn px-4 py-2 rounded-xl bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="cloud">Cloud & Edge Mesh</button>
+          </div>
+
+          <!-- Showcase Works Grid -->
+          <div id="worksGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- WORK 1: NEXUS SHIELD -->
+            <article class="work-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-sm hover:shadow-xl hover:border-red-500/50 transition-all duration-300 flex flex-col justify-between" data-category="cybersecurity">
+              <div>
+                <!-- Visual Banner -->
+                <div class="h-44 w-full bg-gradient-to-br from-[#090C10] via-[#0F141C] to-[#1C1014] p-5 flex flex-col justify-between relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
+                  <div class="flex items-center justify-between z-10">
+                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-red-500/20 text-red-400 border border-red-500/30">KERNEL SECURITY</span>
+                    <span class="flex items-center gap-1.5 text-[11px] font-mono text-emerald-400 font-bold">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                      eBPF HOOKED
+                    </span>
+                  </div>
+
+                  <div class="z-10 font-mono text-xs text-slate-300">
+                    <div class="text-white font-extrabold text-base tracking-wider uppercase font-display flex items-center gap-2">
+                      <i data-lucide="shield-alert" class="w-4 h-4 text-red-400"></i>
+                      <span>NEXUS SHIELD</span>
+                    </div>
+                    <div class="text-slate-400 text-[11px] mt-0.5">
+                      Sub-850ns Packet Verification • Ring Buffer Engine
+                    </div>
+                  </div>
+
+                  <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-red-600/20 rounded-full blur-2xl pointer-events-none"></div>
+                </div>
+
+                <!-- Card Content -->
+                <div class="p-6 space-y-3">
+                  <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-red-500 transition-colors">
+                    eBPF Kernel Threat Visualizer & Autonomous Defense
+                  </h3>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                    High-throughput Linux kernel security telemetry console with interactive attack simulation, real-time packet canvas visualizer, zero-trust rule builder, and mitigation audit logs.
+                  </p>
+
+                  <!-- Feature Tags -->
+                  <div class="flex flex-wrap gap-1.5 pt-1 font-mono text-[11px]">
+                    <span class="px-2 py-0.5 rounded bg-red-50 dark:bg-red-950/50 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800">eBPF XDP</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Canvas 2D Particle Sim</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Attack Injector</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Zero-Trust Rules</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card Action Buttons -->
+              <div class="p-5 pt-0 border-t border-slate-100 dark:border-slate-800/80 mt-4 flex items-center justify-between gap-2 font-mono text-xs">
+                <button onclick="openWorkViewer('nexus-shield')" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-red-600 dark:hover:bg-red-500 dark:hover:text-white font-semibold transition-all shadow-xs">
+                  <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                  <span>Live Preview</span>
+                </button>
+                <a href="./public/works/nexus-shield.html" target="_blank" rel="noopener noreferrer" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-red-500 text-slate-600 dark:text-slate-400 hover:text-red-500 transition-colors" title="Open standalone in new tab">
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </article>
+
+            <!-- WORK 2: AETHER HYPERION -->
+            <article class="work-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-sm hover:shadow-xl hover:border-amber-500/50 transition-all duration-300 flex flex-col justify-between" data-category="automotive">
+              <div>
+                <!-- Visual Banner -->
+                <div class="h-44 w-full bg-gradient-to-br from-[#0B0907] via-[#14100C] to-[#251A0E] p-5 flex flex-col justify-between relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
+                  <div class="flex items-center justify-between z-10">
+                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">HYPER-PERFORMANCE</span>
+                    <span class="flex items-center gap-1.5 text-[11px] font-mono text-amber-400 font-bold">
+                      <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                      1,980 HP
+                    </span>
+                  </div>
+
+                  <div class="z-10 font-mono text-xs text-slate-300">
+                    <div class="text-white font-extrabold text-base tracking-wider uppercase font-display flex items-center gap-2">
+                      <i data-lucide="gauge" class="w-4 h-4 text-amber-400"></i>
+                      <span>AETHER HYPERION</span>
+                    </div>
+                    <div class="text-slate-400 text-[11px] mt-0.5">
+                      0-100 km/h: 1.74s • 3D Aerodynamic Chassis Telemetry
+                    </div>
+                  </div>
+
+                  <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-amber-500/20 rounded-full blur-2xl pointer-events-none"></div>
+                </div>
+
+                <!-- Card Content -->
+                <div class="p-6 space-y-3">
+                  <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors">
+                    Electric Hypercar Telemetry & Active Aerodynamics
+                  </h3>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Ultra-luxury EV telemetry platform with interactive 3D rotating wireframe chassis, live drag reduction system (DRS) wing actuation, battery thermals, and acoustic sound synthesis.
+                  </p>
+
+                  <!-- Feature Tags -->
+                  <div class="flex flex-wrap gap-1.5 pt-1 font-mono text-[11px]">
+                    <span class="px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800">3D Wireframe Canvas</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Active Aero Wing</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Dyno Test Rig</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Powertrain HUD</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card Action Buttons -->
+              <div class="p-5 pt-0 border-t border-slate-100 dark:border-slate-800/80 mt-4 flex items-center justify-between gap-2 font-mono text-xs">
+                <button onclick="openWorkViewer('aether-hyperion')" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-amber-500 dark:hover:bg-amber-400 dark:hover:text-black font-semibold transition-all shadow-xs">
+                  <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                  <span>Live Preview</span>
+                </button>
+                <a href="./public/works/aether-hyperion.html" target="_blank" rel="noopener noreferrer" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" title="Open standalone in new tab">
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </article>
+
+            <!-- WORK 3: AURA HEALTH -->
+            <article class="work-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-sm hover:shadow-xl hover:border-teal-500/50 transition-all duration-300 flex flex-col justify-between" data-category="genomics">
+              <div>
+                <!-- Visual Banner -->
+                <div class="h-44 w-full bg-gradient-to-br from-[#042F2E] via-[#0F172A] to-[#0D9488]/30 p-5 flex flex-col justify-between relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
+                  <div class="flex items-center justify-between z-10">
+                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-teal-500/20 text-teal-300 border border-teal-500/30">GENOMIC LONGEVITY</span>
+                    <span class="flex items-center gap-1.5 text-[11px] font-mono text-teal-300 font-bold">
+                      <i data-lucide="dna" class="w-3.5 h-3.5"></i>
+                      100X WHOLE EXOME
+                    </span>
+                  </div>
+
+                  <div class="z-10 font-mono text-xs text-slate-300">
+                    <div class="text-white font-extrabold text-base tracking-wider uppercase font-display flex items-center gap-2">
+                      <i data-lucide="heart-pulse" class="w-4 h-4 text-teal-400"></i>
+                      <span>AURA HEALTH</span>
+                    </div>
+                    <div class="text-slate-300 text-[11px] mt-0.5">
+                      Epigenetic Horvath Clock • Real-time ECG Canvas
+                    </div>
+                  </div>
+
+                  <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-teal-500/20 rounded-full blur-2xl pointer-events-none"></div>
+                </div>
+
+                <!-- Card Content -->
+                <div class="p-6 space-y-3">
+                  <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-teal-500 transition-colors">
+                    Genomic Intelligence & Longevity Platform
+                  </h3>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Futuristic clinical longevity interface featuring an interactive 3D rotating DNA double helix, live ECG waveform generator, dynamic epigenetic trajectory simulator, and diagnostic biomarkers matrix.
+                  </p>
+
+                  <!-- Feature Tags -->
+                  <div class="flex flex-wrap gap-1.5 pt-1 font-mono text-[11px]">
+                    <span class="px-2 py-0.5 rounded bg-teal-50 dark:bg-teal-950/50 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800">3D DNA Helix</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Real-time ECG Loop</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Longevity Slider Curve</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Biomarker Search</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card Action Buttons -->
+              <div class="p-5 pt-0 border-t border-slate-100 dark:border-slate-800/80 mt-4 flex items-center justify-between gap-2 font-mono text-xs">
+                <button onclick="openWorkViewer('aura-health')" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-teal-600 dark:hover:bg-teal-500 dark:hover:text-white font-semibold transition-all shadow-xs">
+                  <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                  <span>Live Preview</span>
+                </button>
+                <a href="./public/works/aura-health.html" target="_blank" rel="noopener noreferrer" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-teal-500 text-slate-600 dark:text-slate-400 hover:text-teal-500 transition-colors" title="Open standalone in new tab">
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </article>
+
+            <!-- WORK 4: ATELIER VAUQUELIN -->
+            <article class="work-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-sm hover:shadow-xl hover:border-stone-500/50 transition-all duration-300 flex flex-col justify-between" data-category="architecture">
+              <div>
+                <!-- Visual Banner -->
+                <div class="h-44 w-full bg-gradient-to-br from-[#181513] via-[#231F1C] to-[#38322E] p-5 flex flex-col justify-between relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
+                  <div class="flex items-center justify-between z-10">
+                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-amber-700/20 text-amber-200 border border-amber-700/30">MONOLITHIC TECTONICS</span>
+                    <span class="flex items-center gap-1.5 text-[11px] font-mono text-stone-300 font-bold">
+                      <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+                      PARIS / ZÜRICH
+                    </span>
+                  </div>
+
+                  <div class="z-10 font-mono text-xs text-slate-300">
+                    <div class="text-white font-extrabold text-base tracking-wider uppercase font-serif flex items-center gap-2">
+                      <span class="w-5 h-5 border border-white flex items-center justify-center text-xs">V</span>
+                      <span>ATELIER VAUQUELIN</span>
+                    </div>
+                    <div class="text-stone-300 text-[11px] mt-0.5">
+                      Poured Stone & Solitary Light • 3D Axonometry
+                    </div>
+                  </div>
+
+                  <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-amber-700/20 rounded-full blur-2xl pointer-events-none"></div>
+                </div>
+
+                <!-- Card Content -->
+                <div class="p-6 space-y-3">
+                  <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-stone-500 transition-colors">
+                    Contemporary Architecture & Spatial Monograph
+                  </h3>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Refined architectural monograph platform featuring an interactive 3D rotating axonometric building mass, mineral quarry database, curated project reel, and solar altitude calculation.
+                  </p>
+
+                  <!-- Feature Tags -->
+                  <div class="flex flex-wrap gap-1.5 pt-1 font-mono text-[11px]">
+                    <span class="px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-900 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-800">3D Axonometry</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Mineral Registry</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Editorial Layout</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Wireframe Tectonics</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card Action Buttons -->
+              <div class="p-5 pt-0 border-t border-slate-100 dark:border-slate-800/80 mt-4 flex items-center justify-between gap-2 font-mono text-xs">
+                <button onclick="openWorkViewer('atelier-vauquelin')" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-stone-700 dark:hover:bg-stone-300 dark:hover:text-black font-semibold transition-all shadow-xs">
+                  <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                  <span>Live Preview</span>
+                </button>
+                <a href="./public/works/atelier-vauquelin.html" target="_blank" rel="noopener noreferrer" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-stone-500 text-slate-600 dark:text-slate-400 hover:text-stone-500 transition-colors" title="Open standalone in new tab">
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </article>
+
+            <!-- WORK 5: HYPEREDGE -->
+            <article class="work-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-sm hover:shadow-xl hover:border-violet-500/50 transition-all duration-300 flex flex-col justify-between" data-category="cloud">
+              <div>
+                <!-- Visual Banner -->
+                <div class="h-44 w-full bg-gradient-to-br from-[#0F172A] via-[#1E0538] to-[#082F49] p-5 flex flex-col justify-between relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
+                  <div class="flex items-center justify-between z-10">
+                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-violet-500/20 text-violet-300 border border-violet-500/30">DISTRIBUTED CLOUD</span>
+                    <span class="flex items-center gap-1.5 text-[11px] font-mono text-cyan-300 font-bold">
+                      <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+                      318 PoPs ACTIVE
+                    </span>
+                  </div>
+
+                  <div class="z-10 font-mono text-xs text-slate-300">
+                    <div class="text-white font-extrabold text-base tracking-wider uppercase font-sans flex items-center gap-2">
+                      <span class="font-mono text-cyan-400">//</span>
+                      <span>HYPEREDGE</span>
+                    </div>
+                    <div class="text-cyan-300 text-[11px] mt-0.5">
+                      Sub-Millisecond Cold Starts • 4.8ms V8 Isolates
+                    </div>
+                  </div>
+
+                  <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-violet-600/20 rounded-full blur-2xl pointer-events-none"></div>
+                </div>
+
+                <!-- Card Content -->
+                <div class="p-6 space-y-3">
+                  <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-violet-500 transition-colors">
+                    Ultra-Low Latency Cloud Infrastructure & Edge Mesh
+                  </h3>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Developer-first serverless edge cloud platform with autonomous packet mesh visualizer, live global ping matrix across 5 global hubs, interactive code playground, and empirical benchmarks.
+                  </p>
+
+                  <!-- Feature Tags -->
+                  <div class="flex flex-wrap gap-1.5 pt-1 font-mono text-[11px]">
+                    <span class="px-2 py-0.5 rounded bg-violet-50 dark:bg-violet-950/50 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800">BGP Mesh Visualizer</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Live Global Telemetry</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Multi-Language SDK</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Isolate Sandbox</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card Action Buttons -->
+              <div class="p-5 pt-0 border-t border-slate-100 dark:border-slate-800/80 mt-4 flex items-center justify-between gap-2 font-mono text-xs">
+                <button onclick="openWorkViewer('hyperedge')" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-violet-600 dark:hover:bg-violet-500 dark:hover:text-white font-semibold transition-all shadow-xs">
+                  <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                  <span>Live Preview</span>
+                </button>
+                <a href="./public/works/hyperedge.html" target="_blank" rel="noopener noreferrer" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-violet-500 text-slate-600 dark:text-slate-400 hover:text-violet-500 transition-colors" title="Open standalone in new tab">
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </article>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==================== 3. FEATURED PROJECTS ==================== -->
+      <section id="projects" class="py-16 md:py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 reveal-on-scroll">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+          <div>
+            <div class="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold uppercase tracking-wider mb-2">
+              <i data-lucide="folder-git-2" class="w-4 h-4"></i>
+              <span>Engineering Portfolio</span>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Featured Projects
+            </h2>
+          </div>
+          <p class="text-slate-500 dark:text-slate-400 text-sm max-w-md font-normal leading-relaxed">
+            Real-world web applications and developer tools built with a focus on usability, reliability, and clean architecture.
+          </p>
+        </div>
+
+        <!-- Project Filter Buttons -->
+        <div class="flex flex-wrap items-center gap-2 mb-8 font-mono text-xs">
+          <button onclick="filterProjects('all')" class="project-filter-btn px-3.5 py-1.5 rounded-lg bg-emerald-600 text-white font-semibold transition-all shadow-xs" data-filter="all">All Projects (4)</button>
+          <button onclick="filterProjects('accessibility')" class="project-filter-btn px-3.5 py-1.5 rounded-lg bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="accessibility">Accessibility & VPAT</button>
+          <button onclick="filterProjects('frontend')" class="project-filter-btn px-3.5 py-1.5 rounded-lg bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="frontend">Frontend & UI Systems</button>
+          <button onclick="filterProjects('ai')" class="project-filter-btn px-3.5 py-1.5 rounded-lg bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="ai">AI & Velocity Tooling</button>
+        </div>
+
+        <!-- Projects Grid (4 High-Caliber Projects) -->
+        <div id="projectsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          
+          <!-- Card 1: Enterprise Accessibility Remediation & VPAT Compliance -->
+          <article class="project-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:shadow-xl hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between" data-category="accessibility">
+            <div>
+              <!-- Mockup Preview Banner -->
+              <div class="h-48 w-full bg-gradient-to-br from-slate-900 via-slate-850 to-emerald-950 p-6 flex flex-col justify-between border-b border-slate-200 dark:border-slate-800 relative overflow-hidden">
+                <div class="flex items-center justify-between z-10">
+                  <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-white/10 text-emerald-400 border border-white/10 backdrop-blur-md">Accessibility Governance</span>
+                  <span class="text-xs font-mono text-emerald-400 font-bold flex items-center gap-1">
+                    <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> WCAG 2.2 AA
+                  </span>
+                </div>
+                
+                <!-- Mockup Visual Elements -->
+                <div class="space-y-2 z-10 font-mono text-[11px]">
+                  <div class="flex items-center gap-2">
+                    <span class="px-3 py-1 rounded-md bg-emerald-500 text-white font-bold shadow-xs">VPAT v2.5 Compliant</span>
+                    <span class="px-2.5 py-1 rounded-md bg-white/15 text-white">ARIA-Live Region</span>
+                  </div>
+                  <div class="text-slate-300 text-xs flex items-center gap-2">
+                    <i data-lucide="keyboard" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    <span>200+ Keyboard Traps & Focus Rings Remediated</span>
+                  </div>
+                </div>
+
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-emerald-500/20 rounded-full blur-xl pointer-events-none"></div>
+              </div>
+
+              <!-- Body -->
+              <div class="p-6 space-y-3">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                  Enterprise Accessibility Remediation & VPAT Compliance
+                </h3>
+                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  End-to-end accessibility governance system auditing clinical workflows to achieve WCAG 2.1/2.2 AA compliance and formal VPAT certification. Eliminated over 200 screen-reader bottlenecks across NVDA, JAWS, and VoiceOver.
+                </p>
+
+                <!-- Tech Tags -->
+                <div class="flex flex-wrap gap-1.5 pt-2 font-mono text-xs">
+                  <span class="px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold">WCAG 2.2 AA</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">VPAT Audits</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">NVDA / JAWS</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">ARIA Landmarks</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Semantic HTML5</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer Action Links -->
+            <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 dark:border-slate-800/80 mt-4 font-mono text-xs">
+              <span class="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-semibold">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                <span>VPAT Certified</span>
+              </span>
+              <button onclick="openResumeModal()" class="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
+                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                <span>View Case Details</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Card 2: AI-Augmented Design System & Tokenization Suite -->
+          <article class="project-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:shadow-xl hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between" data-category="ai">
+            <div>
+              <!-- Mockup Preview Banner -->
+              <div class="h-48 w-full bg-gradient-to-br from-slate-900 via-slate-850 to-teal-950 p-6 flex flex-col justify-between border-b border-slate-200 dark:border-slate-800 relative overflow-hidden">
+                <div class="flex items-center justify-between z-10">
+                  <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-white/10 text-teal-400 border border-white/10 backdrop-blur-md">Generative AI Tooling</span>
+                  <span class="text-xs font-mono text-teal-400 font-bold flex items-center gap-1">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Vibe Coding SDLC
+                  </span>
+                </div>
+                
+                <!-- Mockup Visual Elements -->
+                <div class="space-y-1.5 z-10 font-mono text-[11px]">
+                  <div class="text-white font-bold text-base flex items-center gap-2">
+                    <span class="text-teal-400">Tokens:</span>
+                    <span>Figma Vars → CSS Custom Properties</span>
+                  </div>
+                  <div class="flex items-center gap-2 pt-1">
+                    <span class="px-2.5 py-0.5 rounded bg-emerald-500/30 text-emerald-300 border border-emerald-400/40 text-[10px]">30% Handoff Speedup</span>
+                    <span class="px-2.5 py-0.5 rounded bg-white/15 text-slate-200 text-[10px]">Zero Spec Drift</span>
+                  </div>
+                </div>
+
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-teal-500/20 rounded-full blur-xl pointer-events-none"></div>
+              </div>
+
+              <!-- Body -->
+              <div class="p-6 space-y-3">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                  AI-Augmented Design System & Tokenization Suite
+                </h3>
+                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Centralized UI component system leveraging custom IDE prompt engineering and Vibe Coding workflows to translate Figma design tokens into production-ready accessible presentation layers with zero layout drift.
+                </p>
+
+                <!-- Tech Tags -->
+                <div class="flex flex-wrap gap-1.5 pt-2 font-mono text-xs">
+                  <span class="px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold">Generative AI</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Prompt Engineering</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Design Tokens</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">CSS Architecture</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Vanilla JavaScript</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer Action Links -->
+            <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 dark:border-slate-800/80 mt-4 font-mono text-xs">
+              <a href="https://coursera.org/verify/professional-cert/TIDIWDX23DK7" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 hover:underline font-semibold">
+                <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                <span>Google AI Certified</span>
+              </a>
+              <button onclick="openResumeModal()" class="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
+                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                <span>View Architecture</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Card 3: Healthcare Clinical Analytics & High-Throughput DOM Console -->
+          <article class="project-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:shadow-xl hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between" data-category="frontend">
+            <div>
+              <!-- Mockup Preview Banner -->
+              <div class="h-48 w-full bg-gradient-to-br from-slate-900 via-slate-850 to-blue-950 p-6 flex flex-col justify-between border-b border-slate-200 dark:border-slate-800 relative overflow-hidden">
+                <div class="flex items-center justify-between z-10">
+                  <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-white/10 text-blue-400 border border-white/10 backdrop-blur-md">Clinical Platform</span>
+                  <span class="text-xs font-mono text-slate-400">Sub-second Render</span>
+                </div>
+                
+                <!-- Mockup Visual Elements -->
+                <div class="space-y-1.5 z-10 font-mono text-[11px] text-slate-300">
+                  <div class="text-white font-bold flex items-center gap-2">
+                    <span class="text-emerald-400">+30%</span> Cross-Browser DOM Speed
+                  </div>
+                  <div class="text-slate-400 text-xs">
+                    Multi-filter clinical tables · Zero Layout Shift (CLS: 0.00)
+                  </div>
+                </div>
+
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-blue-500/20 rounded-full blur-xl pointer-events-none"></div>
+              </div>
+
+              <!-- Body -->
+              <div class="p-6 space-y-3">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                  Healthcare Clinical Analytics & Data Console
+                </h3>
+                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  High-density clinical records interface featuring virtualized patient tables, keyboard-navigable facets, and optimized DOM manipulation cycles that boosted cross-browser rendering speeds by 30%.
+                </p>
+
+                <!-- Tech Tags -->
+                <div class="flex flex-wrap gap-1.5 pt-2 font-mono text-xs">
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">DOM Optimization</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Vanilla JavaScript</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">CSS Grid & Flexbox</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">SVG Graphics</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">WCAG 2.1 AA</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer Action Links -->
+            <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 dark:border-slate-800/80 mt-4 font-mono text-xs">
+              <span class="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-semibold">
+                <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                <span>Enterprise Production Tested</span>
+              </span>
+              <button onclick="openResumeModal()" class="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
+                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                <span>View Details</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Card 4: Centralized Accessible UI Component Suite -->
+          <article class="project-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:shadow-xl hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between" data-category="frontend">
+            <div>
+              <!-- Mockup Preview Banner -->
+              <div class="h-48 w-full bg-gradient-to-br from-slate-900 via-slate-850 to-purple-950 p-6 flex flex-col justify-between border-b border-slate-200 dark:border-slate-800 relative overflow-hidden">
+                <div class="flex items-center justify-between z-10">
+                  <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-white/10 text-purple-400 border border-white/10 backdrop-blur-md">Design Operations</span>
+                  <span class="text-xs font-mono text-slate-400">4+ Product Teams</span>
+                </div>
+                
+                <!-- Mockup Visual Elements -->
+                <div class="space-y-1.5 z-10 font-mono text-[11px]">
+                  <div class="text-white font-bold flex items-center gap-2">
+                    <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
+                    <span>Centralized UI Architecture</span>
+                  </div>
+                  <div class="text-slate-400 text-xs">
+                    -35% Defect Leakage · +40% Reusability
+                  </div>
+                </div>
+
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-purple-500/20 rounded-full blur-xl pointer-events-none"></div>
+              </div>
+
+              <!-- Body -->
+              <div class="p-6 space-y-3">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                  Centralized Accessible UI Component Suite
+                </h3>
+                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Unified enterprise component library built with semantic markup, dynamic color tokens, and strict keyboard focus management. Reduced cross-team bug leakage by 35% across four product squads.
+                </p>
+
+                <!-- Tech Tags -->
+                <div class="flex flex-wrap gap-1.5 pt-2 font-mono text-xs">
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Design Systems</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Semantic HTML5</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">CSS Architecture</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Web Components</span>
+                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">A11y Tokens</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer Action Links -->
+            <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 dark:border-slate-800/80 mt-4 font-mono text-xs">
+              <button onclick="openResumeModal()" class="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 hover:underline font-semibold">
+                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                <span>Review Architecture Spec</span>
+              </button>
+              <span class="text-slate-400 text-xs">ZeOmega Infotech</span>
+            </div>
+          </article>
+
+        </div>
+
+      </section>
+
+      <!-- ==================== 4. EXPERIENCE & MILESTONES ==================== -->
+      <section id="experience" class="py-16 md:py-24 border-t border-slate-200/80 dark:border-slate-800/80 bg-white/50 dark:bg-slate-900/30 reveal-on-scroll">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
+            <div class="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold uppercase tracking-wider">
+              <i data-lucide="briefcase" class="w-4 h-4"></i>
+              <span>Professional Experience</span>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Work Experience & Career Progression
+            </h2>
+            <p class="text-slate-500 dark:text-slate-400 text-sm">
+              Enterprise UI architecture, WCAG 2.1/2.2 AA accessibility governance, component architecture, and AI-assisted development workflows.
+            </p>
+          </div>
+
+          <!-- ==================== VERTICAL EXPERIENCE TIMELINE ==================== -->
+          <div class="space-y-2">
+            
+            <!-- 1. ZeOmega Infotech -->
+            <div class="relative flex items-start gap-4 sm:gap-6 group">
+              <!-- Left Column: Icon Node & Connector -->
+              <div class="flex flex-col items-center shrink-0">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white dark:bg-slate-900 border-2 border-emerald-500 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                  <i data-lucide="shield-check" class="w-5 h-5"></i>
+                </div>
+                <div class="w-0.5 grow bg-gradient-to-b from-emerald-500 via-slate-300 dark:via-slate-800 to-slate-300 dark:to-slate-800 my-2.5 min-h-[50px]"></div>
+              </div>
+
+              <!-- Right Column: Content Card -->
+              <div class="flex-1 pb-10">
+                <div class="p-6 sm:p-7 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs hover:shadow-md transition-shadow space-y-4">
+                  
+                  <!-- Role & Company Header -->
+                  <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-4">
+                    <div>
+                      <div class="flex items-center gap-2 flex-wrap">
+                        <h3 class="text-lg font-bold text-slate-950 dark:text-white">
+                          Software Developer – UI & Accessibility Lead
+                        </h3>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+                          Current Role
+                        </span>
+                      </div>
+                      <p class="text-sm font-bold text-emerald-700 dark:text-emerald-400 mt-0.5">
+                        ZeOmega Infotech
+                      </p>
+                      <div class="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300 mt-1 font-mono font-medium">
+                        <span class="flex items-center gap-1">
+                          <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-500"></i>
+                          Bengaluru, India
+                        </span>
+                        <span>•</span>
+                        <span>Enterprise Healthcare</span>
+                      </div>
+                    </div>
+
+                    <div class="text-left sm:text-right shrink-0">
+                      <span class="inline-block text-xs font-mono text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-lg font-semibold border border-slate-200 dark:border-slate-700">
+                        May 2026 – Present
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Role Overview -->
+                  <div class="space-y-1">
+                    <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Role Overview</span>
+                    <p class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-normal">
+                      Lead enterprise UI architecture, accessibility governance (WCAG 2.1/2.2 AA), component architecture, and AI-assisted engineering workflows across healthcare applications.
+                    </p>
+                  </div>
+
+                  <!-- Key Responsibilities: 4 Crisp Points Only -->
+                  <div class="space-y-2 text-sm text-slate-800 dark:text-slate-200">
+                    <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-950 dark:text-white block">
+                      Key Highlights & Impact:
+                    </span>
+                    <ul class="space-y-2">
+                      <li class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 mt-2 shrink-0"></span>
+                        <span class="leading-relaxed">Architected enterprise UI platform structures and design token systems using modern semantic web standards and Vanilla JS ES6+.</span>
+                      </li>
+                      <li class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 mt-2 shrink-0"></span>
+                        <span class="leading-relaxed">Led end-to-end <strong>WCAG 2.1/2.2 AA compliance initiatives</strong> and VPAT assessments, reducing enterprise regulatory risk liabilities by <strong class="text-emerald-700 dark:text-emerald-400">40%</strong>.</span>
+                      </li>
+                      <li class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 mt-2 shrink-0"></span>
+                        <span class="leading-relaxed">Authored and deployed a centralized <strong>WCAG 2.2-compliant accessible UI component suite</strong>, improving frontend code reusability by <strong class="text-emerald-700 dark:text-emerald-400">35%</strong> across squads.</span>
+                      </li>
+                      <li class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 mt-2 shrink-0"></span>
+                        <span class="leading-relaxed">Pioneered <strong>AI-assisted engineering workflows</strong> (IDE prompt engineering, Claude Code, Cursor), accelerating component delivery by <strong class="text-emerald-700 dark:text-emerald-400">2.5x</strong> with zero layout regressions.</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- Key Technologies / Areas -->
+                  <div class="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                    <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block font-bold">Key Technologies / Areas</span>
+                    <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+                      <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 font-bold border border-emerald-500/25">HTML5 / CSS3</span>
+                      <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 font-bold border border-emerald-500/25">Vanilla JS ES6+</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">WCAG 2.1/2.2 AA</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">VPAT Auditing</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">ARIA & Screen Readers</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">AI Prompt Engineering</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. MindMap Consulting -->
+            <div class="relative flex items-start gap-4 sm:gap-6 group">
+              <!-- Left Column: Icon Node & Connector -->
+              <div class="flex flex-col items-center shrink-0">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white dark:bg-slate-900 border-2 border-teal-500 text-teal-600 dark:text-teal-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                  <i data-lucide="layers" class="w-5 h-5"></i>
+                </div>
+                <div class="w-0.5 grow bg-gradient-to-b from-teal-500 via-slate-300 dark:via-slate-800 to-slate-300 dark:to-slate-800 my-2.5 min-h-[50px]"></div>
+              </div>
+
+              <!-- Right Column: Content Card -->
+              <div class="flex-1 pb-10">
+                <div class="p-6 sm:p-7 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs hover:shadow-md transition-shadow space-y-4">
+                  
+                  <!-- Role & Company Header -->
+                  <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-4">
+                    <div>
+                      <h3 class="text-lg font-bold text-slate-950 dark:text-white">
+                        UI Developer
+                      </h3>
+                      <p class="text-sm font-bold text-teal-700 dark:text-teal-400 mt-0.5">
+                        MindMap Consulting
+                      </p>
+                      <div class="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300 mt-1 font-mono font-medium">
+                        <span class="flex items-center gap-1">
+                          <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-500"></i>
+                          Bengaluru, India
+                        </span>
+                        <span>•</span>
+                        <span>Frontend Architecture</span>
+                      </div>
+                    </div>
+
+                    <div class="text-left sm:text-right shrink-0">
+                      <span class="inline-block text-xs font-mono text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-lg font-semibold border border-slate-200 dark:border-slate-700">
+                        November 2024 – May 2026
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Role Overview -->
+                  <div class="space-y-1">
+                    <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Role Overview</span>
+                    <p class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-normal">
+                      Converted complex enterprise UX designs and wireframes into responsive, accessible web interfaces while maintaining strict visual consistency.
+                    </p>
+                  </div>
+
+                  <!-- Key Responsibilities: 4 Crisp Points Only -->
+                  <div class="space-y-2 text-sm text-slate-800 dark:text-slate-200">
+                    <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-950 dark:text-white block">
+                      Key Highlights & Deliverables:
+                    </span>
+                    <ul class="space-y-2">
+                      <li class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-teal-600 dark:bg-teal-400 mt-2 shrink-0"></span>
+                        <span class="leading-relaxed">Transformed complex multi-layered corporate wireframes into pixel-perfect responsive web interfaces across diverse screen viewports.</span>
+                      </li>
+                      <li class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-teal-600 dark:bg-teal-400 mt-2 shrink-0"></span>
+                        <span class="leading-relaxed">Engineered framework-agnostic accessibility workflows and semantic keyboard navigation patterns aligned with inclusive design standards.</span>
+                      </li>
+                      <li class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-teal-600 dark:bg-teal-400 mt-2 shrink-0"></span>
+                        <span class="leading-relaxed">Instituted automated visual regression protocols to eliminate layout drift and UI regressions prior to final client handoff.</span>
+                      </li>
+                      <li class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-teal-600 dark:bg-teal-400 mt-2 shrink-0"></span>
+                        <span class="leading-relaxed">Deployed <strong>AI-assisted layout generators</strong> to accelerate initial wireframe-to-HTML/CSS prototyping cycles for stakeholder reviews.</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- Key Technologies / Areas -->
+                  <div class="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                    <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block font-bold">Key Technologies / Areas</span>
+                    <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+                      <span class="px-2.5 py-1 rounded-md bg-teal-500/10 text-teal-800 dark:text-teal-300 font-bold border border-teal-500/25">HTML5 / CSS3</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">Responsive Web Design</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">WCAG Accessibility</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">Keyboard Navigation</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">Visual Regression</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. TotalAI Systems (UX Developer) -->
+            <div class="relative flex items-start gap-4 sm:gap-6 group">
+              <!-- Left Column: Icon Node & Connector -->
+              <div class="flex flex-col items-center shrink-0">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white dark:bg-slate-900 border-2 border-blue-500 text-blue-600 dark:text-blue-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                  <i data-lucide="code-2" class="w-5 h-5"></i>
+                </div>
+                <div class="w-0.5 grow bg-gradient-to-b from-blue-500 via-slate-300 dark:via-slate-800 to-slate-300 dark:to-slate-800 my-2.5 min-h-[50px]"></div>
+              </div>
+
+              <!-- Right Column: Content Card -->
+              <div class="flex-1 pb-10">
+                <div class="p-6 sm:p-7 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs hover:shadow-md transition-shadow space-y-4">
+                  
+                  <!-- Role & Company Header -->
+                  <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-4">
+                    <div>
+                      <h3 class="text-lg font-bold text-slate-950 dark:text-white">
+                        UX Developer
+                      </h3>
+                      <p class="text-sm font-bold text-blue-700 dark:text-blue-400 mt-0.5">
+                        TotalAI Systems
+                      </p>
+                      <div class="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300 mt-1 font-mono font-medium">
+                        <span class="flex items-center gap-1">
+                          <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-500"></i>
+                          Bengaluru, India
+                        </span>
+                        <span>•</span>
+                        <span>Modular UI Architecture</span>
+                      </div>
+                    </div>
+
+                    <div class="text-left sm:text-right shrink-0">
+                      <span class="inline-block text-xs font-mono text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-lg font-semibold border border-slate-200 dark:border-slate-700">
+                        November 2023 – October 2024
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Role Overview -->
+                  <div class="space-y-1">
+                    <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Role Overview</span>
+                    <p class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-normal">
+                      Constructed modular UI architecture and optimized DOM performance for data-dense enterprise applications with early AI design-translation tools.
+                    </p>
+                  </div>
+
+                  <!-- Key Responsibilities: 3 Crisp Points Only -->
+                  <div class="space-y-2 text-sm text-slate-800 dark:text-slate-200">
+                    <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-950 dark:text-white block">
+                      Key Highlights & Performance Gains:
+                    </span>
+                    <ul class="space-y-2">
+                      <li class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400 mt-2 shrink-0"></span>
+                        <span class="leading-relaxed">Constructed and maintained modular platform component layouts and interface architecture for data-dense corporate dashboards.</span>
+                      </li>
+                      <li class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400 mt-2 shrink-0"></span>
+                        <span class="leading-relaxed">Optimized browser rendering cycles and DOM manipulation patterns across complex clinical data tables, improving speed by <strong class="text-blue-700 dark:text-blue-400">30%</strong>.</span>
+                      </li>
+                      <li class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400 mt-2 shrink-0"></span>
+                        <span class="leading-relaxed">Integrated early <strong>AI design-translation tools</strong> to rapidly convert Figma and Adobe XD mockups into verified frontend code templates.</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- Key Technologies / Areas -->
+                  <div class="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                    <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block font-bold">Key Technologies / Areas</span>
+                    <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+                      <span class="px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-800 dark:text-blue-300 font-bold border border-blue-500/25">HTML5 / CSS3</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">JavaScript ES6</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">DOM Optimization</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">Cross-Browser Testing</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">Figma / Adobe XD</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. TotalAI Systems (UI/UX Designer) -->
+            <div class="relative flex items-start gap-4 sm:gap-6 group">
+              <!-- Left Column: Icon Node & Connector -->
+              <div class="flex flex-col items-center shrink-0">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white dark:bg-slate-900 border-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                  <i data-lucide="palette" class="w-5 h-5"></i>
+                </div>
+                <div class="w-0.5 grow bg-gradient-to-b from-indigo-500 via-slate-300 dark:via-slate-800 to-slate-300 dark:to-slate-800 my-2.5 min-h-[50px]"></div>
+              </div>
+
+              <!-- Right Column: Content Card -->
+              <div class="flex-1 pb-10">
+                <div class="p-6 sm:p-7 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs hover:shadow-md transition-shadow space-y-4">
+                  
+                  <!-- Role & Company Header -->
+                  <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-4">
+                    <div>
+                      <h3 class="text-lg font-bold text-slate-950 dark:text-white">
+                        UI/UX Designer
+                      </h3>
+                      <p class="text-sm font-bold text-indigo-700 dark:text-indigo-400 mt-0.5">
+                        TotalAI Systems
+                      </p>
+                      <div class="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300 mt-1 font-mono font-medium">
+                        <span class="flex items-center gap-1">
+                          <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-500"></i>
+                          Bengaluru, India
+                        </span>
+                        <span>•</span>
+                        <span>Design Systems & Interactions</span>
+                      </div>
+                    </div>
+
+                    <div class="text-left sm:text-right shrink-0">
+                      <span class="inline-block text-xs font-mono text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-lg font-semibold border border-slate-200 dark:border-slate-700">
+                        June 2021 – October 2023
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Role Overview -->
+                  <div class="space-y-1">
+                    <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Role Overview</span>
+                    <p class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-normal">
+                      Designed responsive product interactions, visual design patterns, usability flows, and accessibility-first heuristic mockups.
+                    </p>
+                  </div>
+
+                  <!-- Key Responsibilities: 3 Crisp Points Only -->
+                  <div class="space-y-2 text-sm text-slate-800 dark:text-slate-200">
+                    <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-950 dark:text-white block">
+                      Key Highlights & Deliverables:
+                    </span>
+                    <ul class="space-y-2">
+                      <li class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400 mt-2 shrink-0"></span>
+                        <span class="leading-relaxed">Designed responsive product interactions, component style guides, and user flow architectures in Figma and Adobe XD.</span>
+                      </li>
+                      <li class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400 mt-2 shrink-0"></span>
+                        <span class="leading-relaxed">Conducted usability research and accessibility heuristic evaluations, incorporating user testing directly into verified mockups.</span>
+                      </li>
+                      <li class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400 mt-2 shrink-0"></span>
+                        <span class="leading-relaxed">Built interactive high-fidelity prototypes and collaborated closely with engineering squads to ensure pixel-perfect token parity.</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- Key Technologies / Areas -->
+                  <div class="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                    <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block font-bold">Key Technologies / Areas</span>
+                    <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+                      <span class="px-2.5 py-1 rounded-md bg-indigo-500/10 text-indigo-800 dark:text-indigo-300 font-bold border border-indigo-500/25">Figma</span>
+                      <span class="px-2.5 py-1 rounded-md bg-indigo-500/10 text-indigo-800 dark:text-indigo-300 font-bold border border-indigo-500/25">Adobe XD</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">UI/UX Design</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">Accessibility Heuristics</span>
+                      <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">Usability Testing</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Academic Foundation: Sri Eshwar College of Engineering -->
+            <div class="relative flex items-start gap-4 sm:gap-6 group">
+              <!-- Left Column: Icon Node (terminal end) -->
+              <div class="flex flex-col items-center shrink-0">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white dark:bg-slate-900 border-2 border-purple-500 text-purple-600 dark:text-purple-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                  <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                </div>
+              </div>
+
+              <!-- Right Column: Content Card -->
+              <div class="flex-1">
+                <div class="p-6 sm:p-7 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs hover:shadow-md transition-shadow space-y-3">
+                  
+                  <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-4">
+                    <div>
+                      <div class="flex items-center gap-2 flex-wrap">
+                        <h3 class="text-lg font-bold text-slate-950 dark:text-white">
+                          Bachelor of Engineering (B.E.) in Electronics & Communication
+                        </h3>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-purple-500/10 text-purple-700 dark:text-purple-400 border border-purple-500/20">
+                          Degree
+                        </span>
+                      </div>
+                      <p class="text-sm font-bold text-purple-700 dark:text-purple-400 mt-0.5">
+                        Sri Eshwar College of Engineering
+                      </p>
+                      <div class="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300 mt-1 font-mono font-medium">
+                        <span class="flex items-center gap-1">
+                          <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-500"></i>
+                          Tamil Nadu, India
+                        </span>
+                        <span>•</span>
+                        <span>4 Years Full-Time</span>
+                      </div>
+                    </div>
+
+                    <div class="text-left sm:text-right shrink-0">
+                      <span class="inline-block text-xs font-mono text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-lg font-semibold border border-slate-200 dark:border-slate-700">
+                        2014 — 2018
+                      </span>
+                      <span class="block text-[11px] font-mono text-purple-700 dark:text-purple-400 mt-1 sm:text-right font-semibold">
+                        Graduated 2018
+                      </span>
+                    </div>
+                  </div>
+
+                  <p class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-normal">
+                    Rigorous 4-year undergraduate engineering curriculum covering digital systems, microprocessors & microcontrollers, computer architecture, digital signal processing, and telecommunication networks. Laid the analytical and algorithmic foundation for enterprise software engineering.
+                  </p>
+
+                  <div class="flex flex-wrap gap-1.5 pt-1 font-mono text-xs">
+                    <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">Computer Architecture</span>
+                    <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">Digital Systems</span>
+                    <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">Microprocessors</span>
+                    <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium border border-slate-200 dark:border-slate-700">Communication Networks</span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==================== 5. CONTACT SECTION ==================== -->
+      <section id="contact" class="py-16 md:py-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 reveal-on-scroll">
+        
+        <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
+          <div class="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold uppercase tracking-wider">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span>Get in Touch</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Let's Build Something Great.
+          </h2>
+          <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base leading-relaxed">
+            Have a project in mind, looking for a senior frontend contributor, or simply want to connect? My inbox is always open.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+          
+          <!-- Contact Info & Socials (4 Cols) -->
+          <div class="md:col-span-5 space-y-6">
+            
+            <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-4">
+              <h3 class="font-bold text-slate-900 dark:text-white text-base">Direct Channels</h3>
+              
+              <!-- Direct Email Item with Copy Button -->
+              <div class="space-y-1">
+                <span class="text-xs font-mono text-slate-400 uppercase">Email Address</span>
+                <div class="flex items-center justify-between gap-2 p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs font-mono">
+                  <span class="truncate text-slate-800 dark:text-slate-200 select-all font-semibold">bharathkumar22971997@gmail.com</span>
+                  <button onclick="copyEmail()" class="text-slate-500 hover:text-emerald-500 transition-colors shrink-0" title="Copy to clipboard">
+                    <i data-lucide="copy" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Phone Number Item -->
+              <div class="space-y-1">
+                <span class="text-xs font-mono text-slate-400 uppercase">Direct Phone</span>
+                <div class="flex items-center justify-between gap-2 p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs font-mono">
+                  <span class="text-slate-800 dark:text-slate-200 select-all font-semibold">+91 96265 56665</span>
+                  <a href="tel:+919626556665" class="text-slate-500 hover:text-emerald-500 transition-colors shrink-0" title="Call directly">
+                    <i data-lucide="phone" class="w-4 h-4"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Location & Timezone -->
+              <div class="space-y-1 text-xs">
+                <span class="font-mono text-slate-400 uppercase">Location & Zone</span>
+                <div class="text-slate-700 dark:text-slate-300 font-medium flex items-center gap-1.5">
+                  <i data-lucide="map-pin" class="w-3.5 h-3.5 text-emerald-500 shrink-0"></i>
+                  <span>Bengaluru, Karnataka, India (IST / UTC+5:30)</span>
+                </div>
+                <div class="text-slate-500 text-[11px]">
+                  Available for Senior UI Engineering, VPAT audits & remote leadership roles.
+                </div>
+              </div>
+
+              <!-- Social Links & Verification -->
+              <div class="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                <span class="text-xs font-mono text-slate-400 uppercase block">Credentials & Profiles</span>
+                <div class="flex flex-col gap-2 font-mono text-xs">
+                  <!-- LinkedIn Profile Card -->
+                  <a href="https://www.linkedin.com/in/bharath2297" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/80 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all group interactive-lift" title="LinkedIn Profile: bharath2297">
+                    <div class="flex items-center gap-2">
+                      <i data-lucide="linkedin" class="w-4 h-4 text-emerald-500 group-hover:scale-110 transition-transform"></i>
+                      <span class="font-medium font-mono text-xs">LinkedIn Profile</span>
+                    </div>
+                    <span class="text-[11px] font-mono text-slate-500 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 flex items-center gap-1">
+                      in/bharath2297
+                      <i data-lucide="external-link" class="w-3 h-3"></i>
+                    </span>
+                  </a>
+                  <a href="https://coursera.org/verify/professional-cert/TIDIWDX23DK7" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 hover:underline transition-colors font-medium">
+                    <i data-lucide="award" class="w-4 h-4"></i>
+                    <span>Google AI Professional Certificate</span>
+                  </a>
+                  <a href="mailto:bharathkumar22971997@gmail.com" class="flex items-center gap-2 text-slate-600 dark:text-slate-300 hover:text-emerald-500 transition-colors">
+                    <i data-lucide="mail" class="w-4 h-4"></i>
+                    <span>bharathkumar22971997@gmail.com</span>
+                  </a>
+                  <button onclick="openResumeModal()" class="flex items-center gap-2 text-slate-600 dark:text-slate-300 hover:text-emerald-500 transition-colors text-left">
+                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                    <span>View Interactive Resume Modal</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Contact Form (7 Cols) -->
+          <div class="md:col-span-7">
+            <div class="p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs">
+              
+              <form id="contactForm" onsubmit="handleContactSubmit(event)" class="space-y-4 text-sm">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div class="space-y-1.5">
+                    <label for="contactName" class="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase">Your Name <span class="text-emerald-500">*</span></label>
+                    <input required type="text" id="contactName" placeholder="Alex Taylor" class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3.5 py-2.5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors text-sm">
+                  </div>
+
+                  <div class="space-y-1.5">
+                    <label for="contactEmail" class="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase">Email Address <span class="text-emerald-500">*</span></label>
+                    <input required type="email" id="contactEmail" placeholder="alex@company.com" class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3.5 py-2.5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors text-sm">
+                  </div>
+                </div>
+
+                <div class="space-y-1.5">
+                  <label for="contactSubject" class="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase">Subject <span class="text-emerald-500">*</span></label>
+                  <input required type="text" id="contactSubject" placeholder="UI Engineering / Accessibility Consulting Inquiry" class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3.5 py-2.5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors text-sm">
+                </div>
+
+                <div class="space-y-1.5">
+                  <label for="contactMessage" class="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase">Message <span class="text-emerald-500">*</span></label>
+                  <textarea required id="contactMessage" rows="4" placeholder="Hi Bharath, I came across your accessibility and UI engineering background and would love to discuss a project..." class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3.5 py-2.5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors text-sm resize-y"></textarea>
+                </div>
+
+                <!-- Form Options: Direct Mailto or Simulation -->
+                <div class="pt-2 flex flex-col sm:flex-row items-center gap-3">
+                  <button type="submit" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm transition-all shadow-sm hover:shadow-emerald-500/20 flex items-center justify-center gap-2">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    <span>Send Message</span>
+                  </button>
+
+                  <button type="button" onclick="sendViaMailto()" class="w-full sm:w-auto px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-mono transition-colors flex items-center justify-center gap-1.5">
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    <span>Open in Mail Client</span>
+                  </button>
+                </div>
+
+                <p class="text-[11px] text-slate-400 font-mono pt-1">
+                  Direct inquiries route to bharathkumar22971997@gmail.com
+                </p>
+
+              </form>
+
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- ==================== 6. FOOTER ==================== -->
+    <footer class="border-t border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-slate-950 py-10 transition-colors text-xs font-mono text-slate-500 dark:text-slate-400">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span>© <span id="currentYear"></span> Bharath Kumar. All rights reserved.</span>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 text-center sm:text-right text-[11px]">
+          <span>Built with semantic HTML5 & Tailwind CSS.</span>
+          <span>•</span>
+          <a href="https://www.linkedin.com/in/bharath2297" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-600 dark:hover:text-emerald-400 flex items-center gap-1 transition-colors" title="LinkedIn Profile">
+            <i data-lucide="linkedin" class="w-3.5 h-3.5 text-emerald-500"></i>
+            <span>LinkedIn (in/bharath2297)</span>
+          </a>
+          <span>•</span>
+          <button onclick="openGuideModal()" class="hover:text-emerald-600 dark:hover:text-emerald-400 underline underline-offset-2 transition-colors">
+            GitHub Pages Guide
+          </button>
+        </div>
+
+        <div>
+          <a href="#hero" class="p-2 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-emerald-500 text-slate-600 dark:text-slate-300 hover:text-emerald-500 flex items-center gap-1.5 transition-colors" title="Back to top">
+            <i data-lucide="arrow-up" class="w-4 h-4"></i>
+            <span>Top</span>
+          </a>
+        </div>
+
+      </div>
+    </footer>
+
+    <!-- ==================== MODAL: GITHUB PAGES DEPLOYMENT GUIDE ==================== -->
+    <div id="guideModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-200">
+      <div id="guideModalContent" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl transform scale-95 transition-transform duration-200 max-h-[90vh] overflow-y-auto text-slate-950 dark:text-slate-100">
+        
+        <button onclick="closeGuideModal()" class="absolute top-5 right-5 text-slate-500 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Close modal">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+
+        <div class="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-bold uppercase tracking-wider mb-2">
+          <i data-lucide="github" class="w-4 h-4"></i>
+          <span>GitHub Pages Step-by-Step Guide</span>
+        </div>
+
+        <h3 class="text-2xl font-extrabold text-slate-950 dark:text-white tracking-tight mb-2">
+          How to Host This Portfolio on GitHub Pages
+        </h3>
+        
+        <p class="text-xs text-slate-800 dark:text-slate-200 mb-6 leading-relaxed font-medium">
+          Because this application uses semantic HTML5, Tailwind CSS via CDN, and vanilla JavaScript, it requires <strong class="text-slate-950 dark:text-white font-bold">zero build steps or package installations</strong>. It runs instantly on any static web host.
+        </p>
+
+        <!-- Steps List -->
+        <div class="space-y-4 text-xs font-mono">
+          
+          <!-- Step 1 -->
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-slate-950 dark:text-white font-bold text-sm">
+              <span>Step 1: Create a GitHub Repository</span>
+              <span class="text-emerald-700 dark:text-emerald-400 font-extrabold">01</span>
+            </div>
+            <p class="text-slate-800 dark:text-slate-200 text-xs font-sans font-medium">
+              Go to <a href="https://github.com/new" target="_blank" class="text-emerald-700 dark:text-emerald-400 font-bold underline">github.com/new</a> and create a repository. For a personal user site, name it:
+            </p>
+            <div class="p-2.5 rounded-lg bg-slate-950 text-emerald-400 text-xs select-all font-mono font-semibold border border-slate-800">
+              &lt;your-username&gt;.github.io
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-slate-950 dark:text-white font-bold text-sm">
+              <span>Step 2: Commit & Push index.html</span>
+              <span class="text-emerald-700 dark:text-emerald-400 font-extrabold">02</span>
+            </div>
+            <p class="text-slate-800 dark:text-slate-200 text-xs font-sans font-medium">
+              Run these commands in your project folder:
+            </p>
+            <pre class="p-3.5 rounded-lg bg-slate-950 text-slate-100 text-xs overflow-x-auto leading-relaxed border border-slate-800 font-mono">
+git init
+git add index.html
+git commit -m "Initial commit: developer portfolio"
+git branch -M main
+git remote add origin https://github.com/&lt;your-username&gt;/&lt;repo-name&gt;.git
+git push -u origin main</pre>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-slate-950 dark:text-white font-bold text-sm">
+              <span>Step 3: Enable GitHub Pages in Settings</span>
+              <span class="text-emerald-700 dark:text-emerald-400 font-extrabold">03</span>
+            </div>
+            <ol class="list-decimal list-inside space-y-1.5 text-slate-800 dark:text-slate-200 text-xs font-sans font-medium">
+              <li>Open your repository on GitHub.</li>
+              <li>Navigate to <strong class="text-slate-950 dark:text-white">Settings</strong> &gt; <strong class="text-slate-950 dark:text-white">Pages</strong> (in the left sidebar).</li>
+              <li>Under <em>Build and deployment</em> &gt; <em>Source</em>, select <strong class="text-slate-950 dark:text-white">Deploy from a branch</strong>.</li>
+              <li>Select <strong class="text-slate-950 dark:text-white">main</strong> branch and folder <strong class="text-slate-950 dark:text-white">/ (root)</strong>, then click <strong class="text-slate-950 dark:text-white">Save</strong>.</li>
+            </ol>
+            <p class="text-[11px] text-emerald-800 dark:text-emerald-300 font-bold pt-1">
+              ✨ Within 60 seconds, your site will be live at: https://&lt;your-username&gt;.github.io/
+            </p>
+          </div>
+
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex justify-end">
+          <button onclick="closeGuideModal()" class="px-5 py-2.5 rounded-xl bg-slate-950 dark:bg-white text-white dark:text-slate-950 text-xs font-bold hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors shadow-sm">
+            Close Guide
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==================== MODAL: RESUME PREVIEW & DOWNLOAD ==================== -->
+    <div id="resumeModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-200">
+      <div id="resumeModalContent" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl transform scale-95 transition-transform duration-200 max-h-[90vh] overflow-y-auto text-slate-950 dark:text-slate-100">
+        
+        <button onclick="closeResumeModal()" class="absolute top-5 right-5 text-slate-500 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Close modal">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+
+        <div class="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-bold uppercase tracking-wider mb-2">
+          <i data-lucide="file-text" class="w-4 h-4"></i>
+          <span>Curriculum Vitae</span>
+        </div>
+
+        <h3 class="text-2xl font-extrabold text-slate-950 dark:text-white tracking-tight mb-1">
+          Bharath Kumar — Curriculum Vitae
+        </h3>
+        <p class="text-xs text-slate-700 dark:text-slate-300 font-mono mb-6 font-semibold flex flex-wrap items-center gap-2">
+          <span>UI Engineer & Enterprise Accessibility Specialist</span>
+          <span>•</span>
+          <span>Bengaluru, India</span>
+          <span>•</span>
+          <span>+91 96265 56665</span>
+          <span>•</span>
+          <a href="https://www.linkedin.com/in/bharath2297" target="_blank" rel="noopener noreferrer" class="text-emerald-700 dark:text-emerald-400 hover:underline flex items-center gap-1 font-bold">
+            <i data-lucide="linkedin" class="w-3.5 h-3.5"></i>
+            <span>in/bharath2297</span>
+          </a>
+        </p>
+
+        <!-- Formatted Resume Preview Box with High Contrast -->
+        <div class="p-5 rounded-xl bg-slate-100/90 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 font-mono text-xs text-slate-950 dark:text-slate-100 space-y-4 leading-relaxed overflow-x-auto">
+          <div>
+            <span class="text-slate-950 dark:text-white font-extrabold uppercase block text-sm border-b border-slate-300 dark:border-slate-800 pb-1 mb-2">PROFESSIONAL SUMMARY</span>
+            <p class="text-slate-850 dark:text-slate-200 font-normal leading-relaxed text-slate-900 dark:text-slate-200">
+              Frontend Engineer with 6.3+ years of enterprise experience specializing in user interface presentation layers, WCAG 2.1/2.2 AA accessibility remediation, VPAT governance, and Generative AI-assisted workflows ("vibe coding"). Proven record auditing clinical platforms, eliminating 200+ keyboard traps, authoring design systems, and driving high-velocity UI delivery.
+            </p>
+          </div>
+
+          <div>
+            <span class="text-slate-950 dark:text-white font-extrabold uppercase block text-sm border-b border-slate-300 dark:border-slate-800 pb-1 mb-2 text-emerald-800 dark:text-emerald-400">CREDENTIALS & CERTIFICATIONS</span>
+            <p class="text-slate-900 dark:text-slate-200">
+              <strong class="text-slate-950 dark:text-white font-bold">Google AI Professional Certificate</strong> — Issued Jul 2026 • Coursera Verification ID: <span class="text-emerald-700 dark:text-emerald-400 font-bold">TIDIWDX23DK7</span>
+            </p>
+          </div>
+
+          <div>
+            <span class="text-slate-950 dark:text-white font-extrabold uppercase block text-sm border-b border-slate-300 dark:border-slate-800 pb-1 mb-2">CORE TECHNICAL EXPERTISE</span>
+            <ul class="space-y-1.5 text-slate-900 dark:text-slate-200">
+              <li>• <strong class="text-slate-950 dark:text-white">Accessibility & Governance:</strong> WCAG 2.1/2.2 AA, VPAT Authoring, Section 508, ARIA 1.2, NVDA, JAWS, VoiceOver, Keyboard Traps, Color Contrast Audits</li>
+              <li>• <strong class="text-slate-950 dark:text-white">Frontend Architecture:</strong> Semantic HTML5, Modular CSS3, JavaScript ES6+, Responsive Design (CSS Grid/Flexbox), DOM Optimization, Web Components</li>
+              <li>• <strong class="text-slate-950 dark:text-white">Design Operations:</strong> Figma-to-Code Tokenization, Reusable Component Libraries, CSS Custom Properties, Zero Spec Drift</li>
+              <li>• <strong class="text-slate-950 dark:text-white">AI-Augmented Velocity:</strong> Generative AI Workflows, IDE Prompt Engineering, "Vibe Coding" DOM Acceleration, Automated Test Scripting</li>
+            </ul>
+          </div>
+
+          <div>
+            <span class="text-slate-950 dark:text-white font-extrabold uppercase block text-sm border-b border-slate-300 dark:border-slate-800 pb-1 mb-2">PROFESSIONAL EXPERIENCE</span>
+            <div class="space-y-4 mt-2">
+              
+              <!-- 1. ZeOmega -->
+              <div class="space-y-1.5">
+                <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                  <strong class="text-slate-950 dark:text-white text-xs font-bold">Software Developer – UI & Accessibility Lead</strong>
+                  <span class="text-[11px] text-emerald-800 dark:text-emerald-400 font-semibold">May 2026 – Present</span>
+                </div>
+                <div class="text-[11px] text-slate-700 dark:text-slate-300 font-medium">ZeOmega Infotech • Bengaluru, India</div>
+                <ul class="space-y-1 text-slate-900 dark:text-slate-200 text-xs">
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-700 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>Architected scalable enterprise UI platforms using semantic web standards and Vanilla JS ES6+ modules.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-700 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>Led WCAG 2.1/2.2 AA compliance initiatives and VPAT assessments, reducing enterprise regulatory risk by 40%.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-700 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>Authored centralized WCAG 2.2 accessible UI library and remediated 200+ keyboard traps and screen-reader bottlenecks.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-700 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>Pioneered AI-assisted frontend workflows (Claude Code, Cursor), accelerating layout delivery by 2.5x with zero drift.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 2. MindMap -->
+              <div class="space-y-1.5 pt-2 border-t border-slate-200 dark:border-slate-800">
+                <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                  <strong class="text-slate-950 dark:text-white text-xs font-bold">UI Developer</strong>
+                  <span class="text-[11px] text-emerald-800 dark:text-emerald-400 font-semibold">Nov 2024 – May 2026</span>
+                </div>
+                <div class="text-[11px] text-slate-700 dark:text-slate-300 font-medium">MindMap Consulting • Bengaluru, India</div>
+                <ul class="space-y-1 text-slate-900 dark:text-slate-200 text-xs">
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-700 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>Transformed complex corporate wireframes into pixel-perfect responsive web interfaces across screen breakpoints.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-700 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>Engineered framework-agnostic accessibility workflows and semantic keyboard navigation patterns.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-700 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>Implemented automated visual regression protocols before final code release, minimizing UI defects.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-700 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>Deployed AI-assisted layout generators to accelerate wireframe-to-HTML/CSS prototyping cycles.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 3. TotalAI UX Developer -->
+              <div class="space-y-1.5 pt-2 border-t border-slate-200 dark:border-slate-800">
+                <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                  <strong class="text-slate-950 dark:text-white text-xs font-bold">UX Developer</strong>
+                  <span class="text-[11px] text-emerald-800 dark:text-emerald-400 font-semibold">Nov 2023 – Oct 2024</span>
+                </div>
+                <div class="text-[11px] text-slate-700 dark:text-slate-300 font-medium">TotalAI Systems • Bengaluru, India</div>
+                <ul class="space-y-1 text-slate-900 dark:text-slate-200 text-xs">
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-700 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>Constructed modular platform component layouts and interface architecture for data-dense enterprise applications.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-700 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>Optimized browser rendering cycles and DOM manipulation across complex data tables, improving rendering speeds by 30%.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-700 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>Integrated early AI design-translation tools, translating Figma/Adobe XD mockups into verified frontend templates.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 4. TotalAI UI/UX Designer -->
+              <div class="space-y-1.5 pt-2 border-t border-slate-200 dark:border-slate-800">
+                <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                  <strong class="text-slate-950 dark:text-white text-xs font-bold">UI/UX Designer</strong>
+                  <span class="text-[11px] text-emerald-800 dark:text-emerald-400 font-semibold">Jun 2021 – Oct 2023</span>
+                </div>
+                <div class="text-[11px] text-slate-700 dark:text-slate-300 font-medium">TotalAI Systems • Bengaluru, India</div>
+                <ul class="space-y-1 text-slate-900 dark:text-slate-200 text-xs">
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-700 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>Designed responsive product interactions, component style guides, and user flow architectures in Figma and Adobe XD.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-700 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>Conducted usability research and accessibility heuristic evaluations, incorporating user testing directly into mockups.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-700 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>Built interactive high-fidelity prototypes and collaborated with engineering squads for pixel-perfect token parity.</span>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+
+          <div>
+            <span class="text-slate-950 dark:text-white font-extrabold uppercase block text-sm border-b border-slate-300 dark:border-slate-800 pb-1 mb-2">EDUCATION</span>
+            <p class="text-slate-900 dark:text-slate-200">
+              <strong class="text-slate-950 dark:text-white font-bold">Bachelor of Engineering (B.E.) in Electronics and Communication</strong><br/>
+              <span class="text-slate-700 dark:text-slate-300">Sri Eshwar College of Engineering — Graduated 2018 (Tamil Nadu, India)</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+          <button onclick="downloadResumeFile()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-2 transition-colors shadow-sm">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Download Resume (.md)</span>
+          </button>
+          <button onclick="closeResumeModal()" class="px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-100 text-xs font-bold transition-colors">
+            Close Preview
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==================== MODAL: INTERACTIVE WORK VIEWER ==================== -->
+    <div id="workViewerModal" class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-200">
+      <div id="workViewerContent" class="bg-slate-900 border border-slate-700/80 rounded-2xl w-full max-w-7xl h-[92vh] flex flex-col shadow-2xl transform scale-95 transition-all duration-200 overflow-hidden">
+        
+        <!-- Modal Top Bar -->
+        <div class="px-4 py-3 bg-slate-950 border-b border-slate-800 flex items-center justify-between gap-3 shrink-0">
+          
+          <!-- Left: Work Title & Meta -->
+          <div class="flex items-center gap-3 overflow-hidden">
+            <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shrink-0"></div>
+            <div class="truncate">
+              <div class="flex items-center gap-2">
+                <h4 id="workViewerTitle" class="text-white font-bold text-sm sm:text-base truncate font-sans">Project Title</h4>
+                <span id="workViewerBadge" class="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold shrink-0">TAG</span>
+              </div>
+              <p id="workViewerCategory" class="text-slate-400 text-xs font-mono truncate hidden md:block">Category description</p>
+            </div>
+          </div>
+
+          <!-- Middle: Viewport Switcher Controls (Desktop / Tablet / Mobile) -->
+          <div class="hidden sm:flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 font-mono text-xs text-slate-400">
+            <button id="vpBtnDesktop" onclick="setWorkViewport('desktop')" title="Desktop View (100%)" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-semibold transition-colors flex items-center gap-1">
+              <i data-lucide="monitor" class="w-3.5 h-3.5"></i>
+              <span class="hidden md:inline">Desktop</span>
+            </button>
+            <button id="vpBtnTablet" onclick="setWorkViewport('tablet')" title="Tablet View (768px)" class="px-2.5 py-1 rounded-lg hover:text-white transition-colors flex items-center gap-1">
+              <i data-lucide="tablet" class="w-3.5 h-3.5"></i>
+              <span class="hidden md:inline">Tablet</span>
+            </button>
+            <button id="vpBtnMobile" onclick="setWorkViewport('mobile')" title="Mobile View (390px)" class="px-2.5 py-1 rounded-lg hover:text-white transition-colors flex items-center gap-1">
+              <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
+              <span class="hidden md:inline">Mobile</span>
+            </button>
+          </div>
+
+          <!-- Right: Actions (Reload, Open New Tab, Close) -->
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="reloadWorkIframe()" title="Reload Frame" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800 transition-colors">
+              <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+            </button>
+
+            <a id="workViewerExternalLink" href="#" target="_blank" rel="noopener noreferrer" title="Open Standalone in New Tab" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 font-mono text-xs font-semibold border border-slate-700 transition-colors">
+              <span class="hidden sm:inline">Open Tab</span>
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            </a>
+
+            <button onclick="closeWorkViewer()" title="Close Viewer (Esc)" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-red-500/20 hover:border-red-500/40 border border-slate-800 transition-colors">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Frame Container (Center aligned with variable responsive width) -->
+        <div class="flex-1 w-full bg-slate-950 flex items-center justify-center p-0 sm:p-2 overflow-hidden relative">
+          
+          <!-- Loading Indicator -->
+          <div id="workIframeLoading" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/80 z-20 transition-opacity duration-300">
+            <div class="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mb-3"></div>
+            <p class="font-mono text-xs text-slate-400">Loading interactive architecture...</p>
+          </div>
+
+          <!-- The Live Interactive Iframe -->
+          <div id="workFrameWrapper" class="w-full h-full transition-all duration-300 flex items-center justify-center">
+            <iframe id="workViewerIframe" src="about:blank" title="Interactive Showcase Preview" class="w-full h-full border-0 bg-black rounded-none sm:rounded-xl shadow-inner transition-all"></iframe>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION CONTAINER ==================== -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-3 rounded-xl shadow-xl font-mono text-xs flex items-center gap-2.5 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+      <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 dark:text-emerald-600"></i>
+      <span id="toastMsg">Action completed successfully.</span>
+    </div>
+
+    <!-- ==================== VANILLA JAVASCRIPT ==================== -->
+    <script>
+      // 1. Initialize Lucide Icons immediately
+      lucide.createIcons();
+
+      // Set current dynamic year in footer
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+      // 2. Dark/Light Theme Switcher Logic (Default: Dark Mode)
+      function initTheme() {
+        const storedTheme = localStorage.getItem('theme');
+        // Default to dark unless explicit light preference was saved
+        if (storedTheme === 'light') {
+          document.documentElement.classList.remove('dark');
+          document.getElementById('themeIconSun').classList.remove('hidden');
+          document.getElementById('themeIconMoon').classList.add('hidden');
+        } else {
+          document.documentElement.classList.add('dark');
+          document.getElementById('themeIconSun').classList.add('hidden');
+          document.getElementById('themeIconMoon').classList.remove('hidden');
+        }
+      }
+
+      function toggleTheme() {
+        const isDark = document.documentElement.classList.contains('dark');
+        if (isDark) {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+          document.getElementById('themeIconSun').classList.remove('hidden');
+          document.getElementById('themeIconMoon').classList.add('hidden');
+          showToast('Light mode enabled');
+        } else {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+          document.getElementById('themeIconSun').classList.add('hidden');
+          document.getElementById('themeIconMoon').classList.remove('hidden');
+          showToast('Dark mode enabled');
+        }
+      }
+
+      initTheme();
+
+      // 3. Mobile Hamburger Menu Toggle
+      function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        const iconOpen = document.getElementById('mobileMenuIconOpen');
+        const iconClose = document.getElementById('mobileMenuIconClose');
+        const isHidden = menu.classList.contains('hidden');
+
+        if (isHidden) {
+          menu.classList.remove('hidden');
+          iconOpen.classList.add('hidden');
+          iconClose.classList.remove('hidden');
+        } else {
+          menu.classList.add('hidden');
+          iconOpen.classList.remove('hidden');
+          iconClose.classList.add('hidden');
+        }
+      }
+
+      function closeMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        const iconOpen = document.getElementById('mobileMenuIconOpen');
+        const iconClose = document.getElementById('mobileMenuIconClose');
+        menu.classList.add('hidden');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+      }
+
+      // 4. Project Filtering Logic
+      function filterProjects(category) {
+        const cards = document.querySelectorAll('.project-card');
+        const buttons = document.querySelectorAll('.project-filter-btn');
+
+        // Update active filter button styling
+        buttons.forEach(btn => {
+          if (btn.getAttribute('data-filter') === category) {
+            btn.classList.remove('bg-white', 'dark:bg-slate-900', 'text-slate-600', 'dark:text-slate-300');
+            btn.classList.add('bg-emerald-600', 'text-white');
+          } else {
+            btn.classList.remove('bg-emerald-600', 'text-white');
+            btn.classList.add('bg-white', 'dark:bg-slate-900', 'text-slate-600', 'dark:text-slate-300');
+          }
+        });
+
+        // Filter cards
+        cards.forEach(card => {
+          const cardCategory = card.getAttribute('data-category');
+          if (category === 'all' || cardCategory === category) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+
+      // 5. Contact Form Submissions & Helpers
+      function handleContactSubmit(e) {
+        e.preventDefault();
+        const name = document.getElementById('contactName').value;
+        const email = document.getElementById('contactEmail').value;
+        const subject = document.getElementById('contactSubject').value;
+        const message = document.getElementById('contactMessage').value;
+
+        showToast(`Thank you, ${name}! Your message has been prepared.`);
+        
+        // Reset form
+        document.getElementById('contactForm').reset();
+      }
+
+      function sendViaMailto() {
+        const name = document.getElementById('contactName').value || 'Portfolio Visitor';
+        const email = document.getElementById('contactEmail').value || '';
+        const subject = document.getElementById('contactSubject').value || 'Inquiry: UI Engineering & Accessibility Architecture';
+        const message = document.getElementById('contactMessage').value || '';
+
+        const mailtoUrl = `mailto:bharathkumar22971997@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("From: " + name + " (" + email + ")\n\n" + message)}`;
+        window.location.href = mailtoUrl;
+      }
+
+      function copyEmail() {
+        navigator.clipboard.writeText('bharathkumar22971997@gmail.com').then(() => {
+          showToast('Email copied: bharathkumar22971997@gmail.com');
+        }).catch(() => {
+          showToast('bharathkumar22971997@gmail.com');
+        });
+      }
+
+      // 6. Resume Download File Generator (.md markdown format)
+      function downloadResumeFile() {
+        const resumeMarkdown = `# Bharath Kumar
+**UI Engineer & Enterprise Accessibility Architecture Specialist**
+Bengaluru, Karnataka, India • +91 96265 56665 • bharathkumar22971997@gmail.com
+LinkedIn: https://www.linkedin.com/in/bharath2297
+Google AI Certified Professional: https://coursera.org/verify/professional-cert/TIDIWDX23DK7
+
+---
+
+## PROFESSIONAL SUMMARY
+Results-driven Frontend Engineer with **6.3+ years of experience** specializing in web presentation layer architecture, WCAG 2.1/2.2 AA accessibility remediation, and VPAT governance across enterprise SaaS and healthcare platforms. Proven expertise auditing complex clinical workflows, resolving 200+ keyboard traps and screen-reader bottlenecks, establishing tokenized design systems, and leveraging Generative AI workflows ("vibe coding") to accelerate delivery cycles while guaranteeing zero layout drift.
+
+---
+
+## CERTIFICATIONS
+- **Google AI Professional Certificate** — Issued July 2026 (Coursera Verification ID: TIDIWDX23DK7)
+
+---
+
+## CORE TECHNICAL COMPETENCIES
+- **Accessibility & Governance:** WCAG 2.1 & 2.2 AA Compliance, VPAT (Voluntary Product Accessibility Template) Authoring & Remediation, Section 508, ARIA 1.2 Attributes & Live Regions, Screen Readers (NVDA, JAWS, VoiceOver), Keyboard Traps & Focus Order Management, Color Contrast Verification (4.5:1 / 3:1).
+- **Frontend Architecture & Engineering:** Semantic HTML5, Modular CSS3, Modern JavaScript (ES6+), Web Components, CSS Grid, Flexbox, Responsive Web Design, DOM Performance Optimization, Cross-Browser Compatibility (Chrome, Safari, Firefox, Edge).
+- **Design Operations & Tokenization:** Figma-to-Code Design Token Pipelines, Reusable Component Libraries, CSS Custom Properties, Zero Spec Drift, Component Lifecycle Governance.
+- **AI-Augmented Engineering & SDLC:** Generative AI Tooling, Contextual IDE Prompt Engineering, "Vibe Coding" DOM Workflows, Automated UI Auditing Scripts, High-Velocity Prototyping.
+
+---
+
+## PROFESSIONAL EXPERIENCE
+
+### Software Developer – UI & Accessibility Lead
+**ZeOmega Infotech** — Bengaluru, India  
+*May 2026 – Present*
+
+- Architected scalable enterprise UI platform structures using modern semantic web standards and Vanilla JS ES6+ modules.
+- Led end-to-end WCAG 2.1/2.2 AA compliance initiatives and executed structural VPAT assessments, reducing regulatory risk by 40%.
+- Authored and deployed a centralized WCAG 2.2-compliant accessible UI component library, eliminating 200+ keyboard traps and defect leakage by 35%.
+- Pioneered AI-assisted frontend workflows (IDE prompt engineering, Claude Code, Cursor), accelerating layout delivery by 2.5x with zero drift.
+
+### UI Developer
+**MindMap Consulting** — Bengaluru, India  
+*November 2024 – May 2026*
+
+- Transformed complex, multi-layered corporate application wireframes into pixel-perfect responsive web interfaces across screen breakpoints.
+- Engineered framework-agnostic accessibility workflows and semantic keyboard navigation patterns.
+- Implemented automated visual regression protocols before final code release, minimizing UI defects.
+- Deployed AI-assisted layout generators to accelerate wireframe-to-HTML/CSS prototyping cycles.
+
+### UX Developer
+**TotalAI Systems** — Bengaluru, India  
+*November 2023 – October 2024*
+
+- Constructed and maintained modular platform component layouts and interface architecture for data-dense enterprise applications.
+- Optimized browser rendering cycles and DOM manipulation patterns across complex data tables, improving rendering speeds by 30%.
+- Integrated early AI design-translation tools, translating Figma and Adobe XD visual mockups into verified frontend code templates.
+
+### UI/UX Designer
+**TotalAI Systems** — Bengaluru, India  
+*June 2021 – October 2023*
+
+- Designed responsive product interactions, component style guides, and user flow architectures in Figma and Adobe XD.
+- Conducted usability research and accessibility heuristic evaluations, incorporating user testing directly into verified mockups.
+- Built interactive high-fidelity prototypes and collaborated closely with engineering squads to ensure pixel-perfect token parity.
+
+---
+
+## EDUCATION
+**Bachelor of Engineering (B.E.) in Electronics and Communication**  
+Sri Eshwar College of Engineering — Graduated 2018 (Tamil Nadu, India)
+
+---
+*Generated directly from Developer Portfolio. Hosted on GitHub Pages.*
+`;
+
+        const blob = new Blob([resumeMarkdown], { type: 'text/markdown;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'Bharath_Kumar_UI_Accessibility_Specialist_Resume.md';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        showToast('Resume downloaded: Bharath_Kumar_Resume.md');
+      }
+
+      // 7. Modals (Deployment Guide & Resume & Interactive Works Viewer)
+      const WORKS_DATA = {
+        'nexus-shield': {
+          title: 'NEXUS SHIELD — eBPF Kernel Threat Visualizer',
+          category: 'Cybersecurity & Autonomous Linux Kernel Threat Matrix',
+          badge: 'SUB-850ns TELEMETRY',
+          url: './public/works/nexus-shield.html'
+        },
+        'aether-hyperion': {
+          title: 'AETHER HYPERION — Electric Hypercar Telemetry',
+          category: 'Next-Gen Automotive UI, Active Aerodynamics & Powertrain HUD',
+          badge: '1,980 HP · 0-100 IN 1.74s',
+          url: './public/works/aether-hyperion.html'
+        },
+        'aura-health': {
+          title: 'AURA HEALTH — Genomic Intelligence & Longevity Platform',
+          category: 'Bioinformatics, 3D DNA Helix & Epigenetic Trajectory Analytics',
+          badge: 'EPIGENETIC HORVATH CLOCK',
+          url: './public/works/aura-health.html'
+        },
+        'atelier-vauquelin': {
+          title: 'ATELIER VAUQUELIN — Monolithic Architecture Monograph',
+          category: 'Spatial Engineering, 3D Axonometry & Tectonic Mineral Database',
+          badge: 'PARIS / ZÜRICH MONOGRAPH',
+          url: './public/works/atelier-vauquelin.html'
+        },
+        'hyperedge': {
+          title: 'HYPEREDGE — Ultra-Low Latency Cloud Infrastructure',
+          category: 'Distributed Edge Mesh, BGP Anycast Routing & V8 Sandbox Benchmarks',
+          badge: '318 GLOBAL PoPs ACTIVE',
+          url: './public/works/hyperedge.html'
+        }
+      };
+
+      let activeWorkKey = null;
+
+      function filterWorks(category) {
+        const cards = document.querySelectorAll('.work-card');
+        const buttons = document.querySelectorAll('.work-filter-btn');
+
+        buttons.forEach(btn => {
+          if (btn.getAttribute('data-filter') === category) {
+            btn.classList.remove('bg-white', 'dark:bg-slate-900', 'text-slate-600', 'dark:text-slate-300');
+            btn.classList.add('bg-emerald-600', 'text-white');
+          } else {
+            btn.classList.remove('bg-emerald-600', 'text-white');
+            btn.classList.add('bg-white', 'dark:bg-slate-900', 'text-slate-600', 'dark:text-slate-300');
+          }
+        });
+
+        cards.forEach(card => {
+          const cardCat = card.getAttribute('data-category');
+          if (category === 'all' || cardCat === category) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+
+      function openWorkViewer(key) {
+        const work = WORKS_DATA[key];
+        if (!work) return;
+
+        activeWorkKey = key;
+        const modal = document.getElementById('workViewerModal');
+        const content = document.getElementById('workViewerContent');
+        const iframe = document.getElementById('workViewerIframe');
+        const loading = document.getElementById('workIframeLoading');
+
+        document.getElementById('workViewerTitle').textContent = work.title;
+        document.getElementById('workViewerCategory').textContent = work.category;
+        document.getElementById('workViewerBadge').textContent = work.badge;
+        document.getElementById('workViewerExternalLink').href = work.url;
+
+        // Reset to desktop viewport
+        setWorkViewport('desktop');
+
+        // Show loading state
+        loading.classList.remove('opacity-0', 'pointer-events-none');
+        loading.classList.add('opacity-100');
+
+        iframe.onload = () => {
+          setTimeout(() => {
+            loading.classList.add('opacity-0', 'pointer-events-none');
+            loading.classList.remove('opacity-100');
+          }, 300);
+        };
+
+        iframe.src = work.url;
+
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        content.classList.remove('scale-95');
+        content.classList.add('scale-100');
+        lucide.createIcons();
+      }
+
+      function closeWorkViewer() {
+        const modal = document.getElementById('workViewerModal');
+        const content = document.getElementById('workViewerContent');
+        const iframe = document.getElementById('workViewerIframe');
+
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        content.classList.remove('scale-100');
+        content.classList.add('scale-95');
+
+        // Unload iframe after transition to stop canvas rendering/audio
+        setTimeout(() => {
+          iframe.src = 'about:blank';
+        }, 200);
+      }
+
+      function setWorkViewport(mode) {
+        const wrapper = document.getElementById('workFrameWrapper');
+        const btnDesk = document.getElementById('vpBtnDesktop');
+        const btnTab = document.getElementById('vpBtnTablet');
+        const btnMob = document.getElementById('vpBtnMobile');
+
+        [btnDesk, btnTab, btnMob].forEach(b => {
+          b.classList.remove('bg-emerald-600', 'text-white');
+          b.classList.add('text-slate-400');
+        });
+
+        wrapper.classList.remove('max-w-[768px]', 'max-w-[390px]', 'w-full', 'border-x', 'border-slate-800');
+
+        if (mode === 'desktop') {
+          wrapper.classList.add('w-full');
+          btnDesk.classList.add('bg-emerald-600', 'text-white');
+          btnDesk.classList.remove('text-slate-400');
+        } else if (mode === 'tablet') {
+          wrapper.classList.add('max-w-[768px]', 'w-full', 'border-x', 'border-slate-800');
+          btnTab.classList.add('bg-emerald-600', 'text-white');
+          btnTab.classList.remove('text-slate-400');
+        } else if (mode === 'mobile') {
+          wrapper.classList.add('max-w-[390px]', 'w-full', 'border-x', 'border-slate-800');
+          btnMob.classList.add('bg-emerald-600', 'text-white');
+          btnMob.classList.remove('text-slate-400');
+        }
+      }
+
+      function reloadWorkIframe() {
+        if (!activeWorkKey || !WORKS_DATA[activeWorkKey]) return;
+        const iframe = document.getElementById('workViewerIframe');
+        const loading = document.getElementById('workIframeLoading');
+        loading.classList.remove('opacity-0', 'pointer-events-none');
+        loading.classList.add('opacity-100');
+        iframe.src = WORKS_DATA[activeWorkKey].url + '?t=' + Date.now();
+        showToast('Work frame reloaded');
+      }
+
+      function openGuideModal() {
+        const modal = document.getElementById('guideModal');
+        const content = document.getElementById('guideModalContent');
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        content.classList.remove('scale-95');
+        content.classList.add('scale-100');
+      }
+
+      function closeGuideModal() {
+        const modal = document.getElementById('guideModal');
+        const content = document.getElementById('guideModalContent');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        content.classList.remove('scale-100');
+        content.classList.add('scale-95');
+      }
+
+      function openResumeModal() {
+        const modal = document.getElementById('resumeModal');
+        const content = document.getElementById('resumeModalContent');
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        content.classList.remove('scale-95');
+        content.classList.add('scale-100');
+      }
+
+      function closeResumeModal() {
+        const modal = document.getElementById('resumeModal');
+        const content = document.getElementById('resumeModalContent');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        content.classList.remove('scale-100');
+        content.classList.add('scale-95');
+      }
+
+      // Close modals on Escape key or clicking overlay
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeGuideModal();
+          closeResumeModal();
+          closeWorkViewer();
+        }
+      });
+
+      document.getElementById('guideModal').addEventListener('click', (e) => {
+        if (e.target.id === 'guideModal') closeGuideModal();
+      });
+
+      document.getElementById('resumeModal').addEventListener('click', (e) => {
+        if (e.target.id === 'resumeModal') closeResumeModal();
+      });
+
+      document.getElementById('workViewerModal').addEventListener('click', (e) => {
+        if (e.target.id === 'workViewerModal') closeWorkViewer();
+      });
+
+      // 8. Toast Feedback Utility
+      let toastTimeout;
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toastMsg');
+        toastMsg.textContent = msg;
+
+        clearTimeout(toastTimeout);
+        toast.classList.remove('translate-y-20', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+
+        toastTimeout = setTimeout(() => {
+          toast.classList.remove('translate-y-0', 'opacity-100');
+          toast.classList.add('translate-y-20', 'opacity-0');
+        }, 3200);
+      }
+
+      // ==================== 9. PROFESSIONAL PORTFOLIO ANIMATIONS ====================
+
+      // A. Top Scroll Reading Progress Indicator
+      function initScrollProgress() {
+        const progressBar = document.getElementById('scrollProgress');
+        if (!progressBar) return;
+
+        window.addEventListener('scroll', () => {
+          const scrollTop = window.scrollY || document.documentElement.scrollTop;
+          const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+          progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+        }, { passive: true });
+      }
+
+      // B. Smooth Scroll Reveal (Linear/Apple Easing System)
+      function initScrollReveal() {
+        const revealElements = document.querySelectorAll('.reveal-on-scroll');
+        if (!revealElements.length) return;
+
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+          revealElements.forEach(el => el.classList.add('is-revealed'));
+          return;
+        }
+
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              obs.unobserve(entry.target);
+
+              // Trigger any nested counters
+              const counters = entry.target.querySelectorAll('[data-counter]');
+              counters.forEach(counter => runCounterAnimation(counter));
+            }
+          });
+        }, {
+          threshold: 0.12,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(el => observer.observe(el));
+      }
+
+      // C. Cursor-Tracking Spotlight Glow for Cards
+      function initSpotlightCards() {
+        const cards = document.querySelectorAll('.spotlight-card');
+        cards.forEach(card => {
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+          });
+        });
+      }
+
+      // D. Number Counter Animation Engine
+      function runCounterAnimation(el) {
+        if (el.dataset.animated === 'true') return;
+        el.dataset.animated = 'true';
+
+        const target = parseFloat(el.getAttribute('data-target')) || 0;
+        const suffix = el.getAttribute('data-suffix') || '';
+        const duration = 1400; // ms
+        const startTime = performance.now();
+        const isDecimal = target % 1 !== 0;
+
+        function update(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // Ease-out cubic
+          const easeOut = 1 - Math.pow(1 - progress, 3);
+          const currentVal = target * easeOut;
+
+          el.textContent = (isDecimal ? currentVal.toFixed(1) : Math.round(currentVal)) + suffix;
+
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            el.textContent = (isDecimal ? target.toFixed(1) : target) + suffix;
+          }
+        }
+
+        requestAnimationFrame(update);
+      }
+
+      // E. ScrollSpy: Highlighting Active Navigation Section
+      function initScrollSpy() {
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section[id]');
+        if (!navLinks.length || !sections.length) return;
+
+        window.addEventListener('scroll', () => {
+          let currentSectionId = '';
+          const scrollPosition = window.scrollY + 180;
+
+          sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+              currentSectionId = section.getAttribute('id');
+            }
+          });
+
+          navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === `#${currentSectionId}`) {
+              link.classList.add('active-nav');
+            } else {
+              link.classList.remove('active-nav');
+            }
+          });
+        }, { passive: true });
+      }
+
+      // Initialize all animations on DOM ready
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.lucide) lucide.createIcons();
+        initScrollProgress();
+        initScrollReveal();
+        initSpotlightCards();
+        initScrollSpy();
+      });
+
+      // Immediate trigger in case DOM is already parsed
+      if (document.readyState === 'interactive' || document.readyState === 'complete') {
+        if (window.lucide) lucide.createIcons();
+        initScrollProgress();
+        initScrollReveal();
+        initSpotlightCards();
+        initScrollSpy();
+      }
+    </script>
+
+  </body>
+</html>
+
+
