@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111214">
+<title>MANGA VAULT — Anime Collectibles</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap');
+:root{
+  --ink:#101113;--slate:#292d31;--paper:#e8e0cf;--paper2:#f5f0e4;
+  --crimson:#c51f35;--cyan:#38d9ff;--orange:#ff7a24;
+  --max:1280px;--ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box} html{scroll-behavior:auto;background:var(--ink)}
+body{margin:0;background:var(--ink);color:var(--paper2);font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+button{font:inherit;color:inherit}.site{position:relative}
+#webgl{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.noise{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.065;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E")}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at center,transparent 25%,rgba(0,0,0,.42) 100%)}
+header{position:fixed;z-index:20;top:0;left:0;right:0;padding:22px clamp(18px,4vw,56px);display:flex;justify-content:space-between;align-items:center;mix-blend-mode:screen}
+.logo{font-family:Anton,sans-serif;letter-spacing:.08em;font-size:22px}.logo b{color:var(--crimson)}
+.pill{border:1px solid rgba(255,255,255,.28);background:rgba(10,10,11,.42);backdrop-filter:blur(12px);border-radius:999px;padding:9px 14px;cursor:pointer;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+main{position:relative;z-index:3}
+.panel{min-height:100svh;position:relative;display:grid;place-items:center;padding:10vh 6vw}
+.hero{height:100svh;text-align:center;overflow:hidden}
+.kicker{font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--cyan);font-weight:800}
+.hero h1{font-family:Anton,sans-serif;font-size:clamp(72px,15vw,210px);line-height:.76;margin:22px 0 28px;letter-spacing:-.025em;text-transform:uppercase;text-shadow:4px 4px 0 var(--crimson),-2px -2px 0 rgba(56,217,255,.7)}
+.hero h1 span{display:block}.hero h1 span:last-child{color:var(--paper)}
+.sub{max-width:620px;margin:auto;font-size:clamp(14px,1.5vw,18px);line-height:1.7;color:#c8c4ba}
+.scrollhint{position:absolute;bottom:35px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.25em;text-transform:uppercase;opacity:.7}
+.scrollhint i{display:block;width:1px;height:55px;background:linear-gradient(var(--paper),transparent);margin:12px auto 0}
+.zone{min-height:145vh;align-items:start}.zone-inner{width:min(var(--max),100%);display:grid;grid-template-columns:1fr 1fr;gap:7vw;align-items:center}
+.eyebrow{font-family:Anton,sans-serif;color:var(--crimson);font-size:18px;letter-spacing:.12em;text-transform:uppercase}
+.zone h2{font-family:Anton,sans-serif;font-size:clamp(52px,8vw,108px);line-height:.85;margin:12px 0 22px;text-transform:uppercase}
+.copy{color:#c8c4ba;line-height:1.75;max-width:560px}
+.specs{margin:28px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.spec{border-top:1px solid rgba(255,255,255,.2);padding-top:10px}.spec small{display:block;opacity:.55;text-transform:uppercase;font-size:9px;letter-spacing:.15em}.spec strong{font-size:13px}
+.cta{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:3px;padding:13px 18px;background:var(--crimson);font-weight:800;cursor:pointer;letter-spacing:.04em}.btn.alt{background:transparent;border:1px solid rgba(255,255,255,.3)}
+.book .eyebrow{color:var(--orange)}.stickers .eyebrow{color:var(--cyan)}
+.card-stack{min-height:430px;display:grid;place-items:center;position:relative}.product-card{width:min(360px,80vw);aspect-ratio:3/4;background:linear-gradient(145deg,#d7d0c0,#857e73);color:#151515;border:7px solid #171717;box-shadow:18px 18px 0 rgba(0,0,0,.4);padding:24px;transform:rotate(-5deg);position:relative;overflow:hidden}
+.product-card:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 5px,rgba(0,0,0,.08) 6px 7px);mix-blend-mode:multiply}.product-card .stamp{position:absolute;right:18px;top:18px;border:2px solid var(--crimson);color:var(--crimson);padding:6px;transform:rotate(9deg);font-family:Anton;font-size:18px}.product-card h3{font-family:Anton;font-size:48px;line-height:.82;margin:160px 0 8px}.product-card p{font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+.book .product-card{transform:rotate(4deg);background:linear-gradient(135deg,#d9cfb5,#9b8b69)}.stickers .product-card{transform:rotate(-2deg);background:linear-gradient(135deg,#91a0a5,#d9c7b2);overflow:hidden}.sticker{position:absolute;width:90px;height:115px;background:linear-gradient(135deg,rgba(255,0,100,.8),rgba(0,220,255,.8),rgba(255,210,0,.75));border:2px solid #fff;box-shadow:0 10px 25px #0007;transform:rotate(12deg);top:70px;left:45px;mix-blend-mode:screen}.sticker:nth-child(2){left:150px;top:130px;transform:rotate(-14deg)}.sticker:nth-child(3){left:80px;top:210px;transform:rotate(7deg)}
+.cart{position:fixed;right:20px;bottom:20px;z-index:30;width:min(390px,calc(100vw - 40px));background:rgba(16,17,19,.9);border:1px solid #ffffff28;backdrop-filter:blur(18px);padding:20px;transform:translateY(140%);transition:transform .6s var(--ease);box-shadow:0 20px 60px #0008}.cart.open{transform:none}.cart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.cart-items{font-size:13px;color:#ccc}.cart-row{display:flex;justify-content:space-between;border-top:1px solid #ffffff18;padding:12px 0}.close{background:none;border:0;cursor:pointer;font-size:20px}
+.legend{position:fixed;left:20px;bottom:20px;z-index:10;font-size:9px;letter-spacing:.12em;text-transform:uppercase;opacity:.55}
+@media(max-width:760px){.zone-inner{grid-template-columns:1fr;gap:18px}.zone{min-height:125vh;padding-top:12vh}.card-stack{min-height:330px;order:-1}.product-card{width:270px}.legend{display:none}.hero h1{text-shadow:2px 2px 0 var(--crimson),-1px -1px 0 rgba(56,217,255,.7)}}
+</style>
+</head>
+<body>
+<div class="site">
+<canvas id="webgl"></canvas><div class="noise"></div><div class="vignette"></div>
+<header><div class="logo">MANGA<span>V</span>AULT <b>// 03</b></div><button id="audio" class="pill">Audio OFF</button></header>
+<main id="smooth">
+<section class="panel hero">
+  <div><div class="kicker">Archive of battle-born collectibles</div><h1><span>Manga</span><span>Vault</span></h1><p class="sub">A kinetic collection of figures, printed worlds and holographic relics — built like a manga panel and rendered like a battlefield.</p></div>
+  <div class="scrollhint">Scroll to enter<i></i></div>
+</section>
+
+<section class="panel zone figures" data-zone="figures"><div class="zone-inner">
+  <div><div class="eyebrow">01 / Titan Colosseum</div><h2>Battle<br>Figures</h2><p class="copy">Low-poly silhouettes, articulated armor and weathered details. Drag the scene to rotate the showcase on desktop, or swipe on touch.</p><div class="specs"><div class="spec"><small>Scale</small><strong>1:10</strong></div><div class="spec"><small>Joints</small><strong>26 PT</strong></div><div class="spec"><small>Finish</small><strong>MATTE</strong></div></div><div class="cta"><button class="btn add" data-name="Titan Vanguard Figure">Add to vault</button><button class="btn alt">Inspect 360°</button></div></div>
+  <div class="card-stack"><div class="product-card"><span class="stamp">LIMITED</span><h3>Vanguard<br>Unit</h3><p>Battle-weathered collector figure / issue 03</p></div></div>
+</div></section>
+
+<section class="panel zone book" data-zone="book"><div class="zone-inner">
+  <div class="card-stack"><div class="product-card"><span class="stamp">PRINT</span><h3>Sealing<br>Scroll</h3><p>Accordion artbook / ink + parchment edition</p></div></div>
+  <div><div class="eyebrow">02 / Sealing Scrolls</div><h2>Ink &<br>Pages</h2><p class="copy">An unfolding archive of manga panels and battle notes. Scroll progression drives page-like deformation and camera depth.</p><div class="specs"><div class="spec"><small>Pages</small><strong>164</strong></div><div class="spec"><small>Paper</small><strong>120GSM</strong></div><div class="spec"><small>Edition</small><strong>01/500</strong></div></div><button class="btn add" data-name="Sealing Scroll Artbook">Add to vault</button></div>
+</div></section>
+
+<section class="panel zone stickers" data-zone="stickers"><div class="zone-inner">
+  <div><div class="eyebrow">03 / Chakra Runes</div><h2>Holo<br>Relics</h2><p class="copy">Iridescent foil cards react to pointer position and scroll velocity. The shader is procedural — no texture pack required.</p><div class="specs"><div class="spec"><small>Foil</small><strong>IRIDESCENT</strong></div><div class="spec"><small>Pack</small><strong>06 PCS</strong></div><div class="spec"><small>Sheen</small><strong>SHIFT</strong></div></div><button class="btn add" data-name="Chakra Holographic Pack">Add to vault</button></div>
+  <div class="card-stack"><div class="product-card"><div class="sticker"></div><div class="sticker"></div><div class="sticker"></div><h3>Chakra<br>Runes</h3><p>Holographic foil sticker archive / six-piece set</p></div></div>
+</div></section>
+
+<section class="panel zone" data-zone="checkout"><div style="text-align:center"><div class="eyebrow">04 / Final Selection</div><h2>Enter<br>the Vault</h2><p class="copy" style="margin:0 auto 25px">Select your relics, then open the compact checkout drawer.</p><button class="btn" id="openCart">Open vault cart</button></div></section>
+</main>
+<div class="legend">Three.js / GSAP / Lenis / Web Audio</div>
+<aside id="cart" class="cart"><div class="cart-head"><strong>VAULT CART</strong><button class="close" id="closeCart">×</button></div><div id="cartItems" class="cart-items">No relics selected.</div><div style="margin-top:15px"><button class="btn" style="width:100%">Proceed to showcase checkout</button></div></aside>
+</div>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.179.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.179.1/examples/jsm/"}}</script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script type="module">
+import * as THREE from 'three';
+
+gsap.registerPlugin(ScrollTrigger);
+
+/* ---------- AudioManager ---------- */
+class AudioManager{
+  constructor(){this.ctx=null;this.master=null;this.on=false;this.last=0}
+  init(){
+    if(this.ctx)return;
+    this.ctx=new (window.AudioContext||window.webkitAudioContext)();
+    this.master=this.ctx.createGain();this.master.gain.value=.055;this.master.connect(this.ctx.destination);
+  }
+  toggle(){
+    this.init(); this.on=!this.on;
+    if(this.ctx.state==='suspended')this.ctx.resume();
+    this.master.gain.cancelScheduledValues(this.ctx.currentTime);
+    this.master.gain.linearRampToValueAtTime(this.on?.055:0,this.ctx.currentTime+.2);
+    document.querySelector('#audio').textContent=this.on?'Audio ON':'Audio OFF';
+    if(this.on)this.ambient();
+  }
+  tone(freq,dur=.08,type='sine',gain=.08){
+    if(!this.on)return;
+    const o=this.ctx.createOscillator(),g=this.ctx.createGain();
+    o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(gain,this.ctx.currentTime);g.gain.exponentialRampToValueAtTime(.0001,this.ctx.currentTime+dur);
+    o.connect(g).connect(this.master);o.start();o.stop(this.ctx.currentTime+dur);
+  }
+  whoosh(v){
+    if(!this.on)return;
+    const now=performance.now();if(now-this.last<90)return;this.last=now;
+    this.tone(130+Math.min(v*8,250),.12,'sawtooth',Math.min(.025+v*.001,.07));
+  }
+  hover(){this.tone(900,.035,'square',.035)}
+  page(){this.tone(180,.13,'triangle',.04);setTimeout(()=>this.tone(260,.08,'triangle',.025),55)}
+  chakra(){this.tone(520,.35,'sine',.045);setTimeout(()=>this.tone(780,.3,'sine',.025),100)}
+  ambient(){
+    if(!this.on)return;
+    const o=this.ctx.createOscillator(),g=this.ctx.createGain();
+    o.type='sine';o.frequency.value=55;g.gain.value=.006;o.connect(g).connect(this.master);o.start();
+    this.amb=o;
+  }
+}
+const audio=new AudioManager();
+document.querySelector('#audio').onclick=()=>audio.toggle();
+
+/* ---------- SceneManager ---------- */
+class SceneManager{
+  constructor(){
+    this.canvas=document.querySelector('#webgl');this.scene=new THREE.Scene();
+    this.camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,.1,100);this.camera.position.set(0,0,7);
+    this.renderer=new THREE.WebGLRenderer({canvas:this.canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));this.renderer.setSize(innerWidth,innerHeight);
+    this.clock=new THREE.Clock();this.group=new THREE.Group();this.scene.add(this.group);
+    this.pointer=new THREE.Vector2();this.target=new THREE.Vector2();
+    this.build();this.bind();this.visible=true;
+    const io=new IntersectionObserver(e=>this.visible=e[0].isIntersecting,{threshold:0.01});io.observe(this.canvas);
+    this.animate();
+  }
+  build(){
+    const key=new THREE.DirectionalLight(0xffeee0,4),rim=new THREE.DirectionalLight(0x39dfff,2);
+    key.position.set(3,4,5);rim.position.set(-4,2,-2);this.scene.add(key,rim);
+    const amb=new THREE.AmbientLight(0x7c7c7c,1.3);this.scene.add(amb);
+    const tome=new THREE.Group();
+    for(let i=0;i<7;i++){
+      const geo=new THREE.BoxGeometry(3.2,.12,2.35),mat=new THREE.MeshStandardMaterial({color:i%2?0x1a1b1e:0x4b4740,roughness:.72,metalness:.12});
+      const m=new THREE.Mesh(geo,mat);m.position.y=i*.16-0.5;m.rotation.z=(i-3)*.006;tome.add(m);
+    }
+    const band=new THREE.Mesh(new THREE.BoxGeometry(.28,1.4,2.5),new THREE.MeshStandardMaterial({color:0xb7aa8f,roughness:1}));
+    band.position.set(0,.2,0);tome.add(band);this.group.add(tome);this.tome=tome;
+    const base=new THREE.Mesh(new THREE.CylinderGeometry(1.45,1.7,.3,32),new THREE.MeshStandardMaterial({color:0x191a1c,roughness:.5,metalness:.4}));
+    base.position.y=-1.6;this.group.add(base);this.base=base;
+    const pts=[];for(let i=0;i<700;i++)pts.push((Math.random()-.5)*12,(Math.random()-.5)*8,(Math.random()-.5)*7);
+    const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));
+    const pm=new THREE.PointsMaterial({color:0xe9e0cf,size:.018,transparent:true,opacity:.65});this.particles=new THREE.Points(pg,pm);this.scene.add(this.particles);
+  }
+  bind(){
+    addEventListener('pointermove',e=>{this.target.x=(e.clientX/innerWidth-.5)*2;this.target.y=(e.clientY/innerHeight-.5)*2});
+    addEventListener('resize',()=>{this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();this.renderer.setSize(innerWidth,innerHeight)});
+  }
+  section(name,progress){
+    const p=progress;
+    if(name==='figures'){this.tome.rotation.x=.25+p*.7;this.tome.rotation.y=p*2;this.base.rotation.y=p*3;this.camera.position.set(Math.sin(p*3)*2.5,1.1+p*.5,6.3)}
+    if(name==='book'){this.tome.rotation.x=.7+p*1.4;this.tome.rotation.y=1.5+p*2;this.camera.position.set(-2+p*3,.3,5.8-p*1.5)}
+    if(name==='stickers'){this.tome.rotation.x=.8;this.tome.rotation.y=p*3;this.camera.position.set(Math.sin(p*4)*1.8,Math.cos(p*2)*.7,5.5)}
+    if(name==='checkout'){this.camera.position.set(0,0,7);this.tome.rotation.y=p*2}
+  }
+  animate(){
+    requestAnimationFrame(()=>this.animate());if(!this.visible)return;
+    const t=this.clock.getElapsedTime();this.group.position.y=Math.sin(t*1.2)*.08;
+    this.particles.rotation.y=t*.025;this.particles.position.y=Math.sin(t*.2)*.2;
+    this.camera.position.x+=((this.target.x*0.35)-this.camera.position.x)*.015;
+    this.camera.position.y+=((-this.target.y*0.2)-this.camera.position.y)*.015;
+    this.camera.lookAt(0,0,0);this.renderer.render(this.scene,this.camera);
+  }
+}
+const scene3d=new SceneManager();
+
+/* ---------- ScrollController ---------- */
+class ScrollController{
+  constructor(){
+    this.lenis=new Lenis({duration:1.15,smoothWheel:true,smoothTouch:true});
+    this.lastY=0;
+    this.lenis.on('scroll',e=>{audio.whoosh(Math.abs(e.velocity));this.lastY=e.animatedScroll});
+    gsap.ticker.add(t=>this.lenis.raf(t*1000));gsap.ticker.lagSmoothing(0);
+    document.querySelectorAll('.zone').forEach(z=>{
+      const name=z.dataset.zone;
+      gsap.from(z.querySelectorAll('.zone-inner > *'),{y:80,opacity:0,stagger:.12,duration:1,ease:'power3.out',scrollTrigger:{trigger:z,start:'top 72%',toggleActions:'play none none reverse'}});
+      ScrollTrigger.create({trigger:z,start:'top bottom',end:'bottom top',onUpdate:self=>scene3d.section(name,self.progress)});
+      if(name==='book')ScrollTrigger.create({trigger:z,start:'top 65%',onEnter:()=>audio.page()});
+      if(name==='stickers')ScrollTrigger.create({trigger:z,start:'top 65%',onEnter:()=>audio.chakra()});
+    });
+    gsap.from('.hero h1 span',{y:160,opacity:0,stagger:.12,duration:1.3,ease:'power4.out'});
+    gsap.to('.hero h1',{scale:.72,opacity:.25,scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:1}});
+  }
+}
+new ScrollController();
+
+/* ---------- Cart ---------- */
+const cart=[],cartEl=document.querySelector('#cart'),items=document.querySelector('#cartItems');
+function renderCart(){items.innerHTML=cart.length?cart.map(x=>`<div class="cart-row"><span>${x}</span><strong>01</strong></div>`).join(''):'No relics selected.';cartEl.classList.add('open')}
+document.querySelectorAll('.add').forEach(b=>b.addEventListener('click',()=>{cart.push(b.dataset.name);renderCart();audio.tone(740,.08,'square',.04)}));
+document.querySelector('#openCart').onclick=()=>cartEl.classList.add('open');
+document.querySelector('#closeCart').onclick=()=>cartEl.classList.remove('open');
+document.querySelectorAll('button').forEach(b=>b.addEventListener('mouseenter',()=>audio.hover()));
+addEventListener('pointerdown',()=>{if(!audio.ctx)audio.init()},{once:true});
+</script>
+</body>
+</html>

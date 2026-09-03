@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Hidden Sanctuary — Embeddable 3D Microsite Section</title>
+
+<!--
+  ============================================================================
+  THE HIDDEN SANCTUARY — camera-driven 3D scroll section
+  ----------------------------------------------------------------------------
+  Drop-in embed notes:
+  - This file is a *standalone demo* of one <section id="sanctuary"> plus its
+    styles and a single module script. To embed into an existing portfolio,
+    copy the <section id="sanctuary">…</section> block, the <style> block
+    (scoped under #sanctuary), and the <script type="module"> block.
+  - The 3D canvas uses `position: sticky`, not `fixed` — it pins for exactly
+    the height of its own wrapper and then scrolls away naturally, so it
+    can't bleed over the rest of a host page.
+  - If the host portfolio already runs its own Lenis instance, delete the
+    `initLenis()` call in ScrollDirector and pass the host's instance into
+    `new ScrollDirector(sceneManager, audioManager, hostLenis)` instead —
+    the code checks `window.__lenisInstance` first and reuses it if found.
+  - CDN pins (jsDelivr ESM builds) — bump versions as needed:
+      three@0.160.0, gsap@3.12.5, lenis@1.1.14
+  - No external image/audio/model binaries are used anywhere: geometry is
+    procedural (cones, boxes, points), and audio is synthesized live with
+    the Web Audio API. That's what keeps this "ultra-lightweight" — first
+    paint doesn't wait on any asset download.
+  ============================================================================
+-->
+
+<style>
+  /* ==========================================================================
+     Scoped tokens — everything here is namespaced under #sanctuary so it can
+     be pasted into a larger stylesheet without leaking.
+     Color: --moss (deep emerald), --ink (near-black forest shadow),
+            --mist (pale fog), --chakra (luminous cyan glow),
+            --torii (vermilion accent), --lantern (warm paper-lantern amber)
+     Type: 'Fraunces' for display (soft, woodcut-ish serif — warm resort
+           feel), 'Manrope' for UI/body (clean, quiet, gets out of the way).
+     ========================================================================== */
+  #sanctuary {
+    --moss: #0e2a20;
+    --ink: #06120d;
+    --mist: #dfe9e2;
+    --chakra: #5ee7ff;
+    --torii: #b23a2e;
+    --lantern: #f2a154;
+    --glass: rgba(223, 233, 226, 0.08);
+    position: relative;
+    background: var(--ink);
+    color: var(--mist);
+    font-family: 'Manrope', system-ui, sans-serif;
+    isolation: isolate;
+  }
+
+  #sanctuary * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  #sanctuary .scroll-space {
+    position: relative;
+    height: 600vh; /* five stages × ~120vh of scroll travel */
+  }
+
+  #sanctuary .stage-viewport {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  #sanctuary canvas#sanctuary-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* fog scrim to help legibility of DOM overlays against busy 3D backdrop */
+  #sanctuary .fog-scrim {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 50% 30%, transparent 0%, rgba(6, 18, 13, 0.55) 78%);
+    z-index: 2;
+  }
+
+  /* ---- DOM overlay stages -------------------------------------------------- */
+  #sanctuary .overlay-stage {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(1.5rem, 6vw, 6rem);
+    opacity: 0;
+    pointer-events: none;
+  }
+  #sanctuary .overlay-stage.is-interactive { pointer-events: auto; }
+
+  #sanctuary .eyebrow-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+    letter-spacing: 0.04em;
+    color: var(--chakra);
+    margin-bottom: 0.9em;
+  }
+  #sanctuary .eyebrow-line::before {
+    content: '';
+    width: 1.6em;
+    height: 1px;
+    background: var(--chakra);
+    box-shadow: 0 0 8px var(--chakra);
+  }
+
+  #sanctuary h1.hero-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 480;
+    font-size: clamp(2.4rem, 7.5vw, 6.4rem);
+    line-height: 0.98;
+    max-width: 14ch;
+    color: var(--mist);
+  }
+  #sanctuary .hero-title .glow-word {
+    color: var(--chakra);
+    text-shadow: 0 0 22px rgba(94, 231, 255, 0.55);
+  }
+
+  #sanctuary .hero-sub {
+    margin-top: 1.4rem;
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    max-width: 42ch;
+    color: rgba(223, 233, 226, 0.82);
+  }
+
+  #sanctuary .stage-caption {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 420;
+    font-size: clamp(1.6rem, 4vw, 3.2rem);
+    max-width: 16ch;
+  }
+  #sanctuary .stage-caption + p {
+    margin-top: 1rem;
+    max-width: 38ch;
+    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+    color: rgba(223, 233, 226, 0.78);
+  }
+
+  #sanctuary .align-right { align-items: flex-end; text-align: right; margin-left: auto; }
+
+  /* ---- Booking stage: glassmorphism cards ---------------------------------- */
+  #sanctuary .booking-grid {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem;
+    max-width: 64rem;
+  }
+  #sanctuary .booking-card {
+    background: var(--glass);
+    border: 1px solid rgba(223, 233, 226, 0.16);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-radius: 0.4rem;
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  #sanctuary .booking-card .card-kind {
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    color: var(--lantern);
+  }
+  #sanctuary .booking-card h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 460;
+    font-size: 1.4rem;
+  }
+  #sanctuary .booking-card .card-price { color: rgba(223, 233, 226, 0.7); font-size: 0.9rem; }
+  #sanctuary .booking-card button {
+    margin-top: 0.5rem;
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--chakra);
+    color: var(--chakra);
+    font: inherit;
+    font-size: 0.85rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background 160ms ease, color 160ms ease;
+  }
+  #sanctuary .booking-card button:hover,
+  #sanctuary .booking-card button:focus-visible {
+    background: var(--chakra);
+    color: var(--ink);
+  }
+
+  /* ---- Portal flash for the torii shader-warp beat ------------------------- */
+  #sanctuary .portal-flash {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    background: radial-gradient(circle at 50% 55%, rgba(94, 231, 255, 0.9), rgba(178, 58, 46, 0.35) 55%, transparent 78%);
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  /* ---- Sound toggle --------------------------------------------------------- */
+  #sanctuary .sound-toggle {
+    position: absolute;
+    right: clamp(1rem, 3vw, 2rem);
+    bottom: clamp(1rem, 3vw, 2rem);
+    z-index: 6;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 1px solid rgba(223, 233, 226, 0.3);
+    background: rgba(6, 18, 13, 0.55);
+    backdrop-filter: blur(10px);
+    color: var(--mist);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 160ms ease, transform 160ms ease;
+  }
+  #sanctuary .sound-toggle:hover,
+  #sanctuary .sound-toggle:focus-visible { border-color: var(--chakra); transform: scale(1.06); }
+  #sanctuary .sound-toggle svg { width: 1.3rem; height: 1.3rem; }
+  #sanctuary .sound-toggle .icon-off { display: block; }
+  #sanctuary .sound-toggle .icon-on { display: none; }
+  #sanctuary .sound-toggle[data-sound="on"] .icon-off { display: none; }
+  #sanctuary .sound-toggle[data-sound="on"] .icon-on { display: block; }
+
+  /* ---- progress rail (small, quiet — earns its keep as a wayfinder) -------- */
+  #sanctuary .progress-rail {
+    position: absolute;
+    left: clamp(1rem, 3vw, 2rem);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 6;
+    width: 2px;
+    height: 30vh;
+    background: rgba(223, 233, 226, 0.16);
+  }
+  #sanctuary .progress-rail::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%;
+    height: var(--progress, 0%);
+    background: var(--chakra);
+    box-shadow: 0 0 10px var(--chakra);
+  }
+
+  @media (max-width: 640px) {
+    #sanctuary .progress-rail { display: none; }
+    #sanctuary .booking-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #sanctuary .overlay-stage { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<section id="sanctuary" aria-label="The Hidden Sanctuary — interactive resort preview">
+  <div class="scroll-space">
+    <div class="stage-viewport">
+
+      <canvas id="sanctuary-canvas" aria-hidden="true"></canvas>
+      <div class="fog-scrim"></div>
+      <div class="portal-flash" id="portal-flash"></div>
+      <div class="progress-rail" id="progress-rail"></div>
+
+      <!-- Stage 1 — Hero -->
+      <div class="overlay-stage is-interactive" id="stage-1" data-stage="1">
+        <span class="eyebrow-line">A resort, hiding something else</span>
+        <h1 class="hero-title">Above the mist,<br>a <span class="glow-word">sanctuary</span> waits.</h1>
+        <p class="hero-sub">Scroll to descend through the canopy — and find what the forest has kept quiet for a hundred years.</p>
+      </div>
+
+      <!-- Stage 2 — Resort descent -->
+      <div class="overlay-stage align-right" id="stage-2" data-stage="2">
+        <p class="stage-caption">Villas built into the canopy, not over it.</p>
+        <p>Glass and cedar sit low among hundred-year trees. Every room wakes to fog breaking over the ridge.</p>
+      </div>
+
+      <!-- Stage 3 — Portal transition -->
+      <div class="overlay-stage" id="stage-3" data-stage="3">
+        <p class="stage-caption">Then the trail bends toward a gate no map explains.</p>
+      </div>
+
+      <!-- Stage 4 — Anime park reveal -->
+      <div class="overlay-stage align-right" id="stage-4" data-stage="4">
+        <span class="eyebrow-line">Beyond the gate</span>
+        <p class="stage-caption">A hidden village, carved in stone and lantern-light.</p>
+        <p>Cel-shaded cliffs, wind-struck banners, and chakra-blue light where the old shrine fires still burn.</p>
+      </div>
+
+      <!-- Stage 5 — Outro / booking -->
+      <div class="overlay-stage is-interactive" id="stage-5" data-stage="5">
+        <span class="eyebrow-line">Plan your descent</span>
+        <p class="stage-caption">Two worlds. One reservation.</p>
+        <div class="booking-grid">
+          <div class="booking-card">
+            <span class="card-kind">Canopy Villa</span>
+            <h3>Cedar &amp; Glass Suite</h3>
+            <p class="card-price">From ₹18,500 / night</p>
+            <button type="button">Check availability</button>
+          </div>
+          <div class="booking-card">
+            <span class="card-kind">Hidden Village</span>
+            <h3>Lantern Quarter Pass</h3>
+            <p class="card-price">From ₹4,200 / day</p>
+            <button type="button">Reserve entry</button>
+          </div>
+          <div class="booking-card">
+            <span class="card-kind">Full Experience</span>
+            <h3>Sanctuary + Village</h3>
+            <p class="card-price">From ₹21,900 / night</p>
+            <button type="button">Book the pair</button>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="sound-toggle" id="sound-toggle" data-sound="off" aria-pressed="false" aria-label="Toggle ambient sound">
+        <svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9v6h4l5 5V4L8 9H4z"/><line x1="17" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="17" y2="15"/></svg>
+        <svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a9 9 0 0 1 0 12"/></svg>
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<!-- Optional: self-hosted display font pairing. Swap for the host portfolio's
+     existing font-loading strategy to avoid a duplicate request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,420;9..144,480&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Standalone CDN Libraries (Three.js, GSAP, ScrollTrigger, Lenis) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+
+<script>
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+/* ============================================================================
+   AudioManager — pure Web Audio API, zero binary assets.
+   Everything (wind bed, chime, pad, whoosh, click SFX) is synthesized, so
+   there is nothing to download and nothing to decode before first sound.
+   The AudioContext is created lazily on the first toggle click, satisfying
+   autoplay-safe browser policy.
+   ============================================================================ */
+class AudioManager {
+  constructor() {
+    this.ctx = null;
+    this.master = null;
+    this.enabled = false;
+    this.started = false;
+    this._lastWhooshUpdate = 0;
+  }
+
+  /** Called on first user click on the toggle — creates the audio graph. */
+  _boot() {
+    if (this.started) return;
+    this.started = true;
+
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    this.ctx = ctx;
+
+    this.master = ctx.createGain();
+    this.master.gain.value = 0;
+    this.master.connect(ctx.destination);
+
+    this._buildWindBed(ctx, this.master);
+    this._buildPad(ctx, this.master);
+    this._buildChimeSystem(ctx, this.master);
+    this._buildWhooshNode(ctx, this.master);
+  }
+
+  /** Filtered noise loop = "gentle mountain breeze". */
+  _buildWindBed(ctx, dest) {
+    const bufferSize = ctx.sampleRate * 4;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+    noise.loop = true;
+
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 420;
+    filter.Q.value = 0.6;
+
+    const lfo = ctx.createOscillator();
+    lfo.frequency.value = 0.07; // slow breathing swell
+    const lfoGain = ctx.createGain();
+    lfoGain.gain.value = 140;
+    lfo.connect(lfoGain).connect(filter.frequency);
+    lfo.start();
+
+    const windGain = ctx.createGain();
+    windGain.gain.value = 0.22;
+
+    noise.connect(filter).connect(windGain).connect(dest);
+    noise.start();
+    this.windFilter = filter;
+  }
+
+  /** Two detuned sines with a slow LFO on gain = "soft lo-fi pad". */
+  _buildPad(ctx, dest) {
+    const padGain = ctx.createGain();
+    padGain.gain.value = 0.05;
+    padGain.connect(dest);
+
+    [130.81, 196.0].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = freq * (i === 1 ? 1.003 : 0.997);
+      osc.connect(padGain);
+      osc.start();
+    });
+  }
+
+  /** Randomly-triggered pentatonic bell tones = "distant bamboo chimes". */
+  _buildChimeSystem(ctx, dest) {
+    const scale = [523.25, 587.33, 659.25, 783.99, 880.0]; // C pentatonic
+    this._chimeDest = dest;
+    this._chimeScale = scale;
+    const schedule = () => {
+      if (this.enabled) this._playChime();
+      const next = 3000 + Math.random() * 5000;
+      this._chimeTimer = setTimeout(schedule, next);
+    };
+    schedule();
+  }
+
+  _playChime() {
+    const ctx = this.ctx;
+    const freq = this._chimeScale[Math.floor(Math.random() * this._chimeScale.length)];
+    const osc = ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 2.2);
+
+    const panner = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+    if (panner) panner.pan.value = Math.random() * 2 - 1;
+
+    osc.connect(gain);
+    if (panner) { gain.connect(panner); panner.connect(this._chimeDest); }
+    else gain.connect(this._chimeDest);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 2.3);
+  }
+
+  /** A bandpass "air" node whose gain/frequency track scroll velocity. */
+  _buildWhooshNode(ctx, dest) {
+    const bufferSize = ctx.sampleRate * 2;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+    noise.loop = true;
+
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 300;
+    filter.Q.value = 1.2;
+
+    const gain = ctx.createGain();
+    gain.gain.value = 0;
+
+    noise.connect(filter).connect(gain).connect(dest);
+    noise.start();
+
+    this.whooshFilter = filter;
+    this.whooshGain = gain;
+  }
+
+  /** Called every scroll tick with a normalized 0..1+ velocity magnitude. */
+  updateScrollVelocity(velocity) {
+    if (!this.started) return;
+    const now = performance.now();
+    if (now - this._lastWhooshUpdate < 40) return; // throttle param writes
+    this._lastWhooshUpdate = now;
+
+    const v = Math.min(Math.abs(velocity), 1);
+    const targetGain = this.enabled ? v * 0.18 : 0;
+    const targetFreq = 260 + v * 900;
+
+    this.whooshGain.gain.linearRampToValueAtTime(targetGain, this.ctx.currentTime + 0.08);
+    this.whooshFilter.frequency.linearRampToValueAtTime(targetFreq, this.ctx.currentTime + 0.08);
+  }
+
+  /** Short, crisp click/snap for hover — created fresh each time (cheap). */
+  playClickSfx() {
+    if (!this.started || !this.enabled) return;
+    const ctx = this.ctx;
+    const osc = ctx.createOscillator();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(1400, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.05);
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.06, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.06);
+
+    osc.connect(gain).connect(this.master);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.07);
+  }
+
+  toggle() {
+    this._boot();
+    if (this.ctx.state === 'suspended') this.ctx.resume();
+    this.enabled = !this.enabled;
+    const target = this.enabled ? 0.5 : 0;
+    this.master.gain.linearRampToValueAtTime(target, this.ctx.currentTime + 0.6);
+    return this.enabled;
+  }
+}
+
+/* ============================================================================
+   SceneManager — the three.js world: instanced low-poly trees, a torii gate,
+   villa blockforms, cel-shaded cliffs/monuments, floating lanterns, banners,
+   and a procedural dust/leaf particle field. Lighting is one ambient + one
+   directional light; no baked GLTF, no texture downloads.
+   ============================================================================ */
+class SceneManager {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.clock = new THREE.Clock();
+    this.isVisible = true;
+    this.rafId = null;
+
+    this.renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: false,
+      powerPreference: 'high-performance',
+    });
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.setClearColor(0x06120d, 1);
+
+    this.scene = new THREE.Scene();
+    this.scene.fog = new THREE.FogExp2(0x0e2a20, 0.028);
+
+    this.camera = new THREE.PerspectiveCamera(52, 1, 0.1, 400);
+
+    this._buildLights();
+    this._buildCameraPath();
+    this._buildForest();
+    this._buildVillas();
+    this._buildToriiGate();
+    this._buildAnimeParkSet();
+    this._buildParticles();
+
+    this._onResize = this._onResize.bind(this);
+    window.addEventListener('resize', this._onResize);
+    this._onResize();
+
+    this._tick = this._tick.bind(this);
+    this._start();
+  }
+
+  _buildLights() {
+    const ambient = new THREE.AmbientLight(0x9fd8c8, 0.55);
+    const sun = new THREE.DirectionalLight(0xffe3b0, 1.1);
+    sun.position.set(20, 40, 10);
+    this.scene.add(ambient, sun);
+
+    // A single cyan point light rides near the torii/park to sell the
+    // "luminous chakra glow" without adding more full dynamic lights.
+    this.chakraLight = new THREE.PointLight(0x5ee7ff, 0, 40, 2);
+    this.chakraLight.position.set(0, 6, -4);
+    this.scene.add(this.chakraLight);
+  }
+
+  /** The Bezier-ish spline the camera rides, driven externally by scroll t. */
+  _buildCameraPath() {
+    this.pathPoints = [
+      new THREE.Vector3(0, 42, 62),   // Stage 1 — hero, above canopy
+      new THREE.Vector3(0, 24, 34),   // descent begins
+      new THREE.Vector3(0, 10, 14),   // Stage 2 — among the villas
+      new THREE.Vector3(0, 5, 3),     // approach the gate
+      new THREE.Vector3(0, 5, -6),    // Stage 3 — through the torii
+      new THREE.Vector3(6, 7, -22),   // Stage 4 — park reveal
+      new THREE.Vector3(-4, 9, -38),  // deeper into the village
+      new THREE.Vector3(0, 30, -55),  // Stage 5 — overhead panorama
+    ];
+    this.lookPoints = [
+      new THREE.Vector3(0, 14, 0),
+      new THREE.Vector3(0, 10, -6),
+      new THREE.Vector3(0, 6, -6),
+      new THREE.Vector3(0, 5, -6),
+      new THREE.Vector3(0, 6, -14),
+      new THREE.Vector3(2, 6, -30),
+      new THREE.Vector3(0, 8, -40),
+      new THREE.Vector3(0, 4, -60),
+    ];
+    this.cameraCurve = new THREE.CatmullRomCurve3(this.pathPoints, false, 'catmullrom', 0.5);
+    this.lookCurve = new THREE.CatmullRomCurve3(this.lookPoints, false, 'catmullrom', 0.5);
+    this.setProgress(0);
+  }
+
+  /** Called by ScrollDirector with t in [0,1]. */
+  setProgress(t) {
+    const clamped = Math.max(0, Math.min(1, t));
+    const pos = this.cameraCurve.getPointAt(clamped);
+    const look = this.lookCurve.getPointAt(clamped);
+    this.camera.position.copy(pos);
+    this.camera.lookAt(look);
+
+    // Chakra light + torii material intensity ramp through the portal beat.
+    const portalT = THREE.MathUtils.smoothstep(clamped, 0.42, 0.6);
+    this.chakraLight.intensity = portalT * 2.4;
+    if (this.toriiGlowMat) this.toriiGlowMat.emissiveIntensity = 0.4 + portalT * 2.2;
+
+    // Fade forest fog density into park haze as we cross the portal.
+    this.scene.fog.density = THREE.MathUtils.lerp(0.028, 0.014, portalT);
+  }
+
+  /** Instanced low-poly cedar trees — one draw call per LOD tier. */
+  _buildForest() {
+    const trunkGeo = new THREE.CylinderGeometry(0.18, 0.26, 2.2, 5);
+    const trunkMat = new THREE.MeshStandardMaterial({ color: 0x3d2a1c, flatShading: true, roughness: 1 });
+    const canopyGeo = new THREE.ConeGeometry(1.6, 4.2, 6);
+    const canopyMat = new THREE.MeshStandardMaterial({ color: 0x1c4632, flatShading: true, roughness: 0.9 });
+
+    const count = 260;
+    const trunks = new THREE.InstancedMesh(trunkGeo, trunkMat, count);
+    const canopies = new THREE.InstancedMesh(canopyGeo, canopyMat, count);
+
+    const dummy = new THREE.Object3D();
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 12 + Math.random() * 55;
+      const x = Math.cos(angle) * radius;
+      const z = Math.sin(angle) * radius - 10;
+      const scale = 0.7 + Math.random() * 0.9;
+
+      dummy.position.set(x, 1.1 * scale, z);
+      dummy.scale.setScalar(scale);
+      dummy.rotation.y = Math.random() * Math.PI;
+      dummy.updateMatrix();
+      trunks.setMatrixAt(i, dummy.matrix);
+
+      dummy.position.set(x, (1.1 + 2.6) * scale, z);
+      dummy.updateMatrix();
+      canopies.setMatrixAt(i, dummy.matrix);
+    }
+    trunks.instanceMatrix.needsUpdate = true;
+    canopies.instanceMatrix.needsUpdate = true;
+    this.scene.add(trunks, canopies);
+  }
+
+  /** Simple block-massed glass-timber villas — no textures, vertex-colored tone. */
+  _buildVillas() {
+    const group = new THREE.Group();
+    const bodyMat = new THREE.MeshStandardMaterial({ color: 0x5a4632, flatShading: true, roughness: 0.85 });
+    const glassMat = new THREE.MeshStandardMaterial({
+      color: 0x8fd9d1, flatShading: true, roughness: 0.15, metalness: 0.1,
+      transparent: true, opacity: 0.55,
+    });
+
+    const positions = [
+      [-8, 0, 14], [7, 0, 10], [-5, 0, 20], [9, 0, 22], [0, 0, 26],
+    ];
+    positions.forEach(([x, y, z], i) => {
+      const w = 3.2, h = 2.1, d = 4.4;
+      const body = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), bodyMat);
+      body.position.set(x, y + h / 2, z);
+      body.rotation.y = (i % 2 === 0 ? 1 : -1) * 0.15;
+      const glass = new THREE.Mesh(new THREE.BoxGeometry(w * 0.94, h * 0.7, d * 0.02), glassMat);
+      glass.position.set(0, -h * 0.05, d / 2 + 0.02);
+      body.add(glass);
+      group.add(body);
+    });
+    this.scene.add(group);
+  }
+
+  /** A single glowing, moss-covered torii gate marking the portal beat. */
+  _buildToriiGate() {
+    const woodMat = new THREE.MeshStandardMaterial({ color: 0x7a2e24, flatShading: true, roughness: 0.8 });
+    const glowMat = new THREE.MeshStandardMaterial({
+      color: 0x7a2e24, emissive: 0x5ee7ff, emissiveIntensity: 0.4, flatShading: true, roughness: 0.6,
+    });
+    this.toriiGlowMat = glowMat;
+
+    const group = new THREE.Group();
+    const pillarGeo = new THREE.CylinderGeometry(0.35, 0.4, 6.5, 8);
+    const left = new THREE.Mesh(pillarGeo, woodMat);
+    left.position.set(-3.2, 3.25, -4);
+    const right = left.clone();
+    right.position.x = 3.2;
+
+    const topBeamGeo = new THREE.BoxGeometry(8.4, 0.5, 0.7);
+    const topBeam = new THREE.Mesh(topBeamGeo, glowMat);
+    topBeam.position.set(0, 6.6, -4);
+
+    const subBeamGeo = new THREE.BoxGeometry(7.2, 0.35, 0.5);
+    const subBeam = new THREE.Mesh(subBeamGeo, woodMat);
+    subBeam.position.set(0, 5.7, -4);
+
+    group.add(left, right, topBeam, subBeam);
+    this.scene.add(group);
+  }
+
+  /** Cel-shaded cliffs, carved monuments, banners, and paper lanterns. */
+  _buildAnimeParkSet() {
+    const toonRamp = this._buildToonGradientMap();
+    const cliffMat = new THREE.MeshToonMaterial({ color: 0x2f5e46, gradientMap: toonRamp });
+    const stoneMat = new THREE.MeshToonMaterial({ color: 0x7d7466, gradientMap: toonRamp });
+
+    const cliffGroup = new THREE.Group();
+    for (let i = 0; i < 6; i++) {
+      const geo = new THREE.IcosahedronGeometry(6 + Math.random() * 5, 0);
+      const cliff = new THREE.Mesh(geo, cliffMat);
+      cliff.position.set((Math.random() - 0.5) * 40, -3 + Math.random() * 2, -30 - Math.random() * 30);
+      cliff.scale.set(1, 1.4 + Math.random() * 0.6, 1);
+      cliffGroup.add(cliff);
+    }
+    this.scene.add(cliffGroup);
+
+    const monumentGroup = new THREE.Group();
+    for (let i = 0; i < 4; i++) {
+      const monument = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 1.1, 5, 5), stoneMat);
+      monument.position.set(-10 + i * 6, 2.5, -34 - (i % 2) * 6);
+      monumentGroup.add(monument);
+    }
+    this.scene.add(monumentGroup);
+
+    // Wind-swayed banners: thin planes, swayed procedurally in the tick loop.
+    const bannerMat = new THREE.MeshStandardMaterial({ color: 0xb23a2e, side: THREE.DoubleSide, flatShading: true });
+    this.banners = [];
+    for (let i = 0; i < 8; i++) {
+      const banner = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 2.4, 1, 4), bannerMat);
+      banner.position.set(-14 + i * 4, 4, -20 - Math.random() * 15);
+      banner.userData.phase = Math.random() * Math.PI * 2;
+      this.banners.push(banner);
+      this.scene.add(banner);
+    }
+
+    // Floating paper lanterns: emissive spheres + a small cap.
+    const lanternMat = new THREE.MeshStandardMaterial({ color: 0xf2a154, emissive: 0xf2a154, emissiveIntensity: 0.9 });
+    this.lanterns = [];
+    for (let i = 0; i < 18; i++) {
+      const lantern = new THREE.Mesh(new THREE.SphereGeometry(0.35, 8, 8), lanternMat);
+      lantern.position.set((Math.random() - 0.5) * 30, 3 + Math.random() * 6, -18 - Math.random() * 30);
+      lantern.userData.baseY = lantern.position.y;
+      lantern.userData.phase = Math.random() * Math.PI * 2;
+      this.lanterns.push(lantern);
+      this.scene.add(lantern);
+    }
+  }
+
+  /** 3-step gradient map so MeshToonMaterial reads as flat cel-shaded bands. */
+  _buildToonGradientMap() {
+    const data = new Uint8Array([80, 150, 255]);
+    const tex = new THREE.DataTexture(data, data.length, 1, THREE.RedFormat);
+    tex.needsUpdate = true;
+    return tex;
+  }
+
+  /** Procedural dust motes / drifting leaves — one Points draw call. */
+  _buildParticles() {
+    const count = 900;
+    const positions = new Float32Array(count * 3);
+    const speeds = new Float32Array(count);
+    for (let i = 0; i < count; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 90;
+      positions[i * 3 + 1] = Math.random() * 40;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 120 - 20;
+      speeds[i] = 0.2 + Math.random() * 0.5;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    this._particleSpeeds = speeds;
+
+    const mat = new THREE.PointsMaterial({
+      color: 0xdfe9e2, size: 0.12, transparent: true, opacity: 0.5,
+      blending: THREE.AdditiveBlending, depthWrite: false,
+    });
+    this.particles = new THREE.Points(geo, mat);
+    this.scene.add(this.particles);
+  }
+
+  _onResize() {
+    const el = this.canvas.parentElement;
+    const w = el.clientWidth, h = el.clientHeight;
+    this.renderer.setSize(w, h, false);
+    this.camera.aspect = w / h;
+    this.camera.updateProjectionMatrix();
+  }
+
+  _start() {
+    if (this.rafId === null) this._tick();
+  }
+  _stop() {
+    if (this.rafId !== null) { cancelAnimationFrame(this.rafId); this.rafId = null; }
+  }
+  setVisible(visible) {
+    this.isVisible = visible;
+    if (visible) this._start(); else this._stop();
+  }
+
+  _tick() {
+    if (!this.isVisible) { this.rafId = null; return; }
+    const dt = this.clock.getDelta();
+    const t = this.clock.elapsedTime;
+
+    // Drift particles downward/sideways, wrap around.
+    const pos = this.particles.geometry.attributes.position;
+    for (let i = 0; i < pos.count; i++) {
+      let y = pos.getY(i) - this._particleSpeeds[i] * dt * 2;
+      if (y < -2) y = 40;
+      pos.setY(i, y);
+      pos.setX(i, pos.getX(i) + Math.sin(t * 0.3 + i) * 0.002);
+    }
+    pos.needsUpdate = true;
+
+    // Sway banners, bob lanterns.
+    this.banners.forEach((b) => { b.rotation.z = Math.sin(t * 1.4 + b.userData.phase) * 0.12; });
+    this.lanterns.forEach((l) => {
+      l.position.y = l.userData.baseY + Math.sin(t * 0.8 + l.userData.phase) * 0.4;
+    });
+
+    this.renderer.render(this.scene, this.camera);
+    this.rafId = requestAnimationFrame(this._tick);
+  }
+}
+
+/* ============================================================================
+   ScrollDirector — wires Lenis (momentum scroll) + GSAP ScrollTrigger
+   (timeline-bound camera + DOM choreography) together, and reports scroll
+   velocity to the AudioManager for the whoosh effect.
+   ============================================================================ */
+class ScrollDirector {
+  constructor(sceneManager, audioManager, root) {
+    this.scene = sceneManager;
+    this.audio = audioManager;
+    this.root = root;
+    this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    this._initLenis();
+    this._buildTimeline();
+    this._observeVisibility();
+  }
+
+  _initLenis() {
+    // Reuse a host page's existing Lenis instance if one is already running,
+    // so this section never spins up a second competing scroll manager.
+    if (window.__lenisInstance) {
+      this.lenis = window.__lenisInstance;
+    } else if (typeof Lenis !== 'undefined') {
+      this.lenis = new Lenis({
+        duration: 1.1,
+        smoothWheel: true,
+        smoothTouch: false,
+      });
+      window.__lenisInstance = this.lenis;
+
+      const raf = (time) => { this.lenis.raf(time); requestAnimationFrame(raf); };
+      requestAnimationFrame(raf);
+    } else {
+      this.lenis = {
+        on: (event, cb) => {
+          if (event === 'scroll') {
+            let lastY = window.scrollY;
+            window.addEventListener('scroll', () => {
+              const currentY = window.scrollY;
+              const velocity = currentY - lastY;
+              lastY = currentY;
+              cb({ velocity });
+            }, { passive: true });
+          }
+        }
+      };
+    }
+
+    this.lenis.on('scroll', ({ velocity }) => {
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.update();
+      }
+      this.audio.updateScrollVelocity(velocity / 40);
+    });
+  }
+
+  _buildTimeline() {
+    const wrapper = this.root.querySelector('.scroll-space');
+    const stages = [1, 2, 3, 4, 5].map((n) => this.root.querySelector(`#stage-${n}`));
+    const flash = this.root.querySelector('#portal-flash');
+    const rail = this.root.querySelector('#progress-rail');
+
+    ScrollTrigger.create({
+      trigger: wrapper,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: this.reducedMotion ? 1 : 0.6,
+      onUpdate: (self) => {
+        this.scene.setProgress(self.progress);
+        rail.style.setProperty('--progress', `${self.progress * 100}%`);
+      },
+    });
+
+    // Stage fade in/out ranges — five roughly equal bands across the wrapper.
+    const bandSize = 1 / stages.length;
+    stages.forEach((el, i) => {
+      const start = i * bandSize;
+      const end = start + bandSize;
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: wrapper,
+          start: `${start * 100}% top`,
+          end: `${end * 100}% top`,
+          scrub: true,
+        },
+      })
+        .fromTo(el, { opacity: 0, y: this.reducedMotion ? 0 : 24 }, { opacity: 1, y: 0, duration: 0.3 })
+        .to(el, { opacity: 1, duration: 0.4 })
+        .to(el, { opacity: 0, y: this.reducedMotion ? 0 : -24, duration: 0.3 });
+    });
+
+    // Portal shader-warp / bloom flash timed to the Stage-3 band.
+    const portalStart = 2 * bandSize;
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: wrapper,
+        start: `${(portalStart + bandSize * 0.25) * 100}% top`,
+        end: `${(portalStart + bandSize * 0.75) * 100}% top`,
+        scrub: true,
+      },
+    }).to(flash, { opacity: 0.85, duration: 0.5 }).to(flash, { opacity: 0, duration: 0.5 });
+  }
+
+  _observeVisibility() {
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => this.scene.setVisible(entry.isIntersecting)),
+      { threshold: 0.01 }
+    );
+    observer.observe(this.root);
+  }
+}
+
+/* ============================================================================
+   Wire everything up + micro-SFX on interactive DOM elements.
+   ============================================================================ */
+function initSanctuary() {
+  const root = document.getElementById('sanctuary');
+  const canvas = document.getElementById('sanctuary-canvas');
+
+  const audio = new AudioManager();
+  const scene = new SceneManager(canvas);
+  new ScrollDirector(scene, audio, root);
+
+  const toggle = document.getElementById('sound-toggle');
+  toggle.addEventListener('click', () => {
+    const on = audio.toggle();
+    toggle.dataset.sound = on ? 'on' : 'off';
+    toggle.setAttribute('aria-pressed', String(on));
+  });
+
+  root.querySelectorAll('a, button').forEach((el) => {
+    el.addEventListener('mouseenter', () => audio.playClickSfx());
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSanctuary);
+} else {
+  initSanctuary();
+}
+</script>
+</body>
+</html>

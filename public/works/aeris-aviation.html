@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AERIS — Private Aviation & Bespoke Executive Concierge</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              950: '#030712',
+              900: '#070D1F',
+              850: '#0B132B',
+              800: '#111C3D',
+              750: '#172550',
+              700: '#20326B',
+              600: '#314B9B',
+              400: '#5F7FCF',
+              200: '#CBD5E1'
+            },
+            champagne: {
+              50: '#FCF9F2',
+              100: '#F7F0DF',
+              200: '#EFE0BF',
+              300: '#E4CC98',
+              400: '#D8B670',
+              500: '#C79E4E',
+              600: '#B08638',
+              700: '#8C6728',
+              800: '#6A4D1E',
+              900: '#422F11',
+              950: '#221706'
+            },
+            porcelain: {
+              50: '#F8FAFC',
+              100: '#F1F5F9',
+              200: '#E2E8F0',
+              300: '#CBD5E1'
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            display: ['"Cinzel"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', '"Space Mono"', 'monospace']
+          },
+          boxShadow: {
+            'glow-champagne': '0 0 35px -5px rgba(216, 182, 112, 0.35)',
+            'glow-champagne-lg': '0 0 65px -10px rgba(216, 182, 112, 0.5)',
+            'glow-champagne-sm': '0 0 18px -2px rgba(216, 182, 112, 0.35)',
+            'executive-card': '0 25px 60px -15px rgba(3, 7, 18, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08)',
+            'island-dock': '0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(216, 182, 112, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Cormorant Garamond, Cinzel, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #030712;
+      color: #F8FAFC;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+    .font-display { font-family: 'Cinzel', serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Precision Celestial Flight Grid */
+    .flight-grid {
+      background-size: 38px 38px;
+      background-image: 
+        linear-gradient(to right, rgba(216, 182, 112, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(216, 182, 112, 0.025) 1px, transparent 1px);
+    }
+
+    /* Floating Island Nav Deck */
+    .nav-dock {
+      background: linear-gradient(180deg, rgba(17, 28, 61, 0.85) 0%, rgba(7, 13, 31, 0.94) 100%);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(216, 182, 112, 0.22);
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    /* Graphite Glass Surfaces */
+    .glass-navy {
+      background: linear-gradient(135deg, rgba(17, 28, 61, 0.78) 0%, rgba(7, 13, 31, 0.92) 100%);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(216, 182, 112, 0.16);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-navy:hover {
+      border-color: rgba(216, 182, 112, 0.45);
+      box-shadow: 0 20px 45px -10px rgba(3, 7, 18, 0.9), 0 0 25px -5px rgba(216, 182, 112, 0.2);
+    }
+
+    /* Modern Luxury Button System */
+    .btn-liquid-champagne {
+      position: relative;
+      background: linear-gradient(135deg, #F7F0DF 0%, #D8B670 50%, #B08638 100%);
+      color: #070D1F;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 0 28px -4px rgba(216, 182, 112, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-liquid-champagne:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 45px 0 rgba(216, 182, 112, 0.7), inset 0 1px 0 rgba(255, 255, 255, 1);
+      background: linear-gradient(135deg, #FCF9F2 0%, #E4CC98 50%, #C79E4E 100%);
+    }
+
+    .btn-liquid-champagne:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 0 15px 0 rgba(216, 182, 112, 0.3);
+    }
+
+    /* Ghost Glass Button with Animated Champagne Perimeter */
+    .btn-glass-contour {
+      background: rgba(17, 28, 61, 0.65);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(216, 182, 112, 0.25);
+      color: #F8FAFC;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-glass-contour:hover {
+      background: rgba(23, 37, 80, 0.85);
+      border-color: rgba(216, 182, 112, 0.65);
+      color: #E4CC98;
+      transform: translateY(-1.5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 0 20px -5px rgba(216, 182, 112, 0.25);
+    }
+
+    .btn-glass-contour:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* Tactile Segmented Pill Toggle */
+    .pill-segmented {
+      background: rgba(7, 13, 31, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Custom Technical Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #030712; }
+    ::-webkit-scrollbar-thumb { background: #172550; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #D8B670; }
+
+    ::selection {
+      background-color: #D8B670;
+      color: #070D1F;
+    }
+  </style>
+</head>
+
+<body class="bg-navy-950 text-slate-100 antialiased selection:bg-champagne-400 selection:text-navy-950">
+
+  <!-- BACKGROUND ILLUMINATION & GRID -->
+  <div class="fixed inset-0 pointer-events-none z-0 flight-grid opacity-75"></div>
+  <div class="fixed -top-32 left-1/2 -translate-x-1/2 w-[850px] h-[550px] bg-champagne-500/10 rounded-full blur-[170px] pointer-events-none z-0"></div>
+  <div class="fixed bottom-0 right-10 w-[600px] h-[500px] bg-navy-700/15 rounded-full blur-[160px] pointer-events-none z-0"></div>
+
+  <!-- FLOATING EXECUTIVE ISLAND NAVBAR (CLEAN, MODERN, NO NUMERICALS) -->
+  <div class="fixed top-4 inset-x-0 z-50 max-w-[1360px] mx-auto px-4 sm:px-6 pointer-events-none">
+    <header class="pointer-events-auto nav-dock rounded-2xl px-4 sm:px-6 py-3 shadow-island-dock flex items-center justify-between gap-4 transition-all">
+      
+      <!-- Left Segment: Emblem & Brand Title -->
+      <a href="#" class="flex items-center gap-3.5 group shrink-0">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-champagne-200 via-champagne-400 to-champagne-600 p-[1px] shadow-glow-champagne-sm group-hover:scale-105 transition-transform duration-300">
+          <div class="w-full h-full bg-navy-950 rounded-[11px] flex items-center justify-center text-champagne-300 group-hover:text-white transition-colors">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display font-bold text-base tracking-[0.2em] text-white uppercase">
+            AERIS <span class="text-champagne-400 font-light">AVIATION</span>
+          </span>
+          <span class="text-[9px] font-mono tracking-widest text-champagne-300/70 uppercase hidden sm:block">Private Fleet & Concierge</span>
+        </div>
+      </a>
+
+      <!-- Center Segment: Modern Clean Nav Links (No Numericals) -->
+      <nav class="hidden lg:flex items-center bg-navy-900/80 p-1.5 rounded-xl border border-white/5 font-sans text-xs tracking-wider text-slate-300 shadow-inner">
+        <a href="#charter" class="px-4 py-2 rounded-lg hover:text-white hover:bg-white/5 transition-all text-champagne-300 font-semibold group flex items-center gap-1.5">
+          <span>Charter Desk</span>
+        </a>
+        <a href="#fleet" class="px-4 py-2 rounded-lg hover:text-white hover:bg-white/5 transition-all group flex items-center gap-1.5">
+          <span>Fleet Matrix</span>
+        </a>
+        <a href="#empty-legs" class="px-4 py-2 rounded-lg hover:text-white hover:bg-white/5 transition-all group flex items-center gap-1.5">
+          <span>Empty-Leg Vault</span>
+        </a>
+        <a href="#concierge" class="px-4 py-2 rounded-lg hover:text-white hover:bg-white/5 transition-all group flex items-center gap-1.5">
+          <span>Haute Gastronomy</span>
+        </a>
+      </nav>
+
+      <!-- Right Segment: Status Beacon + Command Palette (⌘K) + Shimmer Booking Action -->
+      <div class="flex items-center space-x-2.5 sm:space-x-3.5 shrink-0">
+        
+        <!-- Live Operations Telemetry Pill -->
+        <div class="hidden xl:flex items-center space-x-2 px-3 py-1.5 rounded-xl border border-champagne-400/20 bg-champagne-900/20 text-[11px] font-mono text-champagne-300">
+          <span class="w-2 h-2 rounded-full bg-champagne-400 animate-pulse"></span>
+          <span class="font-bold tracking-wide">GENEVA DISPATCH</span>
+          <span class="text-slate-600">|</span>
+          <span class="text-white font-medium">PART 135 ACTIVE</span>
+        </div>
+
+        <!-- ⌘K Quick Action Command Bar Trigger -->
+        <button onclick="openCommandPalette()" class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl btn-glass-contour text-xs font-mono transition-all">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-champagne-400"></i>
+          <span class="text-[11px] text-slate-300">Route Desk</span>
+          <kbd class="px-1.5 py-0.5 rounded bg-navy-950 text-[10px] text-slate-400 border border-white/10">⌘K</kbd>
+        </button>
+
+        <!-- Primary Liquid Champagne Action Button -->
+        <button onclick="openBookingModal()" class="px-4 sm:px-5 py-2.5 rounded-xl btn-liquid-champagne font-display font-bold text-xs tracking-wider uppercase flex items-center gap-2">
+          <span>Request Dispatch</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+        </button>
+
+        <!-- Mobile Drawer Toggle Button -->
+        <button onclick="toggleMobileNav()" class="lg:hidden p-2.5 rounded-xl bg-navy-850 border border-white/10 text-slate-300 hover:text-white" aria-label="Toggle Menu">
+          <i data-lucide="menu" id="mobileMenuIcon" class="w-4 h-4"></i>
+        </button>
+
+      </div>
+
+    </header>
+
+    <!-- MOBILE EXPANDABLE EXECUTIVE DRAWER -->
+    <div id="mobileNavDrawer" class="hidden lg:hidden mt-2 nav-dock rounded-2xl p-4 border border-champagne-400/20 space-y-3 font-mono text-xs pointer-events-auto shadow-2xl">
+      <div class="flex items-center justify-between pb-2 border-b border-white/10 text-[11px] text-slate-400">
+        <span class="flex items-center gap-1.5 text-champagne-400">
+          <span class="w-1.5 h-1.5 rounded-full bg-champagne-400 animate-pulse"></span>
+          CENTURION DESK ACTIVE
+        </span>
+        <span class="text-white">FAA PART 135</span>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-2 pt-1 font-sans text-xs">
+        <a href="#charter" onclick="toggleMobileNav()" class="p-3 rounded-xl bg-navy-900 border border-white/5 hover:border-champagne-400/40 text-slate-200 flex items-center gap-2">
+          <i data-lucide="compass" class="w-4 h-4 text-champagne-400"></i>
+          <span>Charter Desk</span>
+        </a>
+        <a href="#fleet" onclick="toggleMobileNav()" class="p-3 rounded-xl bg-navy-900 border border-white/5 hover:border-champagne-400/40 text-slate-200 flex items-center gap-2">
+          <i data-lucide="plane" class="w-4 h-4 text-champagne-400"></i>
+          <span>Fleet Matrix</span>
+        </a>
+        <a href="#empty-legs" onclick="toggleMobileNav()" class="p-3 rounded-xl bg-navy-900 border border-white/5 hover:border-champagne-400/40 text-slate-200 flex items-center gap-2">
+          <i data-lucide="sparkles" class="w-4 h-4 text-champagne-400"></i>
+          <span>Empty-Leg Vault</span>
+        </a>
+        <a href="#concierge" onclick="toggleMobileNav()" class="p-3 rounded-xl bg-navy-900 border border-white/5 hover:border-champagne-400/40 text-slate-200 flex items-center gap-2">
+          <i data-lucide="wine" class="w-4 h-4 text-champagne-400"></i>
+          <span>Gastronomy</span>
+        </a>
+      </div>
+
+      <div class="pt-2 border-t border-white/10 flex gap-2">
+        <button onclick="callConcierge(); toggleMobileNav();" class="w-full py-3 rounded-xl bg-navy-800 text-champagne-300 border border-champagne-400/30 flex items-center justify-center gap-2 font-mono">
+          <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+          <span>Direct Geneva Concierge (+41 22 819 0000)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <main class="relative z-10 pt-28 sm:pt-36">
+
+    <!-- HERO SECTION: ASYMMETRICAL ROUTE-SELECTION DRAWER & FLIGHT PATH CANVAS -->
+    <section id="charter" class="pt-6 pb-20 max-w-7xl mx-auto px-6 lg:px-8">
+      
+      <!-- Top Monogram Status Header -->
+      <div class="flex flex-wrap items-center justify-between pb-4 mb-8 border-b border-white/10 text-xs font-mono text-champagne-300/80 uppercase tracking-widest gap-4">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2 h-2 rounded-full bg-champagne-400"></span>
+          <span class="font-bold text-white">WORLDWIDE FLIGHT OPERATIONS:</span>
+          <span>FAA PART 135 & EASA AIR OPS VERIFIED</span>
+        </div>
+        <div class="flex items-center gap-6 text-[11px]">
+          <span>AVG DISPATCH TIME: 110 MINS</span>
+          <span class="text-champagne-400 font-semibold">GLOBAL RANGE: UNRESTRICTED</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        
+        <!-- LEFT COLUMN: Sharp Editorial Typography & Route Planning Controls -->
+        <div class="lg:col-span-5 space-y-7">
+          
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-champagne-900/30 border border-champagne-400/30 text-champagne-300 text-xs font-mono tracking-widest uppercase shadow-glow-champagne-sm">
+            <i data-lucide="compass" class="w-3.5 h-3.5 text-champagne-400"></i>
+            <span>TRANSCENDING ALTITUDE & TIME</span>
+          </div>
+
+          <h1 class="font-serif text-5xl sm:text-6xl xl:text-7xl font-light tracking-tight text-white leading-[1.02]">
+            Effortless Flight. <br/>
+            <span class="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-champagne-100 via-champagne-300 to-champagne-400">
+              Unrivaled Elegance.
+            </span>
+          </h1>
+
+          <p class="text-slate-300 text-base font-light leading-relaxed max-w-lg">
+            Direct access to ultra-long-range flagship aircraft, private tarmac transfers, and Michelin-starred in-flight gastronomy configured to your precise schedule.
+          </p>
+
+          <!-- ROUTE SELECTION DRAWER / PORCELAIN CARD -->
+          <div class="glass-navy rounded-3xl p-5 sm:p-6 shadow-executive-card border border-champagne-400/25 space-y-4">
+            
+            <div class="flex items-center justify-between pb-3 border-b border-white/10 text-xs font-mono">
+              <span class="text-champagne-300 font-semibold uppercase tracking-wider">Flight Configuration</span>
+              
+              <!-- Trendy Segmented Pill Toggle -->
+              <div class="pill-segmented p-1 rounded-xl flex items-center gap-1">
+                <button onclick="setFlightType('one-way')" id="btnOneWay" class="px-3 py-1 rounded-lg bg-champagne-400 text-navy-950 font-bold transition-all text-[11px] shadow-sm">One Way</button>
+                <button onclick="setFlightType('round')" id="btnRound" class="px-3 py-1 rounded-lg text-slate-400 hover:text-white transition-all text-[11px]">Round Trip</button>
+              </div>
+            </div>
+
+            <!-- Route Pair Input Selector -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
+              
+              <!-- Origin Airport -->
+              <div class="bg-navy-900/90 p-3.5 rounded-2xl border border-white/10 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Departure Point</span>
+                <select id="originSelect" onchange="updateRoute()" class="w-full bg-transparent text-white font-bold text-sm focus:outline-none cursor-pointer">
+                  <option value="JFK" class="bg-navy-900 text-white">New York (JFK / KTEB)</option>
+                  <option value="LHR" class="bg-navy-900 text-white">London (LHR / EGLF)</option>
+                  <option value="GVA" class="bg-navy-900 text-white">Geneva (GVA / LSGG)</option>
+                  <option value="DXB" class="bg-navy-900 text-white">Dubai (DXB / OMDB)</option>
+                  <option value="HND" class="bg-navy-900 text-white">Tokyo (HND / RJTT)</option>
+                </select>
+                <span class="text-[10px] text-champagne-300 block" id="originFbo">Sheltair Executive FBO</span>
+              </div>
+
+              <!-- Destination Airport -->
+              <div class="bg-navy-900/90 p-3.5 rounded-2xl border border-white/10 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Arrival Point</span>
+                <select id="destSelect" onchange="updateRoute()" class="w-full bg-transparent text-white font-bold text-sm focus:outline-none cursor-pointer">
+                  <option value="GVA" class="bg-navy-900 text-white">Geneva (GVA / LSGG)</option>
+                  <option value="DXB" selected class="bg-navy-900 text-white">Dubai (DXB / OMDB)</option>
+                  <option value="JFK" class="bg-navy-900 text-white">New York (JFK / KTEB)</option>
+                  <option value="LHR" class="bg-navy-900 text-white">London (LHR / EGLF)</option>
+                  <option value="HND" class="bg-navy-900 text-white">Tokyo (HND / RJTT)</option>
+                </select>
+                <span class="text-[10px] text-champagne-300 block" id="destFbo">Jetex Private VIP Terminal</span>
+              </div>
+
+            </div>
+
+            <!-- Flight Date & Passenger Micro Selector -->
+            <div class="grid grid-cols-2 gap-3 font-mono text-xs">
+              <div class="bg-navy-900/90 p-3 rounded-2xl border border-white/10">
+                <span class="text-[10px] uppercase text-slate-400 block">Departure Date</span>
+                <input type="date" value="2026-10-18" class="w-full bg-transparent text-white text-xs font-semibold focus:outline-none mt-1">
+              </div>
+              <div class="bg-navy-900/90 p-3 rounded-2xl border border-white/10">
+                <span class="text-[10px] uppercase text-slate-400 block">Passengers</span>
+                <select id="paxSelect" onchange="updateRoute()" class="w-full bg-transparent text-white text-xs font-semibold focus:outline-none mt-1 cursor-pointer">
+                  <option value="2" class="bg-navy-900">2 Guests (Executive)</option>
+                  <option value="4" selected class="bg-navy-900">4 Guests (Private Cabin)</option>
+                  <option value="8" class="bg-navy-900">8 Guests (State Suite)</option>
+                  <option value="14" class="bg-navy-900">14 Guests (Full Delegation)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Route Calculation Summary Strip -->
+            <div class="p-3.5 rounded-2xl bg-champagne-900/20 border border-champagne-400/30 flex items-center justify-between font-mono text-xs">
+              <div>
+                <span class="text-[10px] text-slate-400 uppercase block">Flight Duration</span>
+                <span class="text-sm font-bold text-champagne-300" id="routeDuration">6h 45m Non-Stop</span>
+              </div>
+              <div>
+                <span class="text-[10px] text-slate-400 uppercase block">Est. Investment</span>
+                <span class="text-sm font-bold text-white font-serif tracking-wide" id="routePrice">$68,500</span>
+              </div>
+              <button onclick="openBookingModal()" class="px-4 py-2 rounded-xl btn-liquid-champagne font-display font-bold text-[11px] tracking-wider uppercase">
+                Lock Route
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: 3D DUAL-POINT FLIGHT TRAJECTORY CANVAS & HUD GAUGES -->
+        <div class="lg:col-span-7 relative">
+          
+          <div class="glass-navy rounded-3xl p-6 sm:p-8 shadow-executive-card border border-champagne-400/25 relative overflow-hidden">
+            
+            <!-- Canvas HUD Header -->
+            <div class="flex flex-wrap items-center justify-between pb-4 border-b border-white/10 text-xs font-mono gap-3">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-champagne-400 animate-pulse"></span>
+                <span class="text-white font-bold tracking-widest uppercase">Great-Circle Flight Vector Telemetry</span>
+              </div>
+
+              <!-- Speed/Mach HUD -->
+              <div class="flex items-center gap-2 bg-navy-900 px-3 py-1 rounded-xl border border-white/10 text-[11px] text-champagne-300">
+                <i data-lucide="gauge" class="w-3.5 h-3.5 text-champagne-400"></i>
+                <span id="cruisingSpeed">CRUISE: MACH 0.885 (FL450)</span>
+              </div>
+            </div>
+
+            <!-- Interactive Geodesic Flight Canvas -->
+            <div class="relative my-4 h-[340px] sm:h-[420px] w-full bg-navy-950/90 rounded-2xl border border-white/5 overflow-hidden group">
+              <canvas id="flightPathCanvas" class="w-full h-full block cursor-crosshair"></canvas>
+
+              <!-- Origin Point HUD Badge -->
+              <div class="absolute top-4 left-4 bg-navy-900/90 border border-champagne-400/30 px-3.5 py-2 rounded-2xl text-[11px] font-mono text-slate-200 pointer-events-none backdrop-blur-md">
+                <span class="text-[9px] text-champagne-400 uppercase tracking-widest block">Departure</span>
+                <span class="font-bold text-white text-sm" id="hudOrigin">JFK · NEW YORK</span>
+                <span class="text-[10px] text-slate-400 block">40.6413° N, 73.7781° W</span>
+              </div>
+
+              <!-- Destination Point HUD Badge -->
+              <div class="absolute top-4 right-4 bg-navy-900/90 border border-champagne-400/30 px-3.5 py-2 rounded-2xl text-[11px] font-mono text-slate-200 pointer-events-none text-right backdrop-blur-md">
+                <span class="text-[9px] text-champagne-400 uppercase tracking-widest block">Destination</span>
+                <span class="font-bold text-white text-sm" id="hudDest">DXB · DUBAI</span>
+                <span class="text-[10px] text-slate-400 block">25.2532° N, 55.3657° E</span>
+              </div>
+
+              <!-- Real-Time Airspace Condition Floater -->
+              <div class="absolute bottom-4 left-4 bg-navy-900/90 border border-white/10 px-3.5 py-1.5 rounded-xl text-[10px] font-mono text-slate-300 pointer-events-none backdrop-blur-md flex items-center gap-2">
+                <i data-lucide="wind" class="w-3.5 h-3.5 text-champagne-400"></i>
+                <span id="windCondition">STRATOSPHERIC JETSTREAM: +48 KTS TAILWIND</span>
+              </div>
+
+              <div class="absolute bottom-4 right-4 bg-navy-900/90 border border-champagne-400/40 px-3 py-1.5 rounded-xl text-[10px] font-mono text-champagne-300 pointer-events-none backdrop-blur-md">
+                REMAINING RANGE: <span class="text-white font-bold" id="rangeRemaining">6,420 NM</span>
+              </div>
+            </div>
+
+            <!-- Flight Telemetry Bottom Grid -->
+            <div class="grid grid-cols-4 gap-2.5 pt-3 border-t border-white/10 text-center font-mono">
+              <div class="p-2.5 rounded-xl bg-navy-900 border border-white/5">
+                <span class="text-[9px] text-slate-400 uppercase block">Aircraft Type</span>
+                <span class="text-xs font-bold text-white mt-0.5 block" id="hudAircraft">Global 7500</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-navy-900 border border-white/5">
+                <span class="text-[9px] text-slate-400 uppercase block">Cabin Pressure</span>
+                <span class="text-xs font-bold text-champagne-400 mt-0.5 block">2,900 FT (Sea Level)</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-navy-900 border border-white/5">
+                <span class="text-[9px] text-slate-400 uppercase block">Ka-Band Satcom</span>
+                <span class="text-xs font-bold text-white mt-0.5 block">120 Mbps Live</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-navy-900 border border-white/5">
+                <span class="text-[9px] text-slate-400 uppercase block">SAF Offset</span>
+                <span class="text-xs font-bold text-emerald-400 mt-0.5 block">100% Carbon Neutral</span>
+              </div>
+            </div>
+
+            <!-- Interactivity Hint -->
+            <div class="mt-4 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+              <span class="flex items-center gap-1.5 text-slate-400">
+                <i data-lucide="mouse-pointer" class="w-3.5 h-3.5 text-champagne-400"></i> Hover & drag to adjust waypoint geodesic curve
+              </span>
+              <button onclick="randomizeJetstream()" class="text-champagne-400 hover:underline">
+                Re-calculate Flight Envelope ↻
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: FLEET TIER MATRIX & ULTRA-SOFT GRAY COMPARISON CARDS -->
+    <section id="fleet" class="py-24 bg-navy-900/50 border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div>
+            <span class="text-xs font-mono uppercase tracking-widest text-champagne-400 font-bold block mb-2">Bespoke Aircraft Architecture</span>
+            <h2 class="font-serif text-4xl sm:text-5xl font-normal text-white tracking-tight">
+              Curated Fleet Comparison
+            </h2>
+          </div>
+          <p class="text-slate-300 text-sm max-w-md font-light leading-relaxed">
+            Every airframe in the Aeris fleet is maintained to rigorous Wyvern Wingman and ARG/US Platinum safety ratings with stateroom suites and master showers.
+          </p>
+        </div>
+
+        <!-- 3 Tier Cards -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          <!-- Card 1: Mid-Size Executive -->
+          <div class="glass-navy rounded-3xl p-8 border border-white/10 hover:border-champagne-400/40 transition-all flex flex-col justify-between group">
+            <div>
+              <div class="flex justify-between items-start mb-6">
+                <div>
+                  <span class="text-[10px] font-mono uppercase tracking-widest text-champagne-400 font-bold">Mid-Size Executive</span>
+                  <h3 class="font-serif text-3xl font-bold text-white mt-1">Citation Latitude</h3>
+                </div>
+                <span class="px-2.5 py-1 rounded-full bg-navy-800 text-slate-300 text-[10px] font-mono">Up to 8 Pax</span>
+              </div>
+
+              <!-- Graphic Sillhouette Box -->
+              <div class="h-44 rounded-2xl bg-navy-950 p-4 border border-white/5 relative overflow-hidden flex items-center justify-center mb-6">
+                <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#D8B670_1px,transparent_1px)] [background-size:12px_12px]"></div>
+                <div class="text-center font-mono">
+                  <i data-lucide="plane" class="w-12 h-12 text-champagne-400 mx-auto group-hover:scale-110 transition-transform duration-300"></i>
+                  <span class="text-xs text-slate-400 block mt-2">RANGE: 2,700 NM · 5h 30m</span>
+                </div>
+              </div>
+
+              <ul class="space-y-2.5 text-xs font-sans text-slate-300 pb-6 border-b border-white/10">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-champagne-400"></i> Flat-floor stand-up cabin with 6ft headroom</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-champagne-400"></i> Wireless cabin management & Apple TV</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-champagne-400"></i> Transcontinental US non-stop range</li>
+              </ul>
+            </div>
+
+            <div class="pt-6 flex items-center justify-between font-mono">
+              <div>
+                <span class="text-[10px] text-slate-400 uppercase block">Hourly Charter Rate</span>
+                <span class="text-xl font-bold text-white">$6,400 <span class="text-xs text-slate-400 font-normal">/ hr</span></span>
+              </div>
+              <button onclick="selectTier('Citation Latitude', 6400)" class="px-4 py-2.5 rounded-xl btn-glass-contour text-champagne-300 text-xs font-bold uppercase transition-all">
+                Select
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 2: Super Mid-Size Flagship -->
+          <div class="glass-navy rounded-3xl p-8 border-2 border-champagne-400/60 shadow-glow-champagne transition-all flex flex-col justify-between relative group">
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-champagne-400 text-navy-950 font-display text-[10px] font-bold uppercase tracking-widest shadow-glow-champagne">
+              Most Popular Request
+            </div>
+
+            <div>
+              <div class="flex justify-between items-start mb-6">
+                <div>
+                  <span class="text-[10px] font-mono uppercase tracking-widest text-champagne-400 font-bold">Super Mid-Size Class</span>
+                  <h3 class="font-serif text-3xl font-bold text-white mt-1">Challenger 3500</h3>
+                </div>
+                <span class="px-2.5 py-1 rounded-full bg-champagne-900/60 text-champagne-300 text-[10px] font-mono border border-champagne-400/30">Up to 10 Pax</span>
+              </div>
+
+              <!-- Graphic Sillhouette Box -->
+              <div class="h-44 rounded-2xl bg-navy-950 p-4 border border-white/5 relative overflow-hidden flex items-center justify-center mb-6">
+                <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#D8B670_1px,transparent_1px)] [background-size:12px_12px]"></div>
+                <div class="text-center font-mono">
+                  <i data-lucide="plane" class="w-12 h-12 text-champagne-300 mx-auto group-hover:scale-110 transition-transform duration-300"></i>
+                  <span class="text-xs text-champagne-300 block mt-2">RANGE: 3,400 NM · 7h 45m</span>
+                </div>
+              </div>
+
+              <ul class="space-y-2.5 text-xs font-sans text-slate-300 pb-6 border-b border-white/10">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-champagne-400"></i> Nuage zero-gravity ergonomic seating</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-champagne-400"></i> Voice-controlled lighting & master audio</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-champagne-400"></i> Transatlantic London to New York capability</li>
+              </ul>
+            </div>
+
+            <div class="pt-6 flex items-center justify-between font-mono">
+              <div>
+                <span class="text-[10px] text-slate-400 uppercase block">Hourly Charter Rate</span>
+                <span class="text-xl font-bold text-champagne-300">$8,900 <span class="text-xs text-slate-400 font-normal">/ hr</span></span>
+              </div>
+              <button onclick="selectTier('Challenger 3500', 8900)" class="px-4 py-2.5 rounded-xl btn-liquid-champagne text-xs font-bold uppercase">
+                Select
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 3: Ultra Long-Range Flagship -->
+          <div class="glass-navy rounded-3xl p-8 border border-white/10 hover:border-champagne-400/40 transition-all flex flex-col justify-between group">
+            <div>
+              <div class="flex justify-between items-start mb-6">
+                <div>
+                  <span class="text-[10px] font-mono uppercase tracking-widest text-champagne-400 font-bold">Ultra Long-Range</span>
+                  <h3 class="font-serif text-3xl font-bold text-white mt-1">Bombardier Global 7500</h3>
+                </div>
+                <span class="px-2.5 py-1 rounded-full bg-navy-800 text-slate-300 text-[10px] font-mono">Up to 16 Pax</span>
+              </div>
+
+              <!-- Graphic Sillhouette Box -->
+              <div class="h-44 rounded-2xl bg-navy-950 p-4 border border-white/5 relative overflow-hidden flex items-center justify-center mb-6">
+                <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#D8B670_1px,transparent_1px)] [background-size:12px_12px]"></div>
+                <div class="text-center font-mono">
+                  <i data-lucide="plane" class="w-12 h-12 text-champagne-400 mx-auto group-hover:scale-110 transition-transform duration-300"></i>
+                  <span class="text-xs text-slate-400 block mt-2">RANGE: 7,700 NM · 16h 00m</span>
+                </div>
+              </div>
+
+              <ul class="space-y-2.5 text-xs font-sans text-slate-300 pb-6 border-b border-white/10">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-champagne-400"></i> 4 Living spaces with dedicated private stateroom</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-champagne-400"></i> En-suite master lavatory with standing shower</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-champagne-400"></i> Direct Tokyo to New York non-stop capability</li>
+              </ul>
+            </div>
+
+            <div class="pt-6 flex items-center justify-between font-mono">
+              <div>
+                <span class="text-[10px] text-slate-400 uppercase block">Hourly Charter Rate</span>
+                <span class="text-xl font-bold text-white">$14,500 <span class="text-xs text-slate-400 font-normal">/ hr</span></span>
+              </div>
+              <button onclick="selectTier('Global 7500', 14500)" class="px-4 py-2.5 rounded-xl btn-glass-contour text-champagne-300 text-xs font-bold uppercase transition-all">
+                Select
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: CURATED EMPTY-LEG VAULT -->
+    <section id="empty-legs" class="py-20 max-w-7xl mx-auto px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 text-xs font-mono text-champagne-400 uppercase font-bold tracking-wider mb-2">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+            <span>Private Allotment Vault</span>
+          </div>
+          <h2 class="font-serif text-3xl sm:text-5xl font-normal text-white tracking-tight">
+            Curated Empty-Leg Departures
+          </h2>
+        </div>
+        <p class="text-slate-300 text-sm max-w-md font-light leading-relaxed">
+          Spontaneous global repositioning sectors available at up to 60% charter reduction with full stateroom amenities.
+        </p>
+      </div>
+
+      <!-- Empty Legs Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs" id="emptyLegsGrid">
+        <!-- Rendered via JavaScript dynamically -->
+      </div>
+
+    </section>
+
+    <!-- SECTION: BESPOKE IN-FLIGHT GASTRONOMY & CHAUFFEUR CONCIERGE -->
+    <section id="concierge" class="py-24 bg-navy-900/60 border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <div class="lg:col-span-5 space-y-6">
+            <span class="text-xs font-mono uppercase tracking-widest text-champagne-400 font-bold block">Haute Gastronomy & Logistics</span>
+            <h2 class="font-serif text-4xl sm:text-5xl font-normal text-white tracking-tight leading-tight">
+              Michelin Dining at 45,000 Feet
+            </h2>
+            <p class="text-slate-300 text-sm sm:text-base font-light leading-relaxed">
+              Every charter includes sommelier-curated vintage champagne pairings, Petrossian Imperial Ossetra caviar service, and bespoke hot galley menus prepared by culinary masters in Paris, London, and Tokyo.
+            </p>
+
+            <div class="space-y-4 pt-2 font-sans text-xs">
+              <div class="flex items-start gap-3 p-3.5 rounded-2xl bg-navy-950/80 border border-white/10">
+                <i data-lucide="wine" class="w-5 h-5 text-champagne-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <h4 class="font-bold text-white uppercase font-display text-sm tracking-wide">Dom Pérignon P2 Vintage Cellar</h4>
+                  <p class="text-slate-400 mt-0.5 leading-relaxed">Temperature-controlled in-flight cellaring preserving effervescence at high altitude cabin pressure.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-3.5 rounded-2xl bg-navy-950/80 border border-white/10">
+                <i data-lucide="car" class="w-5 h-5 text-champagne-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <h4 class="font-bold text-white uppercase font-display text-sm tracking-wide">Airside Rolls-Royce Phantom Escort</h4>
+                  <p class="text-slate-400 mt-0.5 leading-relaxed">Direct tarmac transfer from private aircraft stairs to presidential suite or superyacht berth.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Interactive Gastronomy & Service Configurator -->
+          <div class="lg:col-span-7 glass-navy rounded-3xl p-6 sm:p-8 border border-champagne-400/25 space-y-6">
+            <div class="flex items-center justify-between pb-4 border-b border-white/10 font-mono text-xs">
+              <div>
+                <span class="text-champagne-400 font-bold uppercase">Concierge Service Customizer</span>
+                <div class="text-white font-bold text-sm mt-0.5">In-Flight Experience Package</div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-champagne-900/60 border border-champagne-400/30 text-champagne-300 text-[10px]">
+                Complimentary for Centurion
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
+              
+              <!-- Option 1 -->
+              <label class="p-4 rounded-2xl bg-navy-950/90 border border-champagne-400/30 flex flex-col justify-between cursor-pointer hover:border-champagne-400 transition-colors group">
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="font-bold text-white group-hover:text-champagne-300">Caviar & Champagne Tasting</span>
+                    <input type="checkbox" checked class="accent-champagne-400 w-4 h-4">
+                  </div>
+                  <p class="text-[11px] text-slate-400 font-sans leading-relaxed">Imperial Ossetra 125g with blinis, crème fraîche, and Dom Pérignon 2013.</p>
+                </div>
+                <span class="text-[10px] text-champagne-400 mt-4 block font-semibold">Included with Charter</span>
+              </label>
+
+              <!-- Option 2 -->
+              <label class="p-4 rounded-2xl bg-navy-950/90 border border-champagne-400/30 flex flex-col justify-between cursor-pointer hover:border-champagne-400 transition-colors group">
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="font-bold text-white group-hover:text-champagne-300">Tarmac Chauffeur Transit</span>
+                    <input type="checkbox" checked class="accent-champagne-400 w-4 h-4">
+                  </div>
+                  <p class="text-[11px] text-slate-400 font-sans leading-relaxed">Armored Rolls-Royce Phantom or Maybach S680 waiting at runway arrival.</p>
+                </div>
+                <span class="text-[10px] text-champagne-400 mt-4 block font-semibold">Included with Charter</span>
+              </label>
+
+              <!-- Option 3 -->
+              <label class="p-4 rounded-2xl bg-navy-950/90 border border-white/10 flex flex-col justify-between cursor-pointer hover:border-champagne-400 transition-colors group">
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="font-bold text-white group-hover:text-champagne-300">Onboard Sommelier</span>
+                    <input type="checkbox" class="accent-champagne-400 w-4 h-4">
+                  </div>
+                  <p class="text-[11px] text-slate-400 font-sans leading-relaxed">Dedicated Grand Cru certified flight attendant for 8-course wine pairing.</p>
+                </div>
+                <span class="text-[10px] text-champagne-400 mt-4 block">+$2,800 Surcharge</span>
+              </label>
+
+              <!-- Option 4 -->
+              <label class="p-4 rounded-2xl bg-navy-950/90 border border-white/10 flex flex-col justify-between cursor-pointer hover:border-champagne-400 transition-colors group">
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="font-bold text-white group-hover:text-champagne-300">Helicopter City Transfer</span>
+                    <input type="checkbox" class="accent-champagne-400 w-4 h-4">
+                  </div>
+                  <p class="text-[11px] text-slate-400 font-sans leading-relaxed">Airbus ACH130 connecting airport tarmac to Manhattan or Monaco Heliport.</p>
+                </div>
+                <span class="text-[10px] text-champagne-400 mt-4 block">+$3,500 Surcharge</span>
+              </label>
+
+            </div>
+
+            <div class="p-4 rounded-2xl bg-navy-950 border border-white/10 flex items-center justify-between font-mono text-xs">
+              <span class="text-slate-400">Special Dietary Protocol:</span>
+              <span class="text-white font-semibold">Custom Halal, Kosher, or Plant-Based Available</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION BANNER -->
+    <section class="py-24 max-w-7xl mx-auto px-6 lg:px-8 text-center">
+      <div class="rounded-3xl p-8 sm:p-14 bg-gradient-to-b from-navy-850 to-navy-950 border border-champagne-400/30 relative overflow-hidden shadow-glow-champagne">
+        
+        <div class="absolute -right-20 -top-20 w-80 h-80 bg-champagne-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <span class="text-xs font-mono uppercase tracking-[0.25em] text-champagne-400 font-bold">Priority Global Dispatch</span>
+        <h2 class="font-serif text-4xl sm:text-6xl font-light text-white tracking-tight mt-3 mb-4">
+          Your Jet Awaits On The Tarmac.
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto font-light mb-8 leading-relaxed">
+          Speak with an Aeris aviation director to finalize custom departure slots, confidential passenger manifests, and presidential security details.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button onclick="openBookingModal()" class="w-full sm:w-auto px-8 py-4 rounded-xl btn-liquid-champagne font-display font-bold text-xs tracking-wider uppercase transition-all shadow-glow-champagne flex items-center justify-center gap-2">
+            <span>Reserve Private Aircraft</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </button>
+          <button onclick="callConcierge()" id="callConciergeBtn" class="w-full sm:w-auto px-6 py-4 rounded-xl btn-glass-contour font-mono text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-2">
+            <i data-lucide="phone" class="w-4 h-4 text-champagne-400"></i>
+            <span>Call Geneva Flight Desk: +41 22 819 0000</span>
+          </button>
+        </div>
+
+        <div class="mt-8 font-mono text-[11px] text-slate-400">
+          Wyvern Wingman Certified · ARG/US Platinum · IS-BAO Stage 3 Registered
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 bg-navy-950 py-12 text-slate-400 text-xs font-mono">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+      
+      <div class="flex items-center space-x-3">
+        <div class="w-6 h-6 rounded bg-champagne-400 text-navy-950 flex items-center justify-center font-display font-bold text-xs">
+          A
+        </div>
+        <span class="font-display font-bold text-white tracking-widest text-sm">AERIS AVIATION GROUP</span>
+        <span class="text-slate-600">|</span>
+        <span>Geneva · London · New York · Dubai</span>
+      </div>
+
+      <div class="flex items-center space-x-6 text-[11px]">
+        <a href="#" class="hover:text-champagne-300 transition-colors">Air Operator Certificate (AOC)</a>
+        <a href="#" class="hover:text-champagne-300 transition-colors">Passenger Manifest Confidentiality</a>
+        <a href="#" class="hover:text-champagne-300 transition-colors">SAF Carbon Offset Registry</a>
+        <a href="#" class="hover:text-champagne-300 transition-colors">VIP FBO Directory</a>
+      </div>
+
+      <div class="text-[11px] text-slate-500">
+        © 2026 Aeris Aviation SA. All rights reserved.
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- MODAL: ⌘K COMMAND PALETTE (EXECUTIVE ROUTE FINDER) -->
+  <div id="commandPaletteModal" class="fixed inset-0 z-50 flex items-start justify-center pt-24 p-4 bg-navy-950/85 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="glass-navy border border-champagne-400/40 rounded-3xl max-w-xl w-full p-4 relative shadow-executive-card transform scale-95 transition-transform duration-300 font-mono" id="commandPaletteCard">
+      
+      <!-- Search Input -->
+      <div class="flex items-center gap-3 px-3 py-2 border-b border-white/10 pb-3">
+        <i data-lucide="search" class="w-4 h-4 text-champagne-400"></i>
+        <input 
+          type="text" 
+          id="cmdSearchInput"
+          placeholder="Search destinations, aircraft tiers, or empty legs (e.g., 'Geneva', 'Global 7500')..." 
+          class="w-full bg-transparent text-sm text-white focus:outline-none placeholder-slate-400 font-mono"
+        />
+        <kbd class="px-2 py-0.5 rounded bg-navy-900 text-[10px] text-slate-400 border border-white/10">ESC</kbd>
+      </div>
+
+      <!-- Quick Action List -->
+      <div class="pt-3 space-y-1 text-xs">
+        <div onclick="setQuickRoute('JFK', 'GVA'); closeCommandPalette();" class="p-2.5 rounded-xl hover:bg-navy-800/80 cursor-pointer flex items-center justify-between group transition-colors">
+          <div class="flex items-center gap-2.5 text-slate-200 group-hover:text-champagne-300">
+            <i data-lucide="plane-takeoff" class="w-4 h-4 text-champagne-400"></i>
+            <span>New York (KTEB) ➔ Geneva (LSGG) Non-Stop</span>
+          </div>
+          <span class="text-[10px] text-slate-400 font-serif">$72,000</span>
+        </div>
+
+        <div onclick="setQuickRoute('LHR', 'DXB'); closeCommandPalette();" class="p-2.5 rounded-xl hover:bg-navy-800/80 cursor-pointer flex items-center justify-between group transition-colors">
+          <div class="flex items-center gap-2.5 text-slate-200 group-hover:text-champagne-300">
+            <i data-lucide="plane-takeoff" class="w-4 h-4 text-champagne-400"></i>
+            <span>London (EGLF) ➔ Dubai (OMDB) Non-Stop</span>
+          </div>
+          <span class="text-[10px] text-slate-400 font-serif">$64,000</span>
+        </div>
+
+        <div onclick="selectTier('Global 7500', 14500); closeCommandPalette();" class="p-2.5 rounded-xl hover:bg-navy-800/80 cursor-pointer flex items-center justify-between group transition-colors">
+          <div class="flex items-center gap-2.5 text-slate-200 group-hover:text-champagne-300">
+            <i data-lucide="sparkles" class="w-4 h-4 text-champagne-400"></i>
+            <span>Inspect Bombardier Global 7500 Flagship Suite</span>
+          </div>
+          <span class="text-[10px] text-slate-400">Ultra-Long</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: BESPOKE PRIVATE CHARTER RESERVATION DIALOG -->
+  <div id="bookingModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/85 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="glass-navy border border-champagne-400/40 rounded-3xl max-w-lg w-full p-6 sm:p-8 relative shadow-executive-card transform scale-95 transition-transform duration-300" id="bookingModalCard">
+      
+      <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-2 mb-2">
+        <span class="w-2 h-2 rounded-full bg-champagne-400 animate-pulse"></span>
+        <span class="text-xs font-mono uppercase tracking-widest text-champagne-300 font-bold">Private Dispatch Requisition</span>
+      </div>
+
+      <h3 class="font-serif text-3xl font-normal text-white tracking-tight">Initiate Private Flight Order</h3>
+      <p class="text-xs text-slate-300 mt-1 mb-6 font-light leading-relaxed">
+        Submit private passenger credentials to lock aircraft tail number and slot allocations.
+      </p>
+
+      <form id="bookingForm" onsubmit="handleBookingSubmit(event)" class="space-y-4 text-xs font-mono">
+        <div>
+          <label class="block text-slate-300 uppercase mb-1">Lead Passenger / Principal Name</label>
+          <input required type="text" placeholder="Lord Edward Sterling" class="w-full bg-navy-900 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-champagne-400 transition-colors">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 uppercase mb-1">Executive Email</label>
+            <input required type="email" placeholder="principal@sterling-holdings.ch" class="w-full bg-navy-900 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-champagne-400 transition-colors">
+          </div>
+          <div>
+            <label class="block text-slate-300 uppercase mb-1">Encrypted Phone / Signal</label>
+            <input required type="text" placeholder="+41 79 000 0000" class="w-full bg-navy-900 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-champagne-400 transition-colors">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 uppercase mb-1">Selected Aircraft Tier</label>
+            <select id="modalAircraftSelect" class="w-full bg-navy-900 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-champagne-400 transition-colors">
+              <option>Bombardier Global 7500 (Flagship)</option>
+              <option>Challenger 3500 (Super Mid-Size)</option>
+              <option>Citation Latitude (Mid-Size)</option>
+              <option>Gulfstream G700 (Ultra-Long)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-300 uppercase mb-1">Payment Protocol</label>
+            <select class="w-full bg-navy-900 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-champagne-400 transition-colors">
+              <option>Centurion Account Direct Debit</option>
+              <option>Wire Escrow (Swiss Vault)</option>
+              <option>USDC / Bitcoin Institutional</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-4 rounded-xl btn-liquid-champagne font-display font-bold text-xs uppercase tracking-wider transition-all mt-4 shadow-glow-champagne">
+          Confirm Flight Requisition & Tail Allocation
+        </button>
+      </form>
+
+      <div id="bookingSuccess" class="hidden text-center py-6 space-y-4 font-mono">
+        <div class="w-12 h-12 rounded-full bg-champagne-900/60 text-champagne-300 border border-champagne-400/40 flex items-center justify-center mx-auto">
+          <i data-lucide="check" class="w-6 h-6"></i>
+        </div>
+        <h4 class="font-serif text-2xl font-bold text-white">Flight Itinerary Generated</h4>
+        <div class="bg-navy-900 p-3 rounded-xl border border-white/10 text-champagne-300 text-xs select-all">
+          BOOKING REFERENCE: AERIS-VIP-7702-DXB
+        </div>
+        <p class="text-xs text-slate-300">Your dedicated flight director will coordinate the tarmac security clearance within 15 minutes.</p>
+        <button onclick="closeBookingModal()" class="px-6 py-2 bg-navy-800 border border-white/10 rounded-xl text-xs text-white uppercase font-bold">Dismiss</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-navy-900 border border-champagne-400/40 text-white px-4 py-3 rounded-2xl shadow-glow-champagne font-mono text-xs flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <i data-lucide="plane" class="w-4 h-4 text-champagne-400"></i>
+    <span id="toastMsg">Flight itinerary updated.</span>
+  </div>
+
+  <!-- JAVASCRIPT: GEODESIC FLIGHT CANVAS & INTERACTIVE LOGIC -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    /* ==========================================================
+       0. COMMAND PALETTE & MOBILE NAVIGATION LOGIC
+       ========================================================== */
+    function toggleMobileNav() {
+      const drawer = document.getElementById('mobileNavDrawer');
+      const icon = document.getElementById('mobileMenuIcon');
+      const isHidden = drawer.classList.contains('hidden');
+      
+      if (isHidden) {
+        drawer.classList.remove('hidden');
+        icon.setAttribute('data-lucide', 'x');
+      } else {
+        drawer.classList.add('hidden');
+        icon.setAttribute('data-lucide', 'menu');
+      }
+      lucide.createIcons();
+    }
+
+    function openCommandPalette() {
+      const modal = document.getElementById('commandPaletteModal');
+      const card = document.getElementById('commandPaletteCard');
+      const input = document.getElementById('cmdSearchInput');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-95');
+      card.classList.add('scale-100');
+      if (input) input.focus();
+    }
+
+    function closeCommandPalette() {
+      const modal = document.getElementById('commandPaletteModal');
+      const card = document.getElementById('commandPaletteCard');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+    }
+
+    function setQuickRoute(orig, dest) {
+      document.getElementById('originSelect').value = orig;
+      document.getElementById('destSelect').value = dest;
+      updateRoute();
+    }
+
+    // Keyboard Shortcuts: ⌘K and Escape
+    window.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        openCommandPalette();
+      }
+      if (e.key === 'Escape') {
+        closeCommandPalette();
+        closeBookingModal();
+      }
+    });
+
+    /* ==========================================================
+       1. GREAT-CIRCLE FLIGHT PATH & GEODESIC VECTOR CANVAS
+       ========================================================== */
+    const flightCanvas = document.getElementById('flightPathCanvas');
+    const flightCtx = flightCanvas ? flightCanvas.getContext('2d') : null;
+    let canvasW, canvasH;
+    let aircraftProgress = 0.35;
+    let flightSpeed = 0.0025;
+
+    // Airport Coordinates mapped to normalized canvas percentages (X%, Y%)
+    const airportCoordinates = {
+      JFK: { name: 'New York (JFK)', xPct: 0.22, yPct: 0.42, fbo: 'Sheltair Executive FBO' },
+      LHR: { name: 'London (LHR)', xPct: 0.48, yPct: 0.32, fbo: 'Farnborough Airport TAG Terminal' },
+      GVA: { name: 'Geneva (GVA)', xPct: 0.52, yPct: 0.38, fbo: 'ExecuJet Private Terminal' },
+      DXB: { name: 'Dubai (DXB)', xPct: 0.72, yPct: 0.54, fbo: 'Jetex Private VIP Terminal' },
+      HND: { name: 'Tokyo (HND)', xPct: 0.88, yPct: 0.44, fbo: 'Haneda Private Business Jet Gate' }
+    };
+
+    let currentOrigin = 'JFK';
+    let currentDest = 'DXB';
+
+    function resizeFlightCanvas() {
+      if (!flightCanvas) return;
+      const rect = flightCanvas.getBoundingClientRect();
+      canvasW = flightCanvas.width = rect.width * (window.devicePixelRatio || 1);
+      canvasH = flightCanvas.height = rect.height * (window.devicePixelRatio || 1);
+    }
+
+    function drawFlightScene() {
+      if (!flightCtx || !flightCanvas) return;
+      flightCtx.clearRect(0, 0, canvasW, canvasH);
+
+      const p1 = airportCoordinates[currentOrigin] || airportCoordinates.JFK;
+      const p2 = airportCoordinates[currentDest] || airportCoordinates.DXB;
+
+      const x1 = p1.xPct * canvasW;
+      const y1 = p1.yPct * canvasH;
+      const x2 = p2.xPct * canvasW;
+      const y2 = p2.yPct * canvasH;
+
+      // 1. Draw Globe Gridlines & Atmospheric Latitude Arcs
+      flightCtx.strokeStyle = 'rgba(216, 182, 112, 0.05)';
+      flightCtx.lineWidth = 1;
+      for (let i = 1; i <= 5; i++) {
+        const y = (canvasH / 6) * i;
+        flightCtx.beginPath();
+        flightCtx.moveTo(0, y);
+        flightCtx.lineTo(canvasW, y);
+        flightCtx.stroke();
+      }
+
+      // 2. Draw Great-Circle Curvature Arc (Quadratic Bezier with elevated apex)
+      const midX = (x1 + x2) / 2;
+      const dist = Math.hypot(x2 - x1, y2 - y1);
+      const arcHeight = Math.min(canvasH * 0.45, dist * 0.35);
+      const midY = (y1 + y2) / 2 - arcHeight;
+
+      // Outer Glow Line
+      flightCtx.beginPath();
+      flightCtx.moveTo(x1, y1);
+      flightCtx.quadraticCurveTo(midX, midY, x2, y2);
+      flightCtx.strokeStyle = 'rgba(216, 182, 112, 0.45)';
+      flightCtx.lineWidth = 2.5 * (window.devicePixelRatio || 1);
+      flightCtx.shadowColor = '#D8B670';
+      flightCtx.shadowBlur = 12;
+      flightCtx.stroke();
+      flightCtx.shadowBlur = 0;
+
+      // Dashed Route Progress Path
+      flightCtx.beginPath();
+      flightCtx.moveTo(x1, y1);
+      flightCtx.quadraticCurveTo(midX, midY, x2, y2);
+      flightCtx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+      flightCtx.setLineDash([6, 6]);
+      flightCtx.lineWidth = 1.2 * (window.devicePixelRatio || 1);
+      flightCtx.stroke();
+      flightCtx.setLineDash([]);
+
+      // 3. Draw Aircraft Position at Current Progress Point
+      aircraftProgress = (aircraftProgress + flightSpeed) % 1;
+      const t = aircraftProgress;
+      const curX = (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * midX + t * t * x2;
+      const curY = (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * midY + t * t * y2;
+
+      // Aircraft Glowing Node
+      flightCtx.beginPath();
+      flightCtx.arc(curX, curY, 5 * (window.devicePixelRatio || 1), 0, Math.PI * 2);
+      flightCtx.fillStyle = '#FCF9F2';
+      flightCtx.shadowColor = '#D8B670';
+      flightCtx.shadowBlur = 16;
+      flightCtx.fill();
+      flightCtx.shadowBlur = 0;
+
+      // Aircraft Radar Wave Ripple
+      const rippleSize = (Date.now() * 0.02) % 20;
+      flightCtx.beginPath();
+      flightCtx.arc(curX, curY, rippleSize * (window.devicePixelRatio || 1), 0, Math.PI * 2);
+      flightCtx.strokeStyle = `rgba(216, 182, 112, ${1 - rippleSize / 20})`;
+      flightCtx.lineWidth = 1.5;
+      flightCtx.stroke();
+
+      // 4. Draw Airport Waypoint Beacons (Origin & Destination)
+      const drawBeacon = (x, y, code) => {
+        flightCtx.beginPath();
+        flightCtx.arc(x, y, 6 * (window.devicePixelRatio || 1), 0, Math.PI * 2);
+        flightCtx.fillStyle = '#D8B670';
+        flightCtx.fill();
+
+        flightCtx.beginPath();
+        flightCtx.arc(x, y, 12 * (window.devicePixelRatio || 1), 0, Math.PI * 2);
+        flightCtx.strokeStyle = 'rgba(216, 182, 112, 0.4)';
+        flightCtx.lineWidth = 1;
+        flightCtx.stroke();
+
+        flightCtx.fillStyle = '#FFFFFF';
+        flightCtx.font = `bold ${10 * (window.devicePixelRatio || 1)}px JetBrains Mono`;
+        flightCtx.fillText(code, x - 12, y + 20 * (window.devicePixelRatio || 1));
+      };
+
+      drawBeacon(x1, y1, currentOrigin);
+      drawBeacon(x2, y2, currentDest);
+
+      requestAnimationFrame(drawFlightScene);
+    }
+
+    /* ==========================================================
+       2. ROUTE CALCULATOR & PRICING LOGIC
+       ========================================================== */
+    const routeMatrix = {
+      'JFK-DXB': { duration: '12h 15m Non-Stop', price: '$128,500', range: '5,940 NM', aircraft: 'Global 7500' },
+      'JFK-GVA': { duration: '7h 30m Non-Stop', price: '$72,000', range: '3,860 NM', aircraft: 'Challenger 3500' },
+      'JFK-LHR': { duration: '6h 45m Non-Stop', price: '$68,500', range: '3,450 NM', aircraft: 'Challenger 3500' },
+      'JFK-HND': { duration: '14h 10m Polar Track', price: '$148,000', range: '6,740 NM', aircraft: 'Global 7500' },
+      'LHR-DXB': { duration: '6h 50m Non-Stop', price: '$64,000', range: '3,420 NM', aircraft: 'Challenger 3500' },
+      'GVA-DXB': { duration: '5h 45m Non-Stop', price: '$58,000', range: '2,980 NM', aircraft: 'Citation Latitude' },
+      'DXB-HND': { duration: '9h 15m Non-Stop', price: '$94,000', range: '4,820 NM', aircraft: 'Global 7500' }
+    };
+
+    function updateRoute() {
+      const orig = document.getElementById('originSelect').value;
+      const dest = document.getElementById('destSelect').value;
+
+      currentOrigin = orig;
+      currentDest = dest;
+
+      const p1 = airportCoordinates[orig];
+      const p2 = airportCoordinates[dest];
+
+      if (p1 && p2) {
+        document.getElementById('originFbo').textContent = p1.fbo;
+        document.getElementById('destFbo').textContent = p2.fbo;
+        document.getElementById('hudOrigin').textContent = `${orig} · ${p1.name.split(' ')[0]}`;
+        document.getElementById('hudDest').textContent = `${dest} · ${p2.name.split(' ')[0]}`;
+      }
+
+      const pairKey = `${orig}-${dest}`;
+      const revKey = `${dest}-${orig}`;
+      const data = routeMatrix[pairKey] || routeMatrix[revKey] || {
+        duration: '8h 20m Non-Stop',
+        price: '$84,000',
+        range: '4,200 NM',
+        aircraft: 'Challenger 3500'
+      };
+
+      document.getElementById('routeDuration').textContent = data.duration;
+      document.getElementById('routePrice').textContent = data.price;
+      document.getElementById('rangeRemaining').textContent = data.range;
+      document.getElementById('hudAircraft').textContent = data.aircraft;
+
+      showToast(`Flight itinerary recalculated: ${orig} ➔ ${dest}`);
+    }
+
+    function setFlightType(type) {
+      const btnOne = document.getElementById('btnOneWay');
+      const btnRnd = document.getElementById('btnRound');
+
+      if (type === 'one-way') {
+        btnOne.className = 'px-3 py-1 rounded-lg bg-champagne-400 text-navy-950 font-bold transition-all text-[11px] shadow-sm';
+        btnRnd.className = 'px-3 py-1 rounded-lg text-slate-400 hover:text-white transition-all text-[11px]';
+      } else {
+        btnRnd.className = 'px-3 py-1 rounded-lg bg-champagne-400 text-navy-950 font-bold transition-all text-[11px] shadow-sm';
+        btnOne.className = 'px-3 py-1 rounded-lg text-slate-400 hover:text-white transition-all text-[11px]';
+      }
+    }
+
+    function randomizeJetstream() {
+      const winds = ['+54 KTS TAILWIND (OPTIMAL)', '+38 KTS JETSTREAM BOOST', 'ZERO CONVECTIVE TURBULENCE'];
+      const chosen = winds[Math.floor(Math.random() * winds.length)];
+      document.getElementById('windCondition').textContent = `STRATOSPHERIC JETSTREAM: ${chosen}`;
+      showToast('Flight envelope refreshed with live oceanic winds.');
+    }
+
+    function selectTier(name, rate) {
+      document.getElementById('modalAircraftSelect').value = name.includes('Global') ? 'Bombardier Global 7500 (Flagship)' :
+        name.includes('Challenger') ? 'Challenger 3500 (Super Mid-Size)' : 'Citation Latitude (Mid-Size)';
+      openBookingModal();
+    }
+
+    /* ==========================================================
+       3. EMPTY-LEG OPPORTUNITIES VAULT
+       ========================================================== */
+    const emptyLegsData = [
+      {
+        id: "EL-849",
+        route: "London (EGLF) ➔ Nice (LFMN)",
+        date: "Tomorrow, 14:00 UTC",
+        aircraft: "Citation Latitude",
+        pax: "Up to 8 Guests",
+        was: "$18,500",
+        now: "$7,800",
+        discount: "58% OFF"
+      },
+      {
+        id: "EL-902",
+        route: "Geneva (LSGG) ➔ Dubai (OMDB)",
+        date: "22 Oct 2026",
+        aircraft: "Challenger 3500",
+        pax: "Up to 10 Guests",
+        was: "$62,000",
+        now: "$28,500",
+        discount: "54% OFF"
+      },
+      {
+        id: "EL-944",
+        route: "New York (KTEB) ➔ Miami (KOPF)",
+        date: "25 Oct 2026",
+        aircraft: "Global 7500",
+        pax: "Up to 14 Guests",
+        was: "$48,000",
+        now: "$21,000",
+        discount: "56% OFF"
+      }
+    ];
+
+    function renderEmptyLegs() {
+      const grid = document.getElementById('emptyLegsGrid');
+      if (!grid) return;
+
+      grid.innerHTML = emptyLegsData.map(leg => `
+        <div class="glass-navy p-6 rounded-3xl border border-white/10 hover:border-champagne-400/40 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="flex justify-between items-center text-[10px] text-slate-400 mb-3">
+              <span class="text-champagne-400 font-bold">${leg.id}</span>
+              <span class="px-2 py-0.5 rounded-full bg-champagne-900/50 text-champagne-300 border border-champagne-400/30 font-semibold">${leg.discount}</span>
+            </div>
+
+            <h4 class="font-serif text-2xl font-bold text-white mb-1 group-hover:text-champagne-300 transition-colors">${leg.route}</h4>
+            <p class="text-xs text-slate-400 font-sans mb-4">${leg.date} · ${leg.aircraft}</p>
+            
+            <div class="p-3 rounded-2xl bg-navy-950 border border-white/5 space-y-1 mb-6">
+              <div class="flex justify-between text-[11px]">
+                <span class="text-slate-500">Standard Charter:</span>
+                <span class="text-slate-400 line-through">${leg.was}</span>
+              </div>
+              <div class="flex justify-between text-sm font-bold">
+                <span class="text-champagne-400">Empty-Leg Rate:</span>
+                <span class="text-white">${leg.now}</span>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="holdEmptyLeg('${leg.id}', '${leg.route}')" class="w-full py-2.5 rounded-xl btn-glass-contour text-champagne-300 text-xs font-bold uppercase transition-all">
+            Hold Sector
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function holdEmptyLeg(id, route) {
+      showToast(`Empty-leg sector [${id}] ${route} held in your VIP cart.`);
+      openBookingModal();
+    }
+
+    /* ==========================================================
+       4. MODAL & TOAST HANDLERS
+       ========================================================== */
+    function openBookingModal() {
+      const modal = document.getElementById('bookingModal');
+      const card = document.getElementById('bookingModalCard');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-95');
+      card.classList.add('scale-100');
+    }
+
+    function closeBookingModal() {
+      const modal = document.getElementById('bookingModal');
+      const card = document.getElementById('bookingModalCard');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+
+      setTimeout(() => {
+        document.getElementById('bookingForm').classList.remove('hidden');
+        document.getElementById('bookingSuccess').classList.add('hidden');
+      }, 300);
+    }
+
+    function handleBookingSubmit(e) {
+      e.preventDefault();
+      document.getElementById('bookingForm').classList.add('hidden');
+      document.getElementById('bookingSuccess').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = msg;
+
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3400);
+    }
+
+    function callConcierge() {
+      showToast('Connecting directly to Geneva Centurion Dispatch Room...');
+    }
+
+    /* ==========================================================
+       5. LIFECYCLE INITIALIZATIONS
+       ========================================================== */
+    window.addEventListener('load', () => {
+      resizeFlightCanvas();
+      drawFlightScene();
+      renderEmptyLegs();
+      updateRoute();
+    });
+
+    window.addEventListener('resize', () => {
+      resizeFlightCanvas();
+    });
+  </script>
+
+</body>
+</html>

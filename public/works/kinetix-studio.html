@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KINETIX — Real-Time Cloud Video Production & Neural VFX Suite</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            graphite: {
+              950: '#05070A',
+              900: '#080B10',
+              850: '#0D1117',
+              800: '#131822',
+              750: '#19202D',
+              700: '#222B3D',
+              600: '#323E56',
+              400: '#64748B',
+              300: '#94A3B8',
+              200: '#CBD5E1'
+            },
+            lime: {
+              300: '#BEF264',
+              400: '#A3E635',
+              500: '#84CC16',
+              600: '#65A30D',
+              900: '#365314',
+              950: '#142303'
+            }
+          },
+          fontFamily: {
+            display: ['"Poppins"', 'sans-serif'],
+            sans: ['"Lato"', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', '"Space Mono"', 'monospace']
+          },
+          boxShadow: {
+            'glow-lime': '0 0 35px -5px rgba(163, 230, 53, 0.4)',
+            'glow-lime-lg': '0 0 65px -10px rgba(163, 230, 53, 0.55)',
+            'glow-lime-sm': '0 0 18px -2px rgba(163, 230, 53, 0.45)',
+            'glass-panel': '0 25px 60px -15px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+            'navbar-dock': '0 20px 45px -10px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.15)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Poppins, Lato, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #05070A;
+      color: #F8FAFC;
+      font-family: 'Lato', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-display { font-family: 'Poppins', sans-serif; }
+    .font-sans { font-family: 'Lato', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Precision Blueprint Production Grid */
+    .studio-grid {
+      background-size: 36px 36px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    }
+
+    /* Floating Island Nav Deck */
+    .nav-dock {
+      background: linear-gradient(180deg, rgba(19, 24, 34, 0.88) 0%, rgba(8, 11, 16, 0.94) 100%);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    }
+
+    /* Graphite Glass Surfaces */
+    .glass-graphite {
+      background: linear-gradient(135deg, rgba(19, 24, 34, 0.82) 0%, rgba(8, 11, 16, 0.95) 100%);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-graphite:hover {
+      border-color: rgba(163, 230, 53, 0.35);
+    }
+
+    /* ==========================================================
+       TRENDSETTING BUTTON STYLES & SHIMMER EFFECTS (2026 TREND)
+       ========================================================== */
+    @keyframes borderShimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Liquid Gradient Shimmer Button */
+    .btn-shimmer-lime {
+      position: relative;
+      background: linear-gradient(180deg, #BEF264 0%, #A3E635 60%, #84CC16 100%);
+      color: #05070A;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 0 28px -4px rgba(163, 230, 53, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-shimmer-lime:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 45px -2px rgba(163, 230, 53, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      background: linear-gradient(180deg, #D9F99D 0%, #BEF264 60%, #A3E635 100%);
+    }
+
+    .btn-shimmer-lime:active {
+      transform: translateY(0px) scale(0.98);
+      box-shadow: 0 0 18px -2px rgba(163, 230, 53, 0.4);
+    }
+
+    /* Tactile Cyber Glass Button with Animated Perimeter */
+    .btn-cyber-ghost {
+      position: relative;
+      background: rgba(19, 24, 34, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #F8FAFC;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-cyber-ghost:hover {
+      background: rgba(30, 38, 54, 0.85);
+      border-color: rgba(163, 230, 53, 0.5);
+      color: #A3E635;
+      transform: translateY(-1.5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(163, 230, 53, 0.2);
+    }
+
+    .btn-cyber-ghost:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* Tactile Optical Selector Chip */
+    .chip-tactile {
+      background: rgba(13, 17, 23, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .chip-tactile:hover {
+      background: rgba(22, 28, 39, 0.95);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .chip-tactile.active {
+      background: linear-gradient(180deg, rgba(163, 230, 53, 0.18) 0%, rgba(13, 17, 23, 0.95) 100%);
+      border-color: #A3E635;
+      box-shadow: 0 0 25px -5px rgba(163, 230, 53, 0.35), inset 0 1px 0 rgba(163, 230, 53, 0.4);
+    }
+
+    /* Timeline Keyframe Track Strip */
+    .clip-track {
+      background: linear-gradient(90deg, rgba(34, 43, 61, 0.9) 0%, rgba(19, 24, 34, 0.9) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .clip-track-lime {
+      background: linear-gradient(90deg, rgba(163, 230, 53, 0.22) 0%, rgba(132, 204, 22, 0.12) 100%);
+      border: 1px solid rgba(163, 230, 53, 0.45);
+    }
+
+    /* Custom Technical Scrollbar */
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: #05070A; }
+    ::-webkit-scrollbar-thumb { background: #19202D; border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: #A3E635; }
+
+    ::selection {
+      background-color: #A3E635;
+      color: #05070A;
+    }
+  </style>
+</head>
+
+<body class="bg-graphite-950 text-slate-100 antialiased selection:bg-lime-400 selection:text-black">
+
+  <!-- BACKGROUND ILLUMINATION & GRID -->
+  <div class="fixed inset-0 pointer-events-none z-0 studio-grid opacity-80"></div>
+  <div class="fixed -top-24 left-1/2 -translate-x-1/2 w-[750px] h-[520px] bg-lime-500/10 rounded-full blur-[170px] pointer-events-none z-0"></div>
+  <div class="fixed bottom-10 right-10 w-[500px] h-[450px] bg-lime-400/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
+
+  <!-- FLOATING COMMAND DECK (NEW TREND ISLAND NAVBAR) -->
+  <div class="fixed top-4 inset-x-0 z-50 max-w-[1360px] mx-auto px-4 sm:px-6 pointer-events-none">
+    <header class="pointer-events-auto nav-dock rounded-2xl px-3.5 sm:px-5 py-2.5 shadow-navbar-dock flex items-center justify-between gap-3 sm:gap-6 transition-all">
+      
+      <!-- Left Segment: Emblem + Active Project Breadcrumb Chip -->
+      <a href="#" class="flex items-center space-x-3.5 group shrink-0">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-lime-400 to-lime-600 p-[1px] shadow-glow-lime-sm group-hover:scale-105 transition-transform duration-300">
+          <div class="w-full h-full bg-graphite-950 rounded-[11px] flex items-center justify-center font-display font-black text-xs text-lime-400 group-hover:text-white transition-colors">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </div>
+        </div>
+        
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="font-display font-extrabold text-base tracking-wider text-white">
+              KINETIX <span class="text-lime-400">STUDIO</span>
+            </span>
+            <span class="hidden sm:inline-block px-2 py-0.5 rounded-full bg-lime-950/90 border border-lime-500/30 text-[9px] font-mono text-lime-300 font-bold">
+              v4.8 PRO
+            </span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1.5 text-[10px] font-mono text-slate-400">
+            <span class="text-slate-500">PROJECT:</span>
+            <span class="text-slate-300 font-semibold truncate max-w-[150px]">DUNE_III_TEASER_V08</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Center Segment: Segmented HUD Pill Navigation with Hotkey Tags -->
+      <nav class="hidden lg:flex items-center bg-graphite-900/90 p-1 rounded-xl border border-white/5 font-mono text-xs text-slate-400 shadow-inner">
+        <a href="#editor" class="px-3.5 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition-all flex items-center gap-1.5 text-lime-400 font-semibold group">
+          <span class="text-[10px] text-lime-500 font-bold">[1]</span>
+          <span class="font-medium tracking-wide">Timeline NLE</span>
+        </a>
+        <a href="#optics" class="px-3.5 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition-all flex items-center gap-1.5 group">
+          <span class="text-[10px] text-slate-500 font-bold">[2]</span>
+          <span class="font-medium tracking-wide">Lens Optics</span>
+        </a>
+        <a href="#audio" class="px-3.5 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition-all flex items-center gap-1.5 group">
+          <span class="text-[10px] text-slate-500 font-bold">[3]</span>
+          <span class="font-medium tracking-wide">Audio Waveform</span>
+        </a>
+        <a href="#collaboration" class="px-3.5 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition-all flex items-center gap-1.5 group">
+          <span class="text-[10px] text-slate-500 font-bold">[4]</span>
+          <span class="font-medium tracking-wide">Review Pins</span>
+        </a>
+      </nav>
+
+      <!-- Right Segment: GPU Telemetry + ⌘K Trigger + Liquid Shimmer Action Button -->
+      <div class="flex items-center space-x-2.5 sm:space-x-3.5 shrink-0">
+        
+        <!-- Embedded GPU Stream Telemetry Pill -->
+        <div class="hidden xl:flex items-center space-x-2 px-3 py-1.5 rounded-xl border border-lime-500/20 bg-lime-950/30 text-[11px] font-mono text-lime-300">
+          <span class="w-2 h-2 rounded-full bg-lime-400 animate-ping"></span>
+          <span class="font-bold">H100 8K RAW</span>
+          <span class="text-slate-600">|</span>
+          <span class="text-white font-medium" id="navFpsCounter">24.00 FPS</span>
+        </div>
+
+        <!-- ⌘K Quick Command Bar Trigger Button -->
+        <button onclick="openCommandPalette()" class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl btn-cyber-ghost text-xs font-mono transition-all">
+          <i data-lucide="terminal" class="w-3.5 h-3.5 text-lime-400"></i>
+          <span class="text-[11px] text-slate-300">Quick Palette</span>
+          <kbd class="px-1.5 py-0.5 rounded bg-graphite-950 text-[10px] text-slate-400 border border-white/10">⌘K</kbd>
+        </button>
+
+        <!-- Primary Liquid Shimmer Export Action Button -->
+        <button onclick="openExportModal()" class="px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl btn-shimmer-lime font-display font-bold text-xs tracking-wider uppercase flex items-center gap-2">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          <span>Cloud Export</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+        </button>
+
+        <!-- Mobile Drawer Menu Toggle -->
+        <button onclick="toggleMobileNav()" class="lg:hidden p-2 rounded-xl bg-graphite-850 border border-white/10 text-slate-300 hover:text-white" aria-label="Toggle Menu">
+          <i data-lucide="menu" id="mobileMenuIcon" class="w-4 h-4"></i>
+        </button>
+
+      </div>
+
+    </header>
+
+    <!-- MOBILE EXPANDABLE TACTICAL DRAWER -->
+    <div id="mobileNavDrawer" class="hidden lg:hidden mt-2 nav-dock rounded-2xl p-4 border border-white/10 space-y-3 font-mono text-xs pointer-events-auto shadow-2xl">
+      <div class="flex items-center justify-between pb-2 border-b border-white/10 text-[11px] text-slate-400">
+        <span class="flex items-center gap-1.5 text-lime-400">
+          <span class="w-1.5 h-1.5 rounded-full bg-lime-400 animate-pulse"></span>
+          STREAM PIPELINE ACTIVE
+        </span>
+        <span class="text-white">8K PRORES XQ</span>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-2 pt-1 font-sans">
+        <a href="#editor" onclick="toggleMobileNav()" class="p-2.5 rounded-xl bg-graphite-900 border border-white/5 hover:border-lime-500/40 text-slate-200 flex items-center gap-2">
+          <span class="text-lime-400 font-mono font-bold">01.</span> Timeline NLE
+        </a>
+        <a href="#optics" onclick="toggleMobileNav()" class="p-2.5 rounded-xl bg-graphite-900 border border-white/5 hover:border-lime-500/40 text-slate-200 flex items-center gap-2">
+          <span class="text-lime-400 font-mono font-bold">02.</span> Lens Optics
+        </a>
+        <a href="#audio" onclick="toggleMobileNav()" class="p-2.5 rounded-xl bg-graphite-900 border border-white/5 hover:border-lime-500/40 text-slate-200 flex items-center gap-2">
+          <span class="text-lime-400 font-mono font-bold">03.</span> Waveform
+        </a>
+        <a href="#collaboration" onclick="toggleMobileNav()" class="p-2.5 rounded-xl bg-graphite-900 border border-white/5 hover:border-lime-500/40 text-slate-200 flex items-center gap-2">
+          <span class="text-lime-400 font-mono font-bold">04.</span> Review Pins
+        </a>
+      </div>
+
+      <div class="pt-2 border-t border-white/10 flex gap-2">
+        <button onclick="copyApiCli(); toggleMobileNav();" class="w-full py-2.5 rounded-xl bg-graphite-800 text-lime-300 border border-white/10 flex items-center justify-center gap-2 font-mono">
+          <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
+          <span>Copy CLI Install Script</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <main class="relative z-10 pt-28 sm:pt-36">
+
+    <!-- HERO SECTION: KINETIC TYPOGRAPHY & TIMELINE PREVIEW -->
+    <section id="editor" class="pt-4 pb-20 max-w-[1440px] mx-auto px-6 lg:px-12 overflow-hidden">
+      
+      <!-- Top Status Metatags -->
+      <div class="flex flex-wrap items-center justify-between pb-4 mb-8 border-b border-white/10 text-xs font-mono text-slate-400 uppercase tracking-widest gap-4">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2 h-2 rounded-full bg-lime-400 animate-ping"></span>
+          <span class="text-white font-bold">GPU INGEST CLUSTER:</span>
+          <span class="text-lime-400">8× NVIDIA H100 SXM5 ACTIVE</span>
+        </div>
+        <div class="flex items-center gap-6 text-[11px]">
+          <span>PIPELINE: PRORES 4444 XQ // 12-BIT</span>
+          <span class="hidden sm:inline font-bold text-white">LATENCY: &lt; 8.4MS WEBRTC</span>
+        </div>
+      </div>
+
+      <!-- Kinetic Editorial Headline -->
+      <div class="text-center max-w-4xl mx-auto space-y-6 mb-12">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-lime-950/80 border border-lime-500/40 text-lime-300 text-xs font-mono tracking-widest uppercase shadow-glow-lime-sm">
+          <i data-lucide="film" class="w-3.5 h-3.5 text-lime-400"></i>
+          <span>Next-Generation Neural Video Engine</span>
+        </div>
+
+        <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold uppercase tracking-tight text-white leading-[1.02]">
+          Cinematic velocity at the speed of <br/>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-lime-400 via-lime-300 to-white font-black">
+            pure imagination.
+          </span>
+        </h1>
+
+        <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto font-normal leading-relaxed">
+          The world’s first non-linear cloud video editor engineered with real-time neural rotoscoping, instant anamorphic de-squeezing, and multi-cam frame synchronization.
+        </p>
+
+        <!-- Lens Configuration & Optics Switcher Chip Bar (New Trend Tactile Design) -->
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2 font-mono text-xs">
+          <span class="text-slate-500 uppercase tracking-wider text-[11px] mr-1 flex items-center gap-1">
+            <i data-lucide="aperture" class="w-3.5 h-3.5 text-lime-400"></i>
+            <span>Optics Calibrator:</span>
+          </span>
+          
+          <button onclick="setLensPreset('cooke')" class="chip-tactile active px-3.5 py-2 rounded-xl text-slate-200 font-bold flex items-center gap-2" data-lens="cooke">
+            <span class="w-1.5 h-1.5 rounded-full bg-lime-400"></span>
+            <span class="font-display">Cooke /i Anamorphic 35mm</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-graphite-800 text-lime-400 border border-white/5">2.39:1</span>
+          </button>
+          
+          <button onclick="setLensPreset('arri')" class="chip-tactile px-3.5 py-2 rounded-xl text-slate-300 font-medium flex items-center gap-2" data-lens="arri">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+            <span class="font-display">ARRI Signature Prime 50mm</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-graphite-800 text-slate-400 border border-white/5">16:9</span>
+          </button>
+          
+          <button onclick="setLensPreset('zeiss')" class="chip-tactile px-3.5 py-2 rounded-xl text-slate-300 font-medium flex items-center gap-2" data-lens="zeiss">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+            <span class="font-display">Zeiss Supreme 85mm T1.5</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-graphite-800 text-slate-400 border border-white/5">4:3</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- MAIN FEATURE: WIDE-ASPECT VIDEO TIMELINE & PREVIEW CANVAS SUITE -->
+      <div class="glass-graphite rounded-3xl p-4 sm:p-6 shadow-glass-panel border border-white/15 relative overflow-hidden">
+        
+        <!-- Editor Top Header Toolbar -->
+        <div class="flex flex-wrap items-center justify-between pb-4 border-b border-white/10 text-xs font-mono gap-3">
+          
+          <!-- Left Transport & Clip Info -->
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-full bg-rose-500 shadow-sm"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-500 shadow-sm"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-500 shadow-sm"></span>
+            </div>
+            <span class="text-white font-bold ml-2">REEL_04_SCENE_18_V08.RAW</span>
+            <span class="px-2 py-0.5 rounded-md bg-graphite-800 text-lime-400 text-[10px] border border-white/5 font-semibold">8K DCI RAW</span>
+          </div>
+
+          <!-- Color Grade LUT Toggles with Segmented Micro Swatches -->
+          <div class="flex items-center gap-1 bg-graphite-900/90 p-1 rounded-xl border border-white/10 text-[10px]">
+            <span class="text-slate-500 px-2 uppercase font-mono">LUT Profile:</span>
+            
+            <button onclick="setLut('rec709')" class="lut-btn px-2.5 py-1.5 rounded-lg bg-lime-400 text-graphite-950 font-bold transition-all shadow-glow-lime-sm" data-lut="rec709">
+              Rec.709 Standard
+            </button>
+            <button onclick="setLut('bleach')" class="lut-btn px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all" data-lut="bleach">
+              Bleach Bypass
+            </button>
+            <button onclick="setLut('teal')" class="lut-btn px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all" data-lut="teal">
+              Teal & Ember
+            </button>
+            <button onclick="setLut('mono')" class="lut-btn px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all" data-lut="mono">
+              Silver Halide (B&W)
+            </button>
+          </div>
+
+          <!-- Transport Loop Playback Button (Tactile Cyber Style) -->
+          <div class="flex items-center gap-2">
+            <button onclick="toggleLoopPlay()" id="playBtn" class="px-3.5 py-1.5 rounded-xl btn-cyber-ghost text-white flex items-center gap-2 font-display font-semibold text-xs">
+              <span class="w-2 h-2 rounded-full bg-lime-400 animate-pulse"></span>
+              <i data-lucide="play" id="playIcon" class="w-3 h-3 text-lime-400"></i>
+              <span id="playBtnText">Play (Space)</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- CENTER VIEWPORT: SIMULATED 8K CINEMATIC PREVIEW CANVAS -->
+        <div class="relative my-4 h-[300px] sm:h-[420px] lg:h-[460px] w-full rounded-2xl bg-graphite-950 border border-white/10 overflow-hidden flex items-center justify-center">
+          <canvas id="cinemaViewportCanvas" class="w-full h-full block cursor-crosshair"></canvas>
+
+          <!-- Aspect Ratio Mask Overlay Badge -->
+          <div class="absolute top-4 left-4 bg-graphite-900/90 border border-white/10 px-3 py-1.5 rounded-xl text-[10px] font-mono text-slate-300 pointer-events-none flex items-center gap-2 backdrop-blur-md">
+            <i data-lucide="aperture" class="w-3.5 h-3.5 text-lime-400"></i>
+            <span id="currentLensLabel">COOKE ANAMORPHIC 35MM // 2.39:1 CINEMASCOPE</span>
+          </div>
+
+          <!-- Color Temp / Kelvin Badge -->
+          <div class="absolute top-4 right-4 bg-graphite-900/90 border border-white/10 px-3 py-1.5 rounded-xl text-[10px] font-mono text-lime-300 pointer-events-none flex items-center gap-2 backdrop-blur-md">
+            <span class="w-2 h-2 rounded-full bg-lime-400 animate-pulse"></span>
+            <span id="currentLutLabel">LUT: REC.709 DIRECT MONITOR</span>
+          </div>
+
+          <!-- Audio Waveform Live Floating Oscilloscope Widget -->
+          <div class="absolute bottom-4 left-4 glass-graphite p-3 rounded-2xl shadow-hud border border-white/15 max-w-[280px] w-full pointer-events-none backdrop-blur-xl">
+            <div class="flex items-center justify-between text-[10px] font-mono mb-1.5">
+              <span class="text-lime-400 font-bold flex items-center gap-1">
+                <i data-lucide="volume-2" class="w-3 h-3"></i> 5.1 DOLBY ATMOS
+              </span>
+              <span class="text-slate-400">-14.2 LUFS</span>
+            </div>
+            <div class="h-8 w-full">
+              <canvas id="audioOscilloscopeCanvas" class="w-full h-full block"></canvas>
+            </div>
+          </div>
+
+          <!-- Current Frame Scrubber HUD Floating Pill -->
+          <div class="absolute bottom-4 right-4 bg-graphite-950/90 border border-lime-500/40 px-3 py-1.5 rounded-xl text-[11px] font-mono text-white pointer-events-none backdrop-blur-md">
+            FRAME: <span class="text-lime-400 font-bold" id="viewportFrameCounter">00342</span> / 01440
+          </div>
+        </div>
+
+        <!-- MULTI-TRACK NON-LINEAR TIMELINE (NLE) CONTROLS & TRACKS -->
+        <div class="bg-graphite-900/95 rounded-2xl p-4 border border-white/10 space-y-3 font-mono text-xs">
+          
+          <!-- Timeline Ruler Header & Scrubber Slider -->
+          <div class="flex items-center justify-between pb-2 border-b border-white/5 text-[10px] text-slate-500">
+            <div class="flex items-center gap-4">
+              <span class="text-white font-bold font-display tracking-wider">TRACK TIMELINE</span>
+              <span>00:00:00:00</span>
+              <span>00:05:00:00</span>
+              <span>00:10:00:00</span>
+              <span class="text-lime-400 font-bold">00:14:28:18 (PLAYHEAD)</span>
+              <span>00:20:00:00</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-emerald-400 font-semibold">MAGNETIC SNAP: ON</span>
+              <span>ZOOM: 100%</span>
+            </div>
+          </div>
+
+          <!-- Live Interactive Scrubber Bar -->
+          <div class="relative w-full py-1">
+            <input 
+              type="range" 
+              id="timelineScrubber" 
+              min="0" 
+              max="100" 
+              value="35" 
+              oninput="onScrubTimeline(this.value)"
+              class="w-full accent-lime-400 cursor-pointer h-1.5 bg-graphite-800 rounded-lg"
+            >
+          </div>
+
+          <!-- Track V3: Neural VFX Overlay Layer -->
+          <div class="flex items-center gap-3">
+            <div class="w-20 text-[10px] text-slate-400 font-bold flex items-center gap-1 shrink-0 font-display">
+              <i data-lucide="wand-2" class="w-3 h-3 text-lime-400"></i> V3 FX
+            </div>
+            <div class="w-full h-8 rounded-lg clip-track-lime p-1.5 flex items-center justify-between text-[10px] text-lime-200">
+              <span class="truncate font-semibold">AI_Neural_Depth_Inpainting_Volumetric_Fog.exr</span>
+              <span class="px-2 py-0.2 rounded-md bg-lime-950 text-lime-400 text-[9px] font-bold">ACTIVE</span>
+            </div>
+          </div>
+
+          <!-- Track V2: Primary Video Cut Sequence -->
+          <div class="flex items-center gap-3">
+            <div class="w-20 text-[10px] text-slate-400 font-bold flex items-center gap-1 shrink-0 font-display">
+              <i data-lucide="video" class="w-3 h-3 text-slate-300"></i> V2 Cam
+            </div>
+            <div class="w-full h-8 flex gap-2">
+              <div class="w-1/3 h-full rounded-lg clip-track p-1.5 text-[10px] text-slate-300 flex items-center justify-between">
+                <span class="truncate">A001_C014_RAW</span>
+                <span class="text-[9px] text-slate-500">24fps</span>
+              </div>
+              <div class="w-1/2 h-full rounded-lg clip-track-lime p-1.5 text-[10px] text-lime-300 flex items-center justify-between border-2 border-lime-400">
+                <span class="truncate font-bold">A002_C018_MASTER_HERO (SELECTED)</span>
+                <span class="text-[9px] text-lime-400 font-bold">Cooke 35mm</span>
+              </div>
+              <div class="w-1/6 h-full rounded-lg clip-track p-1.5 text-[10px] text-slate-300 flex items-center justify-between">
+                <span class="truncate">A003_C022</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track A1: 5.1 Dialogue & Ambient Foley Waveform -->
+          <div class="flex items-center gap-3">
+            <div class="w-20 text-[10px] text-slate-400 font-bold flex items-center gap-1 shrink-0 font-display">
+              <i data-lucide="mic" class="w-3 h-3 text-lime-400"></i> A1 Audio
+            </div>
+            <div class="w-full h-8 rounded-lg bg-graphite-800 border border-white/5 p-1 flex items-center overflow-hidden">
+              <canvas id="timelineAudioCanvas" class="w-full h-full block"></canvas>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: SPATIAL BENTO ENGINE & NEURAL TOOLBARS -->
+    <section id="optics" class="py-20 border-t border-white/10 bg-graphite-900/50">
+      <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+          <span class="text-xs font-mono uppercase tracking-widest text-lime-400 font-bold">Aeronautical Render Pipeline</span>
+          <h2 class="font-display text-3xl sm:text-5xl font-extrabold uppercase text-white tracking-tight">
+            Engineered for Hollywood Mastery
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base font-normal leading-relaxed">
+            Eliminate proxy rendering bottlenecks with distributed frame streaming, real-time depth mapping, and multi-user color grading sessions.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 font-sans">
+          
+          <!-- Bento 1: Neural Rotoscoping Engine (8 cols) -->
+          <div class="md:col-span-8 glass-graphite p-8 rounded-3xl border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-6">
+                <div class="w-12 h-12 rounded-2xl bg-lime-400 text-graphite-950 flex items-center justify-center font-bold shadow-glow-lime">
+                  <i data-lucide="layers" class="w-6 h-6"></i>
+                </div>
+                <span class="font-mono text-xs bg-lime-950 text-lime-300 border border-lime-500/40 px-3 py-1 rounded-full font-bold">
+                  Zero Green-Screen Required
+                </span>
+              </div>
+              <span class="font-mono text-xs text-lime-400 uppercase tracking-widest block font-bold">Instant Spatial Segmentation</span>
+              <h3 class="font-display text-2xl sm:text-3xl font-bold uppercase text-white mt-1">One-Click Neural Matte Isolation</h3>
+              <p class="text-slate-300 text-xs sm:text-sm font-normal mt-2 leading-relaxed max-w-2xl">
+                Isolate complex foreground elements, fine hair follicles, and motion-blurred edges with sub-pixel 16-bit alpha matte accuracy in real-time WebGL viewports.
+              </p>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-white/5 grid grid-cols-3 gap-4 font-mono text-xs">
+              <div>
+                <span class="text-slate-500 text-[10px] uppercase block">Inference Speed</span>
+                <span class="text-white font-bold">120 FPS Real-Time</span>
+              </div>
+              <div>
+                <span class="text-slate-500 text-[10px] uppercase block">Depth Accuracy</span>
+                <span class="text-lime-400 font-bold">32-Bit Floating Point</span>
+              </div>
+              <div>
+                <span class="text-slate-500 text-[10px] uppercase block">Format Support</span>
+                <span class="text-white font-bold">ACES 1.3 / OpenEXR</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento 2: Anamorphic Optics Virtualizer (4 cols) -->
+          <div class="md:col-span-4 glass-graphite p-8 rounded-3xl border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-graphite-800 border border-white/10 flex items-center justify-center text-lime-400 mb-6">
+                <i data-lucide="eye" class="w-6 h-6"></i>
+              </div>
+              <span class="font-mono text-xs text-lime-400 uppercase tracking-widest block font-bold">Physical Ray Optics</span>
+              <h3 class="font-display text-2xl font-bold uppercase text-white mt-1">Virtual Lens Flares</h3>
+              <p class="text-slate-300 text-xs sm:text-sm font-normal mt-2 leading-relaxed">
+                Accurate anamorphic horizontal streak flares, astigmatism, and chromatic aberration calibrated to Cooke, Panavision, and Hawk glass.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/5 font-mono text-xs text-slate-300 flex justify-between items-center">
+              <span>Sensor Profile:</span>
+              <span class="text-lime-400 font-bold">Full Frame 3:2 Open Gate</span>
+            </div>
+          </div>
+
+          <!-- Bento 3: Timecoded Collaboration & Review Pins (4 cols) -->
+          <div id="collaboration" class="md:col-span-4 glass-graphite p-8 rounded-3xl border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-graphite-800 border border-white/10 flex items-center justify-center text-lime-400 mb-6">
+                <i data-lucide="message-square" class="w-6 h-6"></i>
+              </div>
+              <span class="font-mono text-xs text-lime-400 uppercase tracking-widest block font-bold">Live Director Review</span>
+              <h3 class="font-display text-2xl font-bold uppercase text-white mt-1">Pixel-Exact Frame Pins</h3>
+              <p class="text-slate-300 text-xs sm:text-sm font-normal mt-2 leading-relaxed">
+                Draw vector annotations directly onto video frames. Comments automatically link to clip timecodes with instant Slack & NLE sync.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/5 font-mono text-xs text-slate-300 flex justify-between items-center">
+              <span>Client Sync:</span>
+              <span class="text-lime-400 font-bold">Zero-Login iPad Approval</span>
+            </div>
+          </div>
+
+          <!-- Bento 4: 800 Gbps Global Media Ingest Network (8 cols) -->
+          <div class="md:col-span-8 glass-graphite p-8 rounded-3xl border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-6">
+                <div class="w-12 h-12 rounded-2xl bg-graphite-800 border border-white/10 flex items-center justify-center text-lime-400">
+                  <i data-lucide="network" class="w-6 h-6"></i>
+                </div>
+                <span class="font-mono text-xs bg-graphite-800 text-slate-300 border border-white/10 px-3 py-1 rounded-full font-bold">
+                  Direct Camera-to-Cloud (C2C)
+                </span>
+              </div>
+              <span class="font-mono text-xs text-lime-400 uppercase tracking-widest block font-bold">Global Mesh Ingest</span>
+              <h3 class="font-display text-2xl sm:text-3xl font-bold uppercase text-white mt-1">Direct Set-to-Timeline Stream</h3>
+              <p class="text-slate-300 text-xs sm:text-sm font-normal mt-2 leading-relaxed max-w-2xl">
+                Stream raw takes directly from RED, ARRI, and Sony FX9 cameras on set over 5G bonded networks directly onto your remote editor’s live timeline.
+              </p>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-white/5 grid grid-cols-3 gap-4 font-mono text-xs">
+              <div>
+                <span class="text-slate-500 text-[10px] uppercase block">Upload Bandwidth</span>
+                <span class="text-white font-bold">800 Gbps Anycast</span>
+              </div>
+              <div>
+                <span class="text-slate-500 text-[10px] uppercase block">Security</span>
+                <span class="text-lime-400 font-bold">SOC 2 Type II / TPN Blue</span>
+              </div>
+              <div>
+                <span class="text-slate-500 text-[10px] uppercase block">Sync Precision</span>
+                <span class="text-white font-bold">LTC Timecode Locked</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: LIVE COLLABORATION & TIMECODED ANNOTATION FEED -->
+    <section class="py-20 max-w-[1440px] mx-auto px-6 lg:px-12">
+      <div class="glass-graphite rounded-3xl p-6 sm:p-10 border border-white/10 shadow-glass-panel">
+        
+        <div class="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-white/10 gap-4 mb-8">
+          <div>
+            <span class="text-xs font-mono uppercase tracking-widest text-lime-400 font-bold">Collaborative Master Cut</span>
+            <h3 class="font-display text-2xl sm:text-3xl font-bold uppercase text-white mt-1">Live Director Annotations</h3>
+          </div>
+          <div class="flex items-center gap-2 font-mono text-xs">
+            <span class="w-2 h-2 rounded-full bg-lime-400 animate-pulse"></span>
+            <span class="text-slate-300 font-semibold">4 Editors Active in Session</span>
+          </div>
+        </div>
+
+        <!-- Annotation Item Feed -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
+          
+          <div class="p-4 rounded-2xl bg-graphite-900 border border-white/10 space-y-3">
+            <div class="flex justify-between items-center text-slate-400">
+              <span class="text-lime-400 font-bold">00:14:28:18</span>
+              <span class="text-[10px] bg-lime-950 text-lime-300 px-2 py-0.5 rounded border border-lime-500/30 font-bold">APPROVED</span>
+            </div>
+            <p class="text-slate-200 font-sans text-xs leading-relaxed">
+              "Great flare falloff on the Cooke 35mm. Maintain color saturation in the shadows."
+            </p>
+            <div class="text-[10px] text-slate-500 pt-2 border-t border-white/5 flex items-center justify-between">
+              <span>Denis V. (Director)</span>
+              <span>2m ago</span>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-graphite-900 border border-white/10 space-y-3">
+            <div class="flex justify-between items-center text-slate-400">
+              <span class="text-amber-400 font-bold">00:18:02:04</span>
+              <span class="text-[10px] bg-amber-950 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30 font-bold">RE-GRADE</span>
+            </div>
+            <p class="text-slate-200 font-sans text-xs leading-relaxed">
+              "Pull back midtone exposure on the actor's profile by -0.3 EV to match Scene 17."
+            </p>
+            <div class="text-[10px] text-slate-500 pt-2 border-t border-white/5 flex items-center justify-between">
+              <span>Greig F. (DP)</span>
+              <span>12m ago</span>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-graphite-900 border border-white/10 space-y-3">
+            <div class="flex justify-between items-center text-slate-400">
+              <span class="text-cyan-400 font-bold">00:22:10:14</span>
+              <span class="text-[10px] bg-cyan-950 text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/30 font-bold">AUDIO STEM</span>
+            </div>
+            <p class="text-slate-200 font-sans text-xs leading-relaxed">
+              "Atmos sub-bass sweep needs to duck by -3dB under the dialogue track."
+            </p>
+            <div class="text-[10px] text-slate-500 pt-2 border-t border-white/5 flex items-center justify-between">
+              <span>Hans Z. (Composer)</span>
+              <span>48m ago</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION BANNER (TRENDSETTING GRADIENT & BUTTONS) -->
+    <section class="py-24 max-w-[1440px] mx-auto px-6 lg:px-12">
+      <div class="rounded-3xl p-8 sm:p-14 bg-gradient-to-b from-graphite-850 to-graphite-950 border border-white/15 relative overflow-hidden text-center shadow-glow-lime">
+        
+        <div class="absolute -left-20 -top-20 w-80 h-80 bg-lime-400/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <span class="text-xs font-mono uppercase tracking-[0.25em] text-lime-400 font-bold">Studio Tier Early Access</span>
+        <h2 class="font-display text-4xl sm:text-6xl font-extrabold uppercase text-white tracking-tight mt-3 mb-4">
+          Unleash Your Next Feature Film.
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto font-normal mb-8 leading-relaxed">
+          Spin up 8K ProRes cloud rendering instances in 30 seconds. Seamless integration with DaVinci Resolve, Premiere Pro, and Unreal Engine 5.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button onclick="openExportModal()" class="w-full sm:w-auto px-8 py-4 rounded-xl btn-shimmer-lime font-display font-extrabold text-sm tracking-wider uppercase transition-all shadow-glow-lime flex items-center justify-center gap-2">
+            <span>Initialize Studio Sandbox (Free 2TB)</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </button>
+          <button onclick="copyApiCli()" id="copyCliBtn" class="w-full sm:w-auto px-6 py-4 rounded-xl btn-cyber-ghost font-mono text-xs transition-all flex items-center justify-center gap-2">
+            <i data-lucide="terminal" class="w-4 h-4 text-lime-400"></i>
+            <span>npm i -g @kinetix/cloud-nle</span>
+          </button>
+        </div>
+
+        <div class="mt-8 font-mono text-[11px] text-slate-500">
+          Trusted by Paramount, Warner Bros., and independent directors worldwide.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 bg-graphite-950 py-12 text-slate-500 text-xs font-mono">
+    <div class="max-w-[1440px] mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+      
+      <div class="flex items-center space-x-3">
+        <div class="w-6 h-6 rounded bg-lime-400 text-graphite-950 flex items-center justify-center font-display font-bold text-xs">
+          K
+        </div>
+        <span class="font-display font-bold text-white tracking-widest text-sm">KINETIX CINEMATICS INC.</span>
+        <span class="text-slate-700">|</span>
+        <span>Real-Time Cloud Video Engine</span>
+      </div>
+
+      <div class="flex items-center space-x-6 text-[11px]">
+        <a href="#" class="hover:text-lime-400 transition-colors">ACES 1.3 LUT Charter</a>
+        <a href="#" class="hover:text-lime-400 transition-colors">TPN Security Protocol</a>
+        <a href="#" class="hover:text-lime-400 transition-colors">Neural SDK Specs</a>
+        <a href="#" class="hover:text-lime-400 transition-colors">Frame.io Migration API</a>
+      </div>
+
+      <div class="text-[11px] text-slate-600">
+        © 2026 Kinetix Studio Systems Inc. All rights reserved.
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- MODAL: ⌘K QUICK ACTION COMMAND PALETTE -->
+  <div id="commandPaletteModal" class="fixed inset-0 z-50 flex items-start justify-center pt-24 p-4 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-graphite-900 border border-white/20 rounded-3xl max-w-xl w-full p-4 relative shadow-2xl transform scale-95 transition-transform duration-300 font-mono" id="commandPaletteCard">
+      
+      <!-- Input -->
+      <div class="flex items-center gap-3 px-3 py-2 border-b border-white/10 pb-3">
+        <i data-lucide="search" class="w-4 h-4 text-lime-400"></i>
+        <input 
+          type="text" 
+          id="cmdSearchInput"
+          placeholder="Type an action or preset (e.g., 'lut', 'export', 'cooke', 'play')..." 
+          class="w-full bg-transparent text-sm text-white focus:outline-none placeholder-slate-500 font-mono"
+        />
+        <kbd class="px-2 py-0.5 rounded bg-graphite-800 text-[10px] text-slate-400 border border-white/10">ESC</kbd>
+      </div>
+
+      <!-- Quick Command Action Items -->
+      <div class="pt-3 space-y-1 text-xs">
+        <div onclick="openExportModal(); closeCommandPalette();" class="p-2.5 rounded-xl hover:bg-graphite-800 cursor-pointer flex items-center justify-between group transition-colors">
+          <div class="flex items-center gap-2.5 text-slate-300 group-hover:text-lime-400">
+            <i data-lucide="sparkles" class="w-4 h-4 text-lime-400"></i>
+            <span>Export Master Timeline (Apple ProRes 4444 XQ)</span>
+          </div>
+          <span class="text-[10px] text-slate-500">Render</span>
+        </div>
+
+        <div onclick="setLensPreset('cooke'); closeCommandPalette();" class="p-2.5 rounded-xl hover:bg-graphite-800 cursor-pointer flex items-center justify-between group transition-colors">
+          <div class="flex items-center gap-2.5 text-slate-300 group-hover:text-lime-400">
+            <i data-lucide="aperture" class="w-4 h-4 text-lime-400"></i>
+            <span>Switch Optics: Cooke /i Anamorphic 35mm (2.39:1)</span>
+          </div>
+          <span class="text-[10px] text-slate-500">Optics</span>
+        </div>
+
+        <div onclick="setLut('teal'); closeCommandPalette();" class="p-2.5 rounded-xl hover:bg-graphite-800 cursor-pointer flex items-center justify-between group transition-colors">
+          <div class="flex items-center gap-2.5 text-slate-300 group-hover:text-cyan-400">
+            <i data-lucide="palette" class="w-4 h-4 text-cyan-400"></i>
+            <span>Apply Color Transform: Teal & Ember Matrix</span>
+          </div>
+          <span class="text-[10px] text-slate-500">Grade</span>
+        </div>
+
+        <div onclick="copyApiCli(); closeCommandPalette();" class="p-2.5 rounded-xl hover:bg-graphite-800 cursor-pointer flex items-center justify-between group transition-colors">
+          <div class="flex items-center gap-2.5 text-slate-300 group-hover:text-white">
+            <i data-lucide="terminal" class="w-4 h-4 text-lime-400"></i>
+            <span>Copy Cloud CLI Install Script</span>
+          </div>
+          <span class="text-[10px] text-slate-500">Clipboard</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: CLOUD RENDER & BATCH EXPORT STUDIO -->
+  <div id="exportModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-graphite-900 border border-white/20 rounded-3xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl transform scale-95 transition-transform duration-300 font-sans" id="exportModalCard">
+      
+      <button onclick="closeExportModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-2 mb-2">
+        <span class="w-2 h-2 rounded-full bg-lime-400 animate-pulse"></span>
+        <span class="text-xs font-mono uppercase tracking-widest text-lime-400 font-bold">Cloud Rendering Engine</span>
+      </div>
+
+      <h3 class="font-display text-2xl font-bold uppercase text-white tracking-tight">Export Timeline Deliverable</h3>
+      <p class="text-xs text-slate-400 mt-1 mb-6 font-light leading-relaxed">
+        Distribute frame chunk encoding across 64 dedicated GPU worker nodes.
+      </p>
+
+      <form id="exportForm" onsubmit="handleExportSubmit(event)" class="space-y-4 text-xs font-mono">
+        <div>
+          <label class="block text-slate-300 uppercase mb-1 font-sans font-bold text-[11px]">Master Output File Name</label>
+          <input required type="text" value="DUNE_PART_THREE_TEASER_PRORES4444_MASTER_V08.mov" class="w-full bg-graphite-950 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-lime-400">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 uppercase mb-1 font-sans font-bold text-[11px]">Codec Profile</label>
+            <select class="w-full bg-graphite-950 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-lime-400">
+              <option>Apple ProRes 4444 XQ (12-bit)</option>
+              <option>Avid DNxHR HQX 4K DCI</option>
+              <option>AV1 10-bit HDR Master</option>
+              <option>Uncompressed DPX Sequence</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-300 uppercase mb-1 font-sans font-bold text-[11px]">Color Transform</label>
+            <select class="w-full bg-graphite-950 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-lime-400">
+              <option>ACEScc / Rec.2020 PQ HDR</option>
+              <option>ARRI Wide Gamut 4</option>
+              <option>Rec.709 2.4 Gamma SDR</option>
+              <option>DCI-P3 Theater Projection</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 uppercase mb-1 font-sans font-bold text-[11px]">Audio Master Delivery</label>
+          <select class="w-full bg-graphite-950 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-lime-400">
+            <option>Dolby Atmos ADM BWF (96 kHz / 24-bit)</option>
+            <option>5.1 Surround Discrete PCM</option>
+            <option>Stereo 2.0 Broadcast (-24 LKFS)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="w-full py-4 rounded-xl btn-shimmer-lime font-display font-extrabold text-sm uppercase tracking-wider transition-all mt-4">
+          Dispatch Cloud Master Render
+        </button>
+      </form>
+
+      <div id="exportSuccess" class="hidden text-center py-6 space-y-4 font-mono">
+        <div class="w-12 h-12 rounded-full bg-lime-950 text-lime-400 border border-lime-500/40 flex items-center justify-center mx-auto">
+          <i data-lucide="check" class="w-6 h-6"></i>
+        </div>
+        <h4 class="font-display text-xl font-bold uppercase text-white">Render Job Dispatched</h4>
+        <div class="bg-graphite-950 p-3 rounded-xl border border-white/10 text-lime-300 text-xs">
+          ESTIMATED TIME: 38 SECONDS (64× H100 NODES)
+        </div>
+        <p class="text-xs text-slate-400 font-sans">Master deliverable download link will stream directly to your workstation.</p>
+        <button onclick="closeExportModal()" class="px-6 py-2 bg-graphite-800 border border-white/10 rounded-xl text-xs text-white uppercase font-bold">Dismiss</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-graphite-900 border border-lime-500/40 text-white px-4 py-3 rounded-2xl shadow-glow-lime font-mono text-xs flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <i data-lucide="sparkles" class="w-4 h-4 text-lime-400"></i>
+    <span id="toastMsg">Render task dispatched.</span>
+  </div>
+
+  <!-- JAVASCRIPT: CINEMATIC CANVAS ENGINE & INTERACTIVE TIMELINE -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    /* ==========================================================
+       0. COMMAND PALETTE & MOBILE NAVBAR LOGIC
+       ========================================================== */
+    function toggleMobileNav() {
+      const drawer = document.getElementById('mobileNavDrawer');
+      const icon = document.getElementById('mobileMenuIcon');
+      const isHidden = drawer.classList.contains('hidden');
+      
+      if (isHidden) {
+        drawer.classList.remove('hidden');
+        icon.setAttribute('data-lucide', 'x');
+      } else {
+        drawer.classList.add('hidden');
+        icon.setAttribute('data-lucide', 'menu');
+      }
+      lucide.createIcons();
+    }
+
+    function openCommandPalette() {
+      const modal = document.getElementById('commandPaletteModal');
+      const card = document.getElementById('commandPaletteCard');
+      const input = document.getElementById('cmdSearchInput');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-95');
+      card.classList.add('scale-100');
+      if (input) input.focus();
+    }
+
+    function closeCommandPalette() {
+      const modal = document.getElementById('commandPaletteModal');
+      const card = document.getElementById('commandPaletteCard');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+    }
+
+    // Keyboard shortcut listeners: ⌘K and Escape
+    window.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        openCommandPalette();
+      }
+      if (e.key === 'Escape') {
+        closeCommandPalette();
+        closeExportModal();
+      }
+    });
+
+    /* ==========================================================
+       1. CINEMA VIEWPORT CANVAS ENGINE
+       ========================================================== */
+    const viewCanvas = document.getElementById('cinemaViewportCanvas');
+    const viewCtx = viewCanvas ? viewCanvas.getContext('2d') : null;
+    let viewW, viewH;
+    let isPlaying = true;
+    let frameIndex = 342;
+    let currentLut = 'rec709';
+    let currentAspect = 2.39; // 2.39:1 CinemaScope by default
+
+    function resizeCinemaCanvas() {
+      if (!viewCanvas) return;
+      const rect = viewCanvas.getBoundingClientRect();
+      viewW = viewCanvas.width = rect.width * (window.devicePixelRatio || 1);
+      viewH = viewCanvas.height = rect.height * (window.devicePixelRatio || 1);
+    }
+
+    function renderCinemaFrame() {
+      if (!viewCtx || !viewCanvas) return;
+      viewCtx.clearRect(0, 0, viewW, viewH);
+
+      const cx = viewW / 2;
+      const cy = viewH / 2;
+
+      // 1. Draw Background Cinema Scene Simulation
+      const grad = viewCtx.createRadialGradient(cx, cy, 20, cx, cy, viewW * 0.6);
+      
+      if (currentLut === 'rec709') {
+        grad.addColorStop(0, '#2D3748');
+        grad.addColorStop(0.5, '#1A202C');
+        grad.addColorStop(1, '#080A0E');
+      } else if (currentLut === 'bleach') {
+        grad.addColorStop(0, '#5A626F');
+        grad.addColorStop(0.5, '#2B2F38');
+        grad.addColorStop(1, '#0A0C0F');
+      } else if (currentLut === 'teal') {
+        grad.addColorStop(0, '#0E7490');
+        grad.addColorStop(0.5, '#155E75');
+        grad.addColorStop(1, '#042F2E');
+      } else {
+        // Monochrome
+        grad.addColorStop(0, '#71717A');
+        grad.addColorStop(0.5, '#27272A');
+        grad.addColorStop(1, '#09090B');
+      }
+
+      viewCtx.fillStyle = grad;
+      viewCtx.fillRect(0, 0, viewW, viewH);
+
+      // 2. Draw Moving Anamorphic Bokeh Orbs & Horizon Lines
+      const time = frameIndex * 0.025;
+      
+      for (let i = 0; i < 6; i++) {
+        const ox = cx + Math.sin(time + i * 1.5) * (viewW * 0.25);
+        const oy = cy + Math.cos(time * 0.8 + i) * (viewH * 0.2);
+        
+        viewCtx.beginPath();
+        viewCtx.ellipse(ox, oy, 60 * (viewW / 700), 25 * (viewW / 700), 0.2, 0, Math.PI * 2);
+        viewCtx.fillStyle = (i % 2 === 0 && currentLut !== 'mono') ? 'rgba(163, 230, 53, 0.22)' : 'rgba(255, 255, 255, 0.12)';
+        viewCtx.shadowColor = '#A3E635';
+        viewCtx.shadowBlur = 20;
+        viewCtx.fill();
+        viewCtx.shadowBlur = 0;
+      }
+
+      // 3. Draw Anamorphic Horizontal Blue/Lime Streak Flare
+      viewCtx.beginPath();
+      viewCtx.moveTo(0, cy);
+      viewCtx.lineTo(viewW, cy);
+      viewCtx.strokeStyle = (currentLut === 'teal' || currentLut === 'rec709') ? 'rgba(163, 230, 53, 0.45)' : 'rgba(255, 255, 255, 0.35)';
+      viewCtx.lineWidth = 2 * (window.devicePixelRatio || 1);
+      viewCtx.stroke();
+
+      // 4. Draw Matte Bars based on Selected Aspect Ratio
+      const targetHeight = viewW / currentAspect;
+      const letterboxY = Math.max(0, (viewH - targetHeight) / 2);
+
+      if (letterboxY > 0) {
+        viewCtx.fillStyle = '#05070A';
+        viewCtx.fillRect(0, 0, viewW, letterboxY); // Top Matte
+        viewCtx.fillRect(0, viewH - letterboxY, viewW, letterboxY); // Bottom Matte
+        
+        // 1px Border on CinemaScope edges
+        viewCtx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+        viewCtx.lineWidth = 1;
+        viewCtx.beginPath();
+        viewCtx.moveTo(0, letterboxY);
+        viewCtx.lineTo(viewW, letterboxY);
+        viewCtx.moveTo(0, viewH - letterboxY);
+        viewCtx.lineTo(viewW, viewH - letterboxY);
+        viewCtx.stroke();
+      }
+
+      // Increment frame index if playing
+      if (isPlaying) {
+        frameIndex = (frameIndex + 1) % 1440;
+        const frameEl = document.getElementById('viewportFrameCounter');
+        
+        if (frameEl) {
+          frameEl.textContent = String(frameIndex).padStart(5, '0');
+        }
+      }
+
+      requestAnimationFrame(renderCinemaFrame);
+    }
+
+    function toggleLoopPlay() {
+      isPlaying = !isPlaying;
+      const btnText = document.getElementById('playBtnText');
+      const playIcon = document.getElementById('playIcon');
+      if (btnText) {
+        btnText.textContent = isPlaying ? 'Pause (Space)' : 'Play (Space)';
+      }
+      if (playIcon) {
+        playIcon.setAttribute('data-lucide', isPlaying ? 'pause' : 'play');
+        lucide.createIcons();
+      }
+      showToast(isPlaying ? 'Playback Resumed (24.00 FPS)' : 'Playback Paused at Current Frame');
+    }
+
+    function onScrubTimeline(val) {
+      frameIndex = Math.floor((val / 100) * 1440);
+      const frameEl = document.getElementById('viewportFrameCounter');
+      if (frameEl) frameEl.textContent = String(frameIndex).padStart(5, '0');
+    }
+
+    function setLensPreset(type) {
+      document.querySelectorAll('.chip-tactile').forEach(btn => {
+        btn.classList.remove('active');
+        const dot = btn.querySelector('span.rounded-full');
+        if (dot) {
+          dot.classList.remove('bg-lime-400');
+          dot.classList.add('bg-slate-600');
+        }
+      });
+
+      const activeBtn = document.querySelector(`[data-lens="${type}"]`);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        const dot = activeBtn.querySelector('span.rounded-full');
+        if (dot) {
+          dot.classList.remove('bg-slate-600');
+          dot.classList.add('bg-lime-400');
+        }
+      }
+
+      const label = document.getElementById('currentLensLabel');
+
+      if (type === 'cooke') {
+        currentAspect = 2.39;
+        if (label) label.textContent = 'COOKE ANAMORPHIC 35MM // 2.39:1 CINEMASCOPE';
+      } else if (type === 'arri') {
+        currentAspect = 1.77;
+        if (label) label.textContent = 'ARRI SIGNATURE PRIME 50MM // 16:9 DCI';
+      } else {
+        currentAspect = 1.33;
+        if (label) label.textContent = 'ZEISS SUPREME 85MM // 4:3 ACADEMY';
+      }
+
+      showToast(`Lens Optics Calibrated: ${type.toUpperCase()}`);
+    }
+
+    function setLut(lut) {
+      currentLut = lut;
+      document.querySelectorAll('.lut-btn').forEach(btn => {
+        btn.classList.remove('bg-lime-400', 'text-graphite-950', 'font-bold', 'shadow-glow-lime-sm');
+        btn.classList.add('text-slate-400');
+      });
+
+      const activeBtn = document.querySelector(`[data-lut="${lut}"]`);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-400');
+        activeBtn.classList.add('bg-lime-400', 'text-graphite-950', 'font-bold', 'shadow-glow-lime-sm');
+      }
+
+      const label = document.getElementById('currentLutLabel');
+      if (label) label.textContent = `LUT: ${lut.toUpperCase()} TRANSFORM MATRIX`;
+
+      showToast(`Color Transform Profile Loaded: ${lut.toUpperCase()}`);
+    }
+
+    /* ==========================================================
+       2. AUDIO OSCILLOSCOPE & TIMELINE WAVEFORMS
+       ========================================================== */
+    const oscCanvas = document.getElementById('audioOscilloscopeCanvas');
+    const oscCtx = oscCanvas ? oscCanvas.getContext('2d') : null;
+    let oscW, oscH;
+
+    function resizeOscilloscope() {
+      if (!oscCanvas) return;
+      const rect = oscCanvas.getBoundingClientRect();
+      oscW = oscCanvas.width = rect.width * (window.devicePixelRatio || 1);
+      oscH = oscCanvas.height = rect.height * (window.devicePixelRatio || 1);
+    }
+
+    function drawOscilloscope() {
+      if (!oscCtx || !oscCanvas) return;
+      oscCtx.clearRect(0, 0, oscW, oscH);
+
+      const midY = oscH / 2;
+      const time = Date.now() * 0.005;
+
+      oscCtx.beginPath();
+      for (let x = 0; x < oscW; x += 3) {
+        const freq = isPlaying ? Math.sin(x * 0.08 + time) * Math.cos(x * 0.03 - time) * (oscH * 0.35) : 1;
+        if (x === 0) oscCtx.moveTo(x, midY + freq);
+        else oscCtx.lineTo(x, midY + freq);
+      }
+
+      oscCtx.strokeStyle = '#A3E635';
+      oscCtx.lineWidth = 1.5 * (window.devicePixelRatio || 1);
+      oscCtx.shadowColor = '#A3E635';
+      oscCtx.shadowBlur = 6;
+      oscCtx.stroke();
+      oscCtx.shadowBlur = 0;
+
+      requestAnimationFrame(drawOscilloscope);
+    }
+
+    // Timeline Audio Waveform Track
+    function drawTimelineAudio() {
+      const tCanvas = document.getElementById('timelineAudioCanvas');
+      if (!tCanvas) return;
+      const ctx = tCanvas.getContext('2d');
+      const rect = tCanvas.getBoundingClientRect();
+      tCanvas.width = rect.width * (window.devicePixelRatio || 1);
+      tCanvas.height = rect.height * (window.devicePixelRatio || 1);
+
+      const w = tCanvas.width;
+      const h = tCanvas.height;
+      const mid = h / 2;
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = '#64748B';
+
+      for (let x = 0; x < w; x += 4) {
+        const barH = (Math.sin(x * 0.04) * Math.cos(x * 0.02) + 1.2) * (h * 0.35);
+        ctx.fillRect(x, mid - barH / 2, 2, barH);
+      }
+    }
+
+    /* ==========================================================
+       3. MODAL & TOAST HANDLERS
+       ========================================================== */
+    function openExportModal() {
+      const modal = document.getElementById('exportModal');
+      const card = document.getElementById('exportModalCard');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-95');
+      card.classList.add('scale-100');
+    }
+
+    function closeExportModal() {
+      const modal = document.getElementById('exportModal');
+      const card = document.getElementById('exportModalCard');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+
+      setTimeout(() => {
+        document.getElementById('exportForm').classList.remove('hidden');
+        document.getElementById('exportSuccess').classList.add('hidden');
+      }, 300);
+    }
+
+    function handleExportSubmit(e) {
+      e.preventDefault();
+      document.getElementById('exportForm').classList.add('hidden');
+      document.getElementById('exportSuccess').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = msg;
+
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3200);
+    }
+
+    function copyApiCli() {
+      const cmd = "npm i -g @kinetix/cloud-nle";
+      const el = document.createElement('textarea');
+      el.value = cmd;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      showToast('Kinetix Cloud CLI install script copied to clipboard.');
+    }
+
+    // Keyboard Playback Spacebar Listener
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'SELECT') {
+        e.preventDefault();
+        toggleLoopPlay();
+      }
+    });
+
+    /* ==========================================================
+       4. LIFECYCLE INITIALIZATIONS
+       ========================================================== */
+    window.addEventListener('load', () => {
+      resizeCinemaCanvas();
+      resizeOscilloscope();
+      renderCinemaFrame();
+      drawOscilloscope();
+      drawTimelineAudio();
+    });
+
+    window.addEventListener('resize', () => {
+      resizeCinemaCanvas();
+      resizeOscilloscope();
+      drawTimelineAudio();
+    });
+  </script>
+
+</body>
+</html>

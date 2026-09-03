@@ -156,6 +156,64 @@
         border-radius: 9999px;
       }
 
+      /* 5. Clean, Solid Project Cards */
+      .project-clean-card {
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 1rem;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      }
+      .dark .project-clean-card {
+        background-color: #0f172a;
+        border-color: #1e293b;
+      }
+      .project-clean-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.12);
+      }
+      .dark .project-clean-card:hover {
+        box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.5);
+      }
+
+      /* 6. Simple, Modern Interactive Works Cards */
+      .work-simple-card {
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 1rem;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      }
+      .dark .work-simple-card {
+        background-color: #0f172a;
+        border-color: #1e293b;
+      }
+      .work-simple-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 28px -8px rgba(0, 0, 0, 0.15);
+      }
+      .dark .work-simple-card:hover {
+        box-shadow: 0 14px 28px -8px rgba(0, 0, 0, 0.5);
+      }
+
+      /* 7. Live Project Iframe Preview Containers */
+      .preview-iframe-wrapper {
+        position: relative;
+        overflow: hidden;
+        background-color: #020617;
+      }
+      .preview-iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1200px;
+        height: 750px;
+        transform-origin: 0 0;
+        pointer-events: none;
+        user-select: none;
+        border: 0;
+        opacity: 0.92;
+        transition: transform 0.4s ease, opacity 0.3s ease;
+      }
+
       /* Accessibility: Respect Reduced Motion (WCAG AA) */
       @media (prefers-reduced-motion: reduce) {
         .reveal-on-scroll {
@@ -170,6 +228,10 @@
           display: none !important;
         }
         .interactive-lift:hover {
+          transform: none !important;
+        }
+        .project-clean-card:hover,
+        .work-simple-card:hover {
           transform: none !important;
         }
       }
@@ -576,7 +638,7 @@
             <div>
               <div class="inline-flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider mb-2">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>Live Engineering Showcase • 5 Standalone Web Architectures</span>
+                <span>Live Engineering Showcase • 10 Standalone Web Architectures</span>
               </div>
               <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
                 Interactive Works Done
@@ -590,7 +652,7 @@
             <div class="flex items-center gap-3 font-mono text-xs text-slate-500 dark:text-slate-400">
               <div class="px-3.5 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex items-center gap-2">
                 <i data-lucide="sparkles" class="w-4 h-4 text-emerald-500"></i>
-                <span class="font-bold text-slate-900 dark:text-white">5 Live Apps</span>
+                <span class="font-bold text-slate-900 dark:text-white">11 Live Apps</span>
               </div>
               <div class="px-3.5 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex items-center gap-2">
                 <i data-lucide="cpu" class="w-4 h-4 text-cyan-500"></i>
@@ -601,7 +663,8 @@
 
           <!-- Interactive Works Filter Tabs -->
           <div class="flex flex-wrap items-center gap-2 mb-10 font-mono text-xs">
-            <button onclick="filterWorks('all')" class="work-filter-btn px-4 py-2 rounded-xl bg-emerald-600 text-white font-semibold transition-all shadow-xs" data-filter="all">All Works (5)</button>
+            <button onclick="filterWorks('all')" class="work-filter-btn px-4 py-2 rounded-xl bg-emerald-600 text-white font-semibold transition-all shadow-xs" data-filter="all">All Works (11)</button>
+            <button onclick="filterWorks('creative')" class="work-filter-btn px-4 py-2 rounded-xl bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="creative">3D & WebGL</button>
             <button onclick="filterWorks('cybersecurity')" class="work-filter-btn px-4 py-2 rounded-xl bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="cybersecurity">Cybersecurity & Kernel</button>
             <button onclick="filterWorks('automotive')" class="work-filter-btn px-4 py-2 rounded-xl bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="automotive">Automotive & Aero</button>
             <button onclick="filterWorks('genomics')" class="work-filter-btn px-4 py-2 rounded-xl bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="genomics">Genomics & Longevity</button>
@@ -613,287 +676,761 @@
           <div id="worksGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
             <!-- WORK 1: NEXUS SHIELD -->
-            <article class="work-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-sm hover:shadow-xl hover:border-red-500/50 transition-all duration-300 flex flex-col justify-between" data-category="cybersecurity">
-              <div>
-                <!-- Visual Banner -->
-                <div class="h-44 w-full bg-gradient-to-br from-[#090C10] via-[#0F141C] to-[#1C1014] p-5 flex flex-col justify-between relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
-                  <div class="flex items-center justify-between z-10">
-                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-red-500/20 text-red-400 border border-red-500/30">KERNEL SECURITY</span>
-                    <span class="flex items-center gap-1.5 text-[11px] font-mono text-emerald-400 font-bold">
-                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-                      eBPF HOOKED
+            <article class="work-card work-simple-card group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:border-red-500/60 transition-all duration-300 flex flex-col justify-between" data-category="cybersecurity">
+              <!-- Live Preview Thumbnail -->
+              <div class="relative w-full h-44 sm:h-48 overflow-hidden bg-slate-950 preview-iframe-wrapper rounded-t-2xl">
+                <iframe 
+                  src="./public/works/nexus-shield.html" 
+                  loading="lazy" 
+                  tabindex="-1" 
+                  aria-hidden="true" 
+                  title="NEXUS SHIELD Preview" 
+                  class="preview-iframe"
+                ></iframe>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30 pointer-events-none"></div>
+              </div>
+
+              <!-- Reduced Resting Content -->
+              <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between transition-opacity duration-200 group-hover:opacity-10">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="text-[11px] font-mono font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">
+                      NEXUS SHIELD
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5 shadow-2xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      LIVE PREVIEW
                     </span>
                   </div>
-
-                  <div class="z-10 font-mono text-xs text-slate-300">
-                    <div class="text-white font-extrabold text-base tracking-wider uppercase font-display flex items-center gap-2">
-                      <i data-lucide="shield-alert" class="w-4 h-4 text-red-400"></i>
-                      <span>NEXUS SHIELD</span>
-                    </div>
-                    <div class="text-slate-400 text-[11px] mt-0.5">
-                      Sub-850ns Packet Verification • Ring Buffer Engine
-                    </div>
-                  </div>
-
-                  <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-red-600/20 rounded-full blur-2xl pointer-events-none"></div>
-                </div>
-
-                <!-- Card Content -->
-                <div class="p-6 space-y-3">
-                  <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-red-500 transition-colors">
-                    eBPF Kernel Threat Visualizer & Autonomous Defense
+                  <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-red-500 transition-colors leading-snug line-clamp-1">
+                    eBPF Kernel Threat Visualizer
                   </h3>
-                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                    High-throughput Linux kernel security telemetry console with interactive attack simulation, real-time packet canvas visualizer, zero-trust rule builder, and mitigation audit logs.
-                  </p>
-
-                  <!-- Feature Tags -->
-                  <div class="flex flex-wrap gap-1.5 pt-1 font-mono text-[11px]">
-                    <span class="px-2 py-0.5 rounded bg-red-50 dark:bg-red-950/50 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800">eBPF XDP</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Canvas 2D Particle Sim</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Attack Injector</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Zero-Trust Rules</span>
-                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-mono mt-3">
+                  <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">&lt;850ns Verification</span>
+                  <span class="text-red-500 font-semibold flex items-center gap-1">Hover for specs <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
                 </div>
               </div>
 
-              <!-- Card Action Buttons -->
-              <div class="p-5 pt-0 border-t border-slate-100 dark:border-slate-800/80 mt-4 flex items-center justify-between gap-2 font-mono text-xs">
-                <button onclick="openWorkViewer('nexus-shield')" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-red-600 dark:hover:bg-red-500 dark:hover:text-white font-semibold transition-all shadow-xs">
-                  <i data-lucide="play" class="w-3.5 h-3.5"></i>
-                  <span>Live Preview</span>
-                </button>
-                <a href="./public/works/nexus-shield.html" target="_blank" rel="noopener noreferrer" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-red-500 text-slate-600 dark:text-slate-400 hover:text-red-500 transition-colors" title="Open standalone in new tab">
-                  <i data-lucide="external-link" class="w-4 h-4"></i>
-                </a>
+              <!-- Hover Disclosure Overlay -->
+              <div class="absolute inset-0 bg-slate-950/95 backdrop-blur-md p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto rounded-2xl">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-mono font-bold text-red-400 uppercase tracking-wider">NEXUS SHIELD</span>
+                  </div>
+                  <h3 class="text-base font-bold text-white leading-snug">eBPF Kernel Threat Visualizer</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                    High-throughput Linux kernel security console featuring real-time attack simulation, packet canvas visualizer, and zero-trust mitigation engine.
+                  </p>
+                  <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-950/60 text-red-300 border border-red-800/70 font-mono text-[11px] font-semibold">
+                    <i data-lucide="activity" class="w-3.5 h-3.5 text-red-400"></i>
+                    <span>&lt;850ns Verification • Ring Buffer</span>
+                  </div>
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">eBPF XDP</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Canvas 2D</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Zero-Trust</span>
+                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 font-mono text-xs mt-3">
+                  <button onclick="openWorkViewer('nexus-shield')" class="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold transition-all duration-200 shadow-xs">
+                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                    <span>Launch Demo</span>
+                  </button>
+                  <a href="./public/works/nexus-shield.html" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border border-slate-700 hover:border-red-500 text-slate-400 hover:text-red-400 transition-colors" title="Open in standalone tab">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </a>
+                </div>
               </div>
             </article>
 
             <!-- WORK 2: AETHER HYPERION -->
-            <article class="work-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-sm hover:shadow-xl hover:border-amber-500/50 transition-all duration-300 flex flex-col justify-between" data-category="automotive">
-              <div>
-                <!-- Visual Banner -->
-                <div class="h-44 w-full bg-gradient-to-br from-[#0B0907] via-[#14100C] to-[#251A0E] p-5 flex flex-col justify-between relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
-                  <div class="flex items-center justify-between z-10">
-                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">HYPER-PERFORMANCE</span>
-                    <span class="flex items-center gap-1.5 text-[11px] font-mono text-amber-400 font-bold">
-                      <i data-lucide="zap" class="w-3.5 h-3.5"></i>
-                      1,980 HP
+            <article class="work-card work-simple-card group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:border-amber-500/60 transition-all duration-300 flex flex-col justify-between" data-category="automotive">
+              <!-- Live Preview Thumbnail -->
+              <div class="relative w-full h-44 sm:h-48 overflow-hidden bg-slate-950 preview-iframe-wrapper rounded-t-2xl">
+                <iframe 
+                  src="./public/works/aether-hyperion.html" 
+                  loading="lazy" 
+                  tabindex="-1" 
+                  aria-hidden="true" 
+                  title="AETHER HYPERION Preview" 
+                  class="preview-iframe"
+                ></iframe>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30 pointer-events-none"></div>
+              </div>
+
+              <!-- Reduced Resting Content -->
+              <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between transition-opacity duration-200 group-hover:opacity-10">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="text-[11px] font-mono font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">
+                      AETHER HYPERION
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5 shadow-2xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      LIVE PREVIEW
                     </span>
                   </div>
-
-                  <div class="z-10 font-mono text-xs text-slate-300">
-                    <div class="text-white font-extrabold text-base tracking-wider uppercase font-display flex items-center gap-2">
-                      <i data-lucide="gauge" class="w-4 h-4 text-amber-400"></i>
-                      <span>AETHER HYPERION</span>
-                    </div>
-                    <div class="text-slate-400 text-[11px] mt-0.5">
-                      0-100 km/h: 1.74s • 3D Aerodynamic Chassis Telemetry
-                    </div>
-                  </div>
-
-                  <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-amber-500/20 rounded-full blur-2xl pointer-events-none"></div>
-                </div>
-
-                <!-- Card Content -->
-                <div class="p-6 space-y-3">
-                  <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors">
-                    Electric Hypercar Telemetry & Active Aerodynamics
+                  <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors leading-snug line-clamp-1">
+                    Electric Hypercar Telemetry & DRS
                   </h3>
-                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Ultra-luxury EV telemetry platform with interactive 3D rotating wireframe chassis, live drag reduction system (DRS) wing actuation, battery thermals, and acoustic sound synthesis.
-                  </p>
-
-                  <!-- Feature Tags -->
-                  <div class="flex flex-wrap gap-1.5 pt-1 font-mono text-[11px]">
-                    <span class="px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800">3D Wireframe Canvas</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Active Aero Wing</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Dyno Test Rig</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Powertrain HUD</span>
-                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-mono mt-3">
+                  <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">1,980 HP • 0-100: 1.74s</span>
+                  <span class="text-amber-500 font-semibold flex items-center gap-1">Hover for specs <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
                 </div>
               </div>
 
-              <!-- Card Action Buttons -->
-              <div class="p-5 pt-0 border-t border-slate-100 dark:border-slate-800/80 mt-4 flex items-center justify-between gap-2 font-mono text-xs">
-                <button onclick="openWorkViewer('aether-hyperion')" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-amber-500 dark:hover:bg-amber-400 dark:hover:text-black font-semibold transition-all shadow-xs">
-                  <i data-lucide="play" class="w-3.5 h-3.5"></i>
-                  <span>Live Preview</span>
-                </button>
-                <a href="./public/works/aether-hyperion.html" target="_blank" rel="noopener noreferrer" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-amber-500 text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" title="Open standalone in new tab">
-                  <i data-lucide="external-link" class="w-4 h-4"></i>
-                </a>
+              <!-- Hover Disclosure Overlay -->
+              <div class="absolute inset-0 bg-slate-950/95 backdrop-blur-md p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto rounded-2xl">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider">AETHER HYPERION</span>
+                  </div>
+                  <h3 class="text-base font-bold text-white leading-snug">Electric Hypercar Telemetry & DRS</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                    Ultra-luxury EV telemetry platform with interactive 3D rotating wireframe chassis, live drag reduction system (DRS) wing actuation, and battery thermals.
+                  </p>
+                  <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-950/60 text-amber-300 border border-amber-800/70 font-mono text-[11px] font-semibold">
+                    <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+                    <span>1,980 HP • 0-100: 1.74s • 3D Wireframe</span>
+                  </div>
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">3D Wireframe</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Active Aero DRS</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Dyno Test</span>
+                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 font-mono text-xs mt-3">
+                  <button onclick="openWorkViewer('aether-hyperion')" class="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-semibold transition-all duration-200 shadow-xs">
+                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                    <span>Launch Demo</span>
+                  </button>
+                  <a href="./public/works/aether-hyperion.html" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border border-slate-700 hover:border-amber-500 text-slate-400 hover:text-amber-400 transition-colors" title="Open in standalone tab">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </a>
+                </div>
               </div>
             </article>
 
             <!-- WORK 3: AURA HEALTH -->
-            <article class="work-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-sm hover:shadow-xl hover:border-teal-500/50 transition-all duration-300 flex flex-col justify-between" data-category="genomics">
-              <div>
-                <!-- Visual Banner -->
-                <div class="h-44 w-full bg-gradient-to-br from-[#042F2E] via-[#0F172A] to-[#0D9488]/30 p-5 flex flex-col justify-between relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
-                  <div class="flex items-center justify-between z-10">
-                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-teal-500/20 text-teal-300 border border-teal-500/30">GENOMIC LONGEVITY</span>
-                    <span class="flex items-center gap-1.5 text-[11px] font-mono text-teal-300 font-bold">
-                      <i data-lucide="dna" class="w-3.5 h-3.5"></i>
-                      100X WHOLE EXOME
+            <article class="work-card work-simple-card group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:border-teal-500/60 transition-all duration-300 flex flex-col justify-between" data-category="genomics">
+              <!-- Live Preview Thumbnail -->
+              <div class="relative w-full h-44 sm:h-48 overflow-hidden bg-slate-950 preview-iframe-wrapper rounded-t-2xl">
+                <iframe 
+                  src="./public/works/aura-health.html" 
+                  loading="lazy" 
+                  tabindex="-1" 
+                  aria-hidden="true" 
+                  title="AURA HEALTH Preview" 
+                  class="preview-iframe"
+                ></iframe>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30 pointer-events-none"></div>
+              </div>
+
+              <!-- Reduced Resting Content -->
+              <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between transition-opacity duration-200 group-hover:opacity-10">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="text-[11px] font-mono font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">
+                      AURA HEALTH
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5 shadow-2xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      LIVE PREVIEW
                     </span>
                   </div>
-
-                  <div class="z-10 font-mono text-xs text-slate-300">
-                    <div class="text-white font-extrabold text-base tracking-wider uppercase font-display flex items-center gap-2">
-                      <i data-lucide="heart-pulse" class="w-4 h-4 text-teal-400"></i>
-                      <span>AURA HEALTH</span>
-                    </div>
-                    <div class="text-slate-300 text-[11px] mt-0.5">
-                      Epigenetic Horvath Clock • Real-time ECG Canvas
-                    </div>
-                  </div>
-
-                  <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-teal-500/20 rounded-full blur-2xl pointer-events-none"></div>
-                </div>
-
-                <!-- Card Content -->
-                <div class="p-6 space-y-3">
-                  <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-teal-500 transition-colors">
-                    Genomic Intelligence & Longevity Platform
+                  <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-teal-500 transition-colors leading-snug line-clamp-1">
+                    Genomic Intelligence & Longevity
                   </h3>
-                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Futuristic clinical longevity interface featuring an interactive 3D rotating DNA double helix, live ECG waveform generator, dynamic epigenetic trajectory simulator, and diagnostic biomarkers matrix.
-                  </p>
-
-                  <!-- Feature Tags -->
-                  <div class="flex flex-wrap gap-1.5 pt-1 font-mono text-[11px]">
-                    <span class="px-2 py-0.5 rounded bg-teal-50 dark:bg-teal-950/50 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800">3D DNA Helix</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Real-time ECG Loop</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Longevity Slider Curve</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Biomarker Search</span>
-                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-mono mt-3">
+                  <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Horvath -4.2 Yrs • Live ECG</span>
+                  <span class="text-teal-500 font-semibold flex items-center gap-1">Hover for specs <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
                 </div>
               </div>
 
-              <!-- Card Action Buttons -->
-              <div class="p-5 pt-0 border-t border-slate-100 dark:border-slate-800/80 mt-4 flex items-center justify-between gap-2 font-mono text-xs">
-                <button onclick="openWorkViewer('aura-health')" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-teal-600 dark:hover:bg-teal-500 dark:hover:text-white font-semibold transition-all shadow-xs">
-                  <i data-lucide="play" class="w-3.5 h-3.5"></i>
-                  <span>Live Preview</span>
-                </button>
-                <a href="./public/works/aura-health.html" target="_blank" rel="noopener noreferrer" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-teal-500 text-slate-600 dark:text-slate-400 hover:text-teal-500 transition-colors" title="Open standalone in new tab">
-                  <i data-lucide="external-link" class="w-4 h-4"></i>
-                </a>
+              <!-- Hover Disclosure Overlay -->
+              <div class="absolute inset-0 bg-slate-950/95 backdrop-blur-md p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto rounded-2xl">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-mono font-bold text-teal-400 uppercase tracking-wider">AURA HEALTH</span>
+                  </div>
+                  <h3 class="text-base font-bold text-white leading-snug">Genomic Intelligence & Longevity</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                    Futuristic longevity interface featuring an interactive 3D DNA double helix, real-time ECG loop, epigenetic Horvath clock simulator, and diagnostic biomarkers matrix.
+                  </p>
+                  <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-950/60 text-teal-300 border border-teal-800/70 font-mono text-[11px] font-semibold">
+                    <i data-lucide="heart-pulse" class="w-3.5 h-3.5 text-teal-400"></i>
+                    <span>Horvath -4.2 Yrs • 100X Exome • Live ECG</span>
+                  </div>
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">3D DNA Helix</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Real-time ECG</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Biomarkers</span>
+                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 font-mono text-xs mt-3">
+                  <button onclick="openWorkViewer('aura-health')" class="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-semibold transition-all duration-200 shadow-xs">
+                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                    <span>Launch Demo</span>
+                  </button>
+                  <a href="./public/works/aura-health.html" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border border-slate-700 hover:border-teal-500 text-slate-400 hover:text-teal-400 transition-colors" title="Open in standalone tab">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </a>
+                </div>
               </div>
             </article>
 
             <!-- WORK 4: ATELIER VAUQUELIN -->
-            <article class="work-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-sm hover:shadow-xl hover:border-stone-500/50 transition-all duration-300 flex flex-col justify-between" data-category="architecture">
-              <div>
-                <!-- Visual Banner -->
-                <div class="h-44 w-full bg-gradient-to-br from-[#181513] via-[#231F1C] to-[#38322E] p-5 flex flex-col justify-between relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
-                  <div class="flex items-center justify-between z-10">
-                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-amber-700/20 text-amber-200 border border-amber-700/30">MONOLITHIC TECTONICS</span>
-                    <span class="flex items-center gap-1.5 text-[11px] font-mono text-stone-300 font-bold">
-                      <i data-lucide="compass" class="w-3.5 h-3.5"></i>
-                      PARIS / ZÜRICH
+            <article class="work-card work-simple-card group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:border-stone-400/60 transition-all duration-300 flex flex-col justify-between" data-category="architecture">
+              <!-- Live Preview Thumbnail -->
+              <div class="relative w-full h-44 sm:h-48 overflow-hidden bg-slate-950 preview-iframe-wrapper rounded-t-2xl">
+                <iframe 
+                  src="./public/works/atelier-vauquelin.html" 
+                  loading="lazy" 
+                  tabindex="-1" 
+                  aria-hidden="true" 
+                  title="ATELIER VAUQUELIN Preview" 
+                  class="preview-iframe"
+                ></iframe>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30 pointer-events-none"></div>
+              </div>
+
+              <!-- Reduced Resting Content -->
+              <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between transition-opacity duration-200 group-hover:opacity-10">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="text-[11px] font-mono font-bold text-stone-600 dark:text-stone-400 uppercase tracking-wider">
+                      ATELIER VAUQUELIN
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5 shadow-2xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      LIVE PREVIEW
                     </span>
                   </div>
-
-                  <div class="z-10 font-mono text-xs text-slate-300">
-                    <div class="text-white font-extrabold text-base tracking-wider uppercase font-serif flex items-center gap-2">
-                      <span class="w-5 h-5 border border-white flex items-center justify-center text-xs">V</span>
-                      <span>ATELIER VAUQUELIN</span>
-                    </div>
-                    <div class="text-stone-300 text-[11px] mt-0.5">
-                      Poured Stone & Solitary Light • 3D Axonometry
-                    </div>
-                  </div>
-
-                  <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-amber-700/20 rounded-full blur-2xl pointer-events-none"></div>
-                </div>
-
-                <!-- Card Content -->
-                <div class="p-6 space-y-3">
-                  <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-stone-500 transition-colors">
-                    Contemporary Architecture & Spatial Monograph
+                  <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-stone-400 transition-colors leading-snug line-clamp-1">
+                    Contemporary Architecture Monograph
                   </h3>
-                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Refined architectural monograph platform featuring an interactive 3D rotating axonometric building mass, mineral quarry database, curated project reel, and solar altitude calculation.
-                  </p>
-
-                  <!-- Feature Tags -->
-                  <div class="flex flex-wrap gap-1.5 pt-1 font-mono text-[11px]">
-                    <span class="px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-900 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-800">3D Axonometry</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Mineral Registry</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Editorial Layout</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Wireframe Tectonics</span>
-                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-mono mt-3">
+                  <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">3D Axonometry • 12 Minerals</span>
+                  <span class="text-stone-400 font-semibold flex items-center gap-1">Hover for specs <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
                 </div>
               </div>
 
-              <!-- Card Action Buttons -->
-              <div class="p-5 pt-0 border-t border-slate-100 dark:border-slate-800/80 mt-4 flex items-center justify-between gap-2 font-mono text-xs">
-                <button onclick="openWorkViewer('atelier-vauquelin')" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-stone-700 dark:hover:bg-stone-300 dark:hover:text-black font-semibold transition-all shadow-xs">
-                  <i data-lucide="play" class="w-3.5 h-3.5"></i>
-                  <span>Live Preview</span>
-                </button>
-                <a href="./public/works/atelier-vauquelin.html" target="_blank" rel="noopener noreferrer" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-stone-500 text-slate-600 dark:text-slate-400 hover:text-stone-500 transition-colors" title="Open standalone in new tab">
-                  <i data-lucide="external-link" class="w-4 h-4"></i>
-                </a>
+              <!-- Hover Disclosure Overlay -->
+              <div class="absolute inset-0 bg-slate-950/95 backdrop-blur-md p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto rounded-2xl">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-mono font-bold text-stone-400 uppercase tracking-wider">ATELIER VAUQUELIN</span>
+                  </div>
+                  <h3 class="text-base font-bold text-white leading-snug">Contemporary Architecture Monograph</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                    Refined architectural monograph platform featuring an interactive 3D axonometric building mass, mineral quarry database, and solar altitude calculations.
+                  </p>
+                  <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-900/80 text-stone-300 border border-stone-700/70 font-mono text-[11px] font-semibold">
+                    <i data-lucide="box" class="w-3.5 h-3.5 text-stone-400"></i>
+                    <span>3D Axonometry • 12 Mineral Formations</span>
+                  </div>
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">3D Axono</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Mineral Registry</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Solar Calc</span>
+                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 font-mono text-xs mt-3">
+                  <button onclick="openWorkViewer('atelier-vauquelin')" class="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-stone-700 hover:bg-stone-600 text-white font-semibold transition-all duration-200 shadow-xs">
+                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                    <span>Launch Demo</span>
+                  </button>
+                  <a href="./public/works/atelier-vauquelin.html" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border border-slate-700 hover:border-stone-500 text-slate-400 hover:text-stone-300 transition-colors" title="Open in standalone tab">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </a>
+                </div>
               </div>
             </article>
 
             <!-- WORK 5: HYPEREDGE -->
-            <article class="work-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-sm hover:shadow-xl hover:border-violet-500/50 transition-all duration-300 flex flex-col justify-between" data-category="cloud">
-              <div>
-                <!-- Visual Banner -->
-                <div class="h-44 w-full bg-gradient-to-br from-[#0F172A] via-[#1E0538] to-[#082F49] p-5 flex flex-col justify-between relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
-                  <div class="flex items-center justify-between z-10">
-                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-violet-500/20 text-violet-300 border border-violet-500/30">DISTRIBUTED CLOUD</span>
-                    <span class="flex items-center gap-1.5 text-[11px] font-mono text-cyan-300 font-bold">
-                      <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
-                      318 PoPs ACTIVE
+            <article class="work-card work-simple-card group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:border-violet-500/60 transition-all duration-300 flex flex-col justify-between" data-category="cloud">
+              <!-- Live Preview Thumbnail -->
+              <div class="relative w-full h-44 sm:h-48 overflow-hidden bg-slate-950 preview-iframe-wrapper rounded-t-2xl">
+                <iframe 
+                  src="./public/works/hyperedge.html" 
+                  loading="lazy" 
+                  tabindex="-1" 
+                  aria-hidden="true" 
+                  title="HYPEREDGE Preview" 
+                  class="preview-iframe"
+                ></iframe>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30 pointer-events-none"></div>
+              </div>
+
+              <!-- Reduced Resting Content -->
+              <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between transition-opacity duration-200 group-hover:opacity-10">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="text-[11px] font-mono font-bold text-violet-600 dark:text-violet-400 uppercase tracking-wider">
+                      HYPEREDGE
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5 shadow-2xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      LIVE PREVIEW
                     </span>
                   </div>
-
-                  <div class="z-10 font-mono text-xs text-slate-300">
-                    <div class="text-white font-extrabold text-base tracking-wider uppercase font-sans flex items-center gap-2">
-                      <span class="font-mono text-cyan-400">//</span>
-                      <span>HYPEREDGE</span>
-                    </div>
-                    <div class="text-cyan-300 text-[11px] mt-0.5">
-                      Sub-Millisecond Cold Starts • 4.8ms V8 Isolates
-                    </div>
-                  </div>
-
-                  <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-violet-600/20 rounded-full blur-2xl pointer-events-none"></div>
-                </div>
-
-                <!-- Card Content -->
-                <div class="p-6 space-y-3">
-                  <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-violet-500 transition-colors">
-                    Ultra-Low Latency Cloud Infrastructure & Edge Mesh
+                  <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-violet-500 transition-colors leading-snug line-clamp-1">
+                    Low-Latency Cloud Edge Mesh
                   </h3>
-                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Developer-first serverless edge cloud platform with autonomous packet mesh visualizer, live global ping matrix across 5 global hubs, interactive code playground, and empirical benchmarks.
-                  </p>
-
-                  <!-- Feature Tags -->
-                  <div class="flex flex-wrap gap-1.5 pt-1 font-mono text-[11px]">
-                    <span class="px-2 py-0.5 rounded bg-violet-50 dark:bg-violet-950/50 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800">BGP Mesh Visualizer</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Live Global Telemetry</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Multi-Language SDK</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Isolate Sandbox</span>
-                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-mono mt-3">
+                  <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">&lt;5ms Cold Start • 318 PoPs</span>
+                  <span class="text-violet-500 font-semibold flex items-center gap-1">Hover for specs <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
                 </div>
               </div>
 
-              <!-- Card Action Buttons -->
-              <div class="p-5 pt-0 border-t border-slate-100 dark:border-slate-800/80 mt-4 flex items-center justify-between gap-2 font-mono text-xs">
-                <button onclick="openWorkViewer('hyperedge')" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-violet-600 dark:hover:bg-violet-500 dark:hover:text-white font-semibold transition-all shadow-xs">
-                  <i data-lucide="play" class="w-3.5 h-3.5"></i>
-                  <span>Live Preview</span>
-                </button>
-                <a href="./public/works/hyperedge.html" target="_blank" rel="noopener noreferrer" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-violet-500 text-slate-600 dark:text-slate-400 hover:text-violet-500 transition-colors" title="Open standalone in new tab">
-                  <i data-lucide="external-link" class="w-4 h-4"></i>
-                </a>
+              <!-- Hover Disclosure Overlay -->
+              <div class="absolute inset-0 bg-slate-950/95 backdrop-blur-md p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto rounded-2xl">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-mono font-bold text-violet-400 uppercase tracking-wider">HYPEREDGE</span>
+                  </div>
+                  <h3 class="text-base font-bold text-white leading-snug">Low-Latency Cloud Edge Mesh</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                    Developer-first serverless edge cloud platform with autonomous packet mesh visualizer, live global ping matrix across 5 global hubs, and V8 isolate code sandbox.
+                  </p>
+                  <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-950/60 text-violet-300 border border-violet-800/70 font-mono text-[11px] font-semibold">
+                    <i data-lucide="globe" class="w-3.5 h-3.5 text-violet-400"></i>
+                    <span>&lt;5ms Cold Start • 318 PoPs • BGP Mesh</span>
+                  </div>
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">BGP Mesh</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">V8 Isolates</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Global Ping</span>
+                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 font-mono text-xs mt-3">
+                  <button onclick="openWorkViewer('hyperedge')" class="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold transition-all duration-200 shadow-xs">
+                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                    <span>Launch Demo</span>
+                  </button>
+                  <a href="./public/works/hyperedge.html" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border border-slate-700 hover:border-violet-500 text-slate-400 hover:text-violet-400 transition-colors" title="Open in standalone tab">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- WORK 6: AERIS AVIATION -->
+            <article class="work-card work-simple-card group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:border-sky-500/60 transition-all duration-300 flex flex-col justify-between" data-category="automotive">
+              <!-- Live Preview Thumbnail -->
+              <div class="relative w-full h-44 sm:h-48 overflow-hidden bg-slate-950 preview-iframe-wrapper rounded-t-2xl">
+                <iframe 
+                  src="./public/works/aeris-aviation.html" 
+                  loading="lazy" 
+                  tabindex="-1" 
+                  aria-hidden="true" 
+                  title="AERIS AVIATION Preview" 
+                  class="preview-iframe"
+                ></iframe>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30 pointer-events-none"></div>
+              </div>
+
+              <!-- Reduced Resting Content -->
+              <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between transition-opacity duration-200 group-hover:opacity-10">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="text-[11px] font-mono font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider">
+                      AERIS AVIATION
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5 shadow-2xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      LIVE PREVIEW
+                    </span>
+                  </div>
+                  <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-sky-500 transition-colors leading-snug line-clamp-1">
+                    Autonomous Flight & Charter Matrix
+                  </h3>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-mono mt-3">
+                  <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Mach 3.2 • 60,000 ft</span>
+                  <span class="text-sky-500 font-semibold flex items-center gap-1">Hover for specs <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
+                </div>
+              </div>
+
+              <!-- Hover Disclosure Overlay -->
+              <div class="absolute inset-0 bg-slate-950/95 backdrop-blur-md p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto rounded-2xl">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-mono font-bold text-sky-400 uppercase tracking-wider">AERIS AVIATION</span>
+                  </div>
+                  <h3 class="text-base font-bold text-white leading-snug">Autonomous Flight & Charter Matrix</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                    Suborbital aviation operations console with real-time Canvas trajectory vectors, Mach 3.2 flight telemetry, reactive waypoint HUD, and fleet matrix.
+                  </p>
+                  <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-950/60 text-sky-300 border border-sky-800/70 font-mono text-[11px] font-semibold">
+                    <i data-lucide="navigation" class="w-3.5 h-3.5 text-sky-400"></i>
+                    <span>Mach 3.2 • 60,000 ft • Canvas Vector HUD</span>
+                  </div>
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Trajectory 2D</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Flight Telemetry</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Fleet Config</span>
+                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 font-mono text-xs mt-3">
+                  <button onclick="openWorkViewer('aeris-aviation')" class="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold transition-all duration-200 shadow-xs">
+                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                    <span>Launch Demo</span>
+                  </button>
+                  <a href="./public/works/aeris-aviation.html" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border border-slate-700 hover:border-sky-500 text-slate-400 hover:text-sky-400 transition-colors" title="Open in standalone tab">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- WORK 7: KINETIX STUDIO -->
+            <article class="work-card work-simple-card group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:border-lime-500/60 transition-all duration-300 flex flex-col justify-between" data-category="cloud">
+              <!-- Live Preview Thumbnail -->
+              <div class="relative w-full h-44 sm:h-48 overflow-hidden bg-slate-950 preview-iframe-wrapper rounded-t-2xl">
+                <iframe 
+                  src="./public/works/kinetix-studio.html" 
+                  loading="lazy" 
+                  tabindex="-1" 
+                  aria-hidden="true" 
+                  title="KINETIX STUDIO Preview" 
+                  class="preview-iframe"
+                ></iframe>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30 pointer-events-none"></div>
+              </div>
+
+              <!-- Reduced Resting Content -->
+              <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between transition-opacity duration-200 group-hover:opacity-10">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="text-[11px] font-mono font-bold text-lime-600 dark:text-lime-400 uppercase tracking-wider">
+                      KINETIX STUDIO
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5 shadow-2xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      LIVE PREVIEW
+                    </span>
+                  </div>
+                  <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-lime-500 transition-colors leading-snug line-clamp-1">
+                    Cloud Video & Neural VFX Suite
+                  </h3>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-mono mt-3">
+                  <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">8K ProRes XQ • Neural VFX</span>
+                  <span class="text-lime-500 font-semibold flex items-center gap-1">Hover for specs <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
+                </div>
+              </div>
+
+              <!-- Hover Disclosure Overlay -->
+              <div class="absolute inset-0 bg-slate-950/95 backdrop-blur-md p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto rounded-2xl">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-mono font-bold text-lime-400 uppercase tracking-wider">KINETIX STUDIO</span>
+                  </div>
+                  <h3 class="text-base font-bold text-white leading-snug">Cloud Video & Neural VFX Suite</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                    Cloud non-linear video editing workstation featuring multi-track timeline scrubber, anamorphic optics presets, audio oscilloscope, and 8K distributed GPU cloud render queue.
+                  </p>
+                  <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-lime-950/60 text-lime-300 border border-lime-800/70 font-mono text-[11px] font-semibold">
+                    <i data-lucide="film" class="w-3.5 h-3.5 text-lime-400"></i>
+                    <span>8K ProRes XQ • Neural VFX • 24.00 FPS</span>
+                  </div>
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Timeline NLE</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Anamorphic</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Audio FFT</span>
+                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 font-mono text-xs mt-3">
+                  <button onclick="openWorkViewer('kinetix-studio')" class="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-lime-500 hover:bg-lime-400 text-slate-950 font-bold transition-all duration-200 shadow-xs">
+                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                    <span>Launch Demo</span>
+                  </button>
+                  <a href="./public/works/kinetix-studio.html" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border border-slate-700 hover:border-lime-500 text-slate-400 hover:text-lime-400 transition-colors" title="Open in standalone tab">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- WORK 8: THE HIDDEN SANCTUARY -->
+            <article class="work-card work-simple-card group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:border-emerald-500/60 transition-all duration-300 flex flex-col justify-between" data-category="architecture creative">
+              <!-- Live Preview Thumbnail -->
+              <div class="relative w-full h-44 sm:h-48 overflow-hidden bg-slate-950 preview-iframe-wrapper rounded-t-2xl">
+                <iframe 
+                  src="./public/works/the-hidden-sanctuary.html" 
+                  loading="lazy" 
+                  tabindex="-1" 
+                  aria-hidden="true" 
+                  title="THE HIDDEN SANCTUARY Preview" 
+                  class="preview-iframe"
+                ></iframe>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30 pointer-events-none"></div>
+              </div>
+
+              <!-- Reduced Resting Content -->
+              <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between transition-opacity duration-200 group-hover:opacity-10">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="text-[11px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+                      THE HIDDEN SANCTUARY
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5 shadow-2xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      LIVE PREVIEW
+                    </span>
+                  </div>
+                  <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-500 transition-colors leading-snug line-clamp-1">
+                    Camera-Driven 3D Resort & Portal
+                  </h3>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-mono mt-3">
+                  <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Three.js • Web Audio API</span>
+                  <span class="text-emerald-500 font-semibold flex items-center gap-1">Hover for specs <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
+                </div>
+              </div>
+
+              <!-- Hover Disclosure Overlay -->
+              <div class="absolute inset-0 bg-slate-950/95 backdrop-blur-md p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto rounded-2xl">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider">THE HIDDEN SANCTUARY</span>
+                  </div>
+                  <h3 class="text-base font-bold text-white leading-snug">Camera-Driven 3D Resort & Portal</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                    Scroll-driven 3D architectural microsite featuring procedural low-poly forest canopy, animated torii portal, cel-shaded anime village, and real-time Web Audio synthesizer.
+                  </p>
+                  <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/60 text-emerald-300 border border-emerald-800/70 font-mono text-[11px] font-semibold">
+                    <i data-lucide="compass" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    <span>Three.js Spline • Web Audio API • 0 Asset Weight</span>
+                  </div>
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Three.js</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Web Audio API</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">GSAP Scroll</span>
+                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 font-mono text-xs mt-3">
+                  <button onclick="openWorkViewer('the-hidden-sanctuary')" class="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-all duration-200 shadow-xs">
+                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                    <span>Launch Demo</span>
+                  </button>
+                  <a href="./public/works/the-hidden-sanctuary.html" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border border-slate-700 hover:border-emerald-500 text-slate-400 hover:text-emerald-400 transition-colors" title="Open in standalone tab">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- WORK 9: APEX F1 -->
+            <article class="work-card work-simple-card group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:border-red-500/60 transition-all duration-300 flex flex-col justify-between" data-category="automotive">
+              <!-- Live Preview Thumbnail -->
+              <div class="relative w-full h-44 sm:h-48 overflow-hidden bg-slate-950 preview-iframe-wrapper rounded-t-2xl">
+                <iframe 
+                  src="./public/works/f1.html" 
+                  loading="lazy" 
+                  tabindex="-1" 
+                  aria-hidden="true" 
+                  title="APEX F1 Preview" 
+                  class="preview-iframe"
+                ></iframe>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30 pointer-events-none"></div>
+              </div>
+
+              <!-- Reduced Resting Content -->
+              <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between transition-opacity duration-200 group-hover:opacity-10">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="text-[11px] font-mono font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">
+                      APEX F1
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5 shadow-2xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      LIVE PREVIEW
+                    </span>
+                  </div>
+                  <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-red-500 transition-colors leading-snug line-clamp-1">
+                    Formula 1 Pit-Wall & Race Strategy
+                  </h3>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-mono mt-3">
+                  <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">100Hz CAN-Bus • Pit Matrix</span>
+                  <span class="text-red-500 font-semibold flex items-center gap-1">Hover for specs <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
+                </div>
+              </div>
+
+              <!-- Hover Disclosure Overlay -->
+              <div class="absolute inset-0 bg-slate-950/95 backdrop-blur-md p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto rounded-2xl">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-mono font-bold text-red-400 uppercase tracking-wider">APEX F1</span>
+                  </div>
+                  <h3 class="text-base font-bold text-white leading-snug">Formula 1 Pit-Wall & Race Strategy</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                    Real-time Grand Prix operations console with 2D GPS circuit radar (Silverstone, Spa, Monza), cockpit steering wheel HUD with shift lights, Pirelli 4-corner tyre thermal matrix, and pit undercut simulator.
+                  </p>
+                  <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-950/60 text-red-300 border border-red-800/70 font-mono text-[11px] font-semibold">
+                    <i data-lucide="activity" class="w-3.5 h-3.5 text-red-400"></i>
+                    <span>100Hz CAN-Bus • 15 Shift LEDs • DRS Sector Trace</span>
+                  </div>
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Canvas 2D Track</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Web Audio Synth</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Pit Strategy</span>
+                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 font-mono text-xs mt-3">
+                  <button onclick="openWorkViewer('apex-f1')" class="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold transition-all duration-200 shadow-xs">
+                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                    <span>Launch Demo</span>
+                  </button>
+                  <a href="./public/works/f1.html" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border border-slate-700 hover:border-red-500 text-slate-400 hover:text-red-400 transition-colors" title="Open in standalone tab">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- WORK 10: AJITH KUMAR RACING -->
+            <article class="work-card work-simple-card group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:border-emerald-500/60 transition-all duration-300 flex flex-col justify-between" data-category="automotive">
+              <!-- Live Preview Thumbnail -->
+              <div class="relative w-full h-44 sm:h-48 overflow-hidden bg-slate-950 preview-iframe-wrapper rounded-t-2xl">
+                <iframe 
+                  src="./public/works/ajith-kumar-racing.html" 
+                  loading="lazy" 
+                  tabindex="-1" 
+                  aria-hidden="true" 
+                  title="AJITH KUMAR RACING Preview" 
+                  class="preview-iframe"
+                ></iframe>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30 pointer-events-none"></div>
+              </div>
+
+              <!-- Reduced Resting Content -->
+              <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between transition-opacity duration-200 group-hover:opacity-10">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="text-[11px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+                      AKR // ENTRY #07
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5 shadow-2xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      LIVE PREVIEW
+                    </span>
+                  </div>
+                  <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-500 transition-colors leading-snug line-clamp-1">
+                    Ajith Kumar Racing // VOLT-X Hyperdrive
+                  </h3>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-mono mt-3">
+                  <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">1,050 BHP Hybrid • GSAP</span>
+                  <span class="text-emerald-500 font-semibold flex items-center gap-1">Hover for specs <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
+                </div>
+              </div>
+
+              <!-- Hover Disclosure Overlay -->
+              <div class="absolute inset-0 bg-slate-950/95 backdrop-blur-md p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto rounded-2xl">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider">AKR // ENTRY #07</span>
+                  </div>
+                  <h3 class="text-base font-bold text-white leading-snug">Ajith Kumar Racing // VOLT-X Hyperdrive</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                    Cinematic Formula scrollytelling microsite with interactive 3D Canvas F1 race car, 4-phase GSAP camera transitions, Web Audio hybrid V6 engine sound synthesizer, dynamic tachometer HUD, and VIP Paddock Club pass.
+                  </p>
+                  <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/60 text-emerald-300 border border-emerald-800/70 font-mono text-[11px] font-semibold">
+                    <i data-lucide="zap" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    <span>1,050 BHP Hybrid • GSAP ScrollTrigger • 3D Canvas</span>
+                  </div>
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Canvas 3D Mesh</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">GSAP Scrollytelling</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Web Audio Synth</span>
+                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 font-mono text-xs mt-3">
+                  <button onclick="openWorkViewer('ajith-kumar-racing')" class="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-all duration-200 shadow-xs">
+                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                    <span>Launch Demo</span>
+                  </button>
+                  <a href="./public/works/ajith-kumar-racing.html" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border border-slate-700 hover:border-emerald-500 text-slate-400 hover:text-emerald-500 transition-colors" title="Open in standalone tab">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- WORK 11: MANGA VAULT -->
+            <article class="work-card work-simple-card group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:border-rose-500/60 transition-all duration-300 flex flex-col justify-between" data-category="creative">
+              <!-- Live Preview Thumbnail -->
+              <div class="relative w-full h-44 sm:h-48 overflow-hidden bg-slate-950 preview-iframe-wrapper rounded-t-2xl">
+                <iframe 
+                  src="./public/works/manga-vault.html" 
+                  loading="lazy" 
+                  tabindex="-1" 
+                  aria-hidden="true" 
+                  title="MANGA VAULT Preview" 
+                  class="preview-iframe"
+                ></iframe>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30 pointer-events-none"></div>
+              </div>
+
+              <!-- Reduced Resting Content -->
+              <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between transition-opacity duration-200 group-hover:opacity-10">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="text-[11px] font-mono font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider">
+                      MANGA VAULT // 03
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1.5 shadow-2xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      LIVE PREVIEW
+                    </span>
+                  </div>
+                  <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-rose-500 transition-colors leading-snug line-clamp-1">
+                    Kinetic 3D Anime Collectibles
+                  </h3>
+                </div>
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-mono mt-3">
+                  <span class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Three.js • Web Audio Synth</span>
+                  <span class="text-rose-500 font-semibold flex items-center gap-1">Hover for specs <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
+                </div>
+              </div>
+
+              <!-- Hover Disclosure Overlay -->
+              <div class="absolute inset-0 bg-slate-950/95 backdrop-blur-md p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto rounded-2xl">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-mono font-bold text-rose-400 uppercase tracking-wider">MANGA VAULT // 03</span>
+                  </div>
+                  <h3 class="text-base font-bold text-white leading-snug">Kinetic 3D Anime Collectibles</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                    Kinetic showcase of figures, printed accordion artbooks, and iridescent holographic relics. Features real-time Three.js 3D tome & particle rendering, Lenis smooth scrolling, Web Audio SFX synth, and compact checkout drawer.
+                  </p>
+                  <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-950/60 text-rose-300 border border-rose-800/70 font-mono text-[11px] font-semibold">
+                    <i data-lucide="box" class="w-3.5 h-3.5 text-rose-400"></i>
+                    <span>Three.js • GSAP ScrollTrigger • Web Audio</span>
+                  </div>
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Three.js WebGL</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">GSAP Lenis</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/70">Web Audio API</span>
+                  </div>
+                </div>
+                <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 font-mono text-xs mt-3">
+                  <button onclick="openWorkViewer('manga-vault')" class="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-semibold transition-all duration-200 shadow-xs">
+                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                    <span>Launch Demo</span>
+                  </button>
+                  <a href="./public/works/manga-vault.html" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border border-slate-700 hover:border-rose-500 text-slate-400 hover:text-rose-400 transition-colors" title="Open in standalone tab">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </a>
+                </div>
               </div>
             </article>
 
@@ -920,244 +1457,102 @@
           </p>
         </div>
 
-        <!-- Project Filter Buttons -->
-        <div class="flex flex-wrap items-center gap-2 mb-8 font-mono text-xs">
-          <button onclick="filterProjects('all')" class="project-filter-btn px-3.5 py-1.5 rounded-lg bg-emerald-600 text-white font-semibold transition-all shadow-xs" data-filter="all">All Projects (4)</button>
-          <button onclick="filterProjects('accessibility')" class="project-filter-btn px-3.5 py-1.5 rounded-lg bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="accessibility">Accessibility & VPAT</button>
-          <button onclick="filterProjects('frontend')" class="project-filter-btn px-3.5 py-1.5 rounded-lg bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="frontend">Frontend & UI Systems</button>
-          <button onclick="filterProjects('ai')" class="project-filter-btn px-3.5 py-1.5 rounded-lg bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all shadow-xs" data-filter="ai">AI & Velocity Tooling</button>
-        </div>
-
-        <!-- Projects Grid (4 High-Caliber Projects) -->
-        <div id="projectsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Projects Grid (4 Minimal & Crisp Project Cards) -->
+        <div id="projectsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           
           <!-- Card 1: Enterprise Accessibility Remediation & VPAT Compliance -->
-          <article class="project-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:shadow-xl hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between" data-category="accessibility">
+          <article onclick="openResumeModal()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openResumeModal();}" class="project-card project-clean-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-6 flex flex-col justify-between shadow-xs hover:border-emerald-500/60 dark:hover:border-emerald-500/60 transition-all duration-300 cursor-pointer min-h-[230px]" data-category="accessibility" aria-label="View case details for Enterprise Accessibility & VPAT Audit">
             <div>
-              <!-- Mockup Preview Banner -->
-              <div class="h-48 w-full bg-gradient-to-br from-slate-900 via-slate-850 to-emerald-950 p-6 flex flex-col justify-between border-b border-slate-200 dark:border-slate-800 relative overflow-hidden">
-                <div class="flex items-center justify-between z-10">
-                  <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-white/10 text-emerald-400 border border-white/10 backdrop-blur-md">Accessibility Governance</span>
-                  <span class="text-xs font-mono text-emerald-400 font-bold flex items-center gap-1">
-                    <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> WCAG 2.2 AA
-                  </span>
-                </div>
-                
-                <!-- Mockup Visual Elements -->
-                <div class="space-y-2 z-10 font-mono text-[11px]">
-                  <div class="flex items-center gap-2">
-                    <span class="px-3 py-1 rounded-md bg-emerald-500 text-white font-bold shadow-xs">VPAT v2.5 Compliant</span>
-                    <span class="px-2.5 py-1 rounded-md bg-white/15 text-white">ARIA-Live Region</span>
-                  </div>
-                  <div class="text-slate-300 text-xs flex items-center gap-2">
-                    <i data-lucide="keyboard" class="w-3.5 h-3.5 text-emerald-400"></i>
-                    <span>200+ Keyboard Traps & Focus Rings Remediated</span>
-                  </div>
-                </div>
-
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-emerald-500/20 rounded-full blur-xl pointer-events-none"></div>
+              <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/80 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-4 group-hover:scale-105 transition-transform">
+                <i data-lucide="shield-check" class="w-6 h-6"></i>
               </div>
-
-              <!-- Body -->
-              <div class="p-6 space-y-3">
-                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                  Enterprise Accessibility Remediation & VPAT Compliance
-                </h3>
-                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  End-to-end accessibility governance system auditing clinical workflows to achieve WCAG 2.1/2.2 AA compliance and formal VPAT certification. Eliminated over 200 screen-reader bottlenecks across NVDA, JAWS, and VoiceOver.
-                </p>
-
-                <!-- Tech Tags -->
-                <div class="flex flex-wrap gap-1.5 pt-2 font-mono text-xs">
-                  <span class="px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold">WCAG 2.2 AA</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">VPAT Audits</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">NVDA / JAWS</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">ARIA Landmarks</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Semantic HTML5</span>
-                </div>
-              </div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors leading-snug">
+                Enterprise Accessibility & VPAT Audit
+              </h3>
+              <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1">
+                ZeOmega Clinical Portal
+              </p>
             </div>
-
-            <!-- Footer Action Links -->
-            <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 dark:border-slate-800/80 mt-4 font-mono text-xs">
-              <span class="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-semibold">
-                <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-                <span>VPAT Certified</span>
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-mono mt-5">
+              <span class="px-2 py-0.5 rounded-md text-[11px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 whitespace-nowrap">
+                WCAG 2.2 AA
               </span>
-              <button onclick="openResumeModal()" class="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
-                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-                <span>View Case Details</span>
-              </button>
+              <span class="text-slate-400 dark:text-slate-500 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors flex items-center gap-1 font-semibold text-[11px] whitespace-nowrap">
+                <span>Details</span>
+                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+              </span>
             </div>
           </article>
 
           <!-- Card 2: AI-Augmented Design System & Tokenization Suite -->
-          <article class="project-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:shadow-xl hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between" data-category="ai">
+          <article onclick="openResumeModal()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openResumeModal();}" class="project-card project-clean-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-6 flex flex-col justify-between shadow-xs hover:border-teal-500/60 dark:hover:border-teal-500/60 transition-all duration-300 cursor-pointer min-h-[230px]" data-category="ai" aria-label="View architecture for AI Design System & Token Suite">
             <div>
-              <!-- Mockup Preview Banner -->
-              <div class="h-48 w-full bg-gradient-to-br from-slate-900 via-slate-850 to-teal-950 p-6 flex flex-col justify-between border-b border-slate-200 dark:border-slate-800 relative overflow-hidden">
-                <div class="flex items-center justify-between z-10">
-                  <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-white/10 text-teal-400 border border-white/10 backdrop-blur-md">Generative AI Tooling</span>
-                  <span class="text-xs font-mono text-teal-400 font-bold flex items-center gap-1">
-                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Vibe Coding SDLC
-                  </span>
-                </div>
-                
-                <!-- Mockup Visual Elements -->
-                <div class="space-y-1.5 z-10 font-mono text-[11px]">
-                  <div class="text-white font-bold text-base flex items-center gap-2">
-                    <span class="text-teal-400">Tokens:</span>
-                    <span>Figma Vars → CSS Custom Properties</span>
-                  </div>
-                  <div class="flex items-center gap-2 pt-1">
-                    <span class="px-2.5 py-0.5 rounded bg-emerald-500/30 text-emerald-300 border border-emerald-400/40 text-[10px]">30% Handoff Speedup</span>
-                    <span class="px-2.5 py-0.5 rounded bg-white/15 text-slate-200 text-[10px]">Zero Spec Drift</span>
-                  </div>
-                </div>
-
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-teal-500/20 rounded-full blur-xl pointer-events-none"></div>
+              <div class="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800/80 flex items-center justify-center text-teal-600 dark:text-teal-400 mb-4 group-hover:scale-105 transition-transform">
+                <i data-lucide="sparkles" class="w-6 h-6"></i>
               </div>
-
-              <!-- Body -->
-              <div class="p-6 space-y-3">
-                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                  AI-Augmented Design System & Tokenization Suite
-                </h3>
-                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  Centralized UI component system leveraging custom IDE prompt engineering and Vibe Coding workflows to translate Figma design tokens into production-ready accessible presentation layers with zero layout drift.
-                </p>
-
-                <!-- Tech Tags -->
-                <div class="flex flex-wrap gap-1.5 pt-2 font-mono text-xs">
-                  <span class="px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold">Generative AI</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Prompt Engineering</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Design Tokens</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">CSS Architecture</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Vanilla JavaScript</span>
-                </div>
-              </div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors leading-snug">
+                AI Design System & Token Suite
+              </h3>
+              <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1">
+                Vibe Coding & Prompt Eng.
+              </p>
             </div>
-
-            <!-- Footer Action Links -->
-            <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 dark:border-slate-800/80 mt-4 font-mono text-xs">
-              <a href="https://coursera.org/verify/professional-cert/TIDIWDX23DK7" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 hover:underline font-semibold">
-                <i data-lucide="award" class="w-3.5 h-3.5"></i>
-                <span>Google AI Certified</span>
-              </a>
-              <button onclick="openResumeModal()" class="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
-                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-                <span>View Architecture</span>
-              </button>
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-mono mt-5">
+              <span class="px-2 py-0.5 rounded-md text-[11px] font-bold bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 border border-teal-200 dark:border-teal-800/60 whitespace-nowrap">
+                30% Speedup
+              </span>
+              <span class="text-slate-400 dark:text-slate-500 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors flex items-center gap-1 font-semibold text-[11px] whitespace-nowrap">
+                <span>Details</span>
+                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+              </span>
             </div>
           </article>
 
           <!-- Card 3: Healthcare Clinical Analytics & High-Throughput DOM Console -->
-          <article class="project-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:shadow-xl hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between" data-category="frontend">
+          <article onclick="openResumeModal()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openResumeModal();}" class="project-card project-clean-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-6 flex flex-col justify-between shadow-xs hover:border-blue-500/60 dark:hover:border-blue-500/60 transition-all duration-300 cursor-pointer min-h-[230px]" data-category="frontend" aria-label="View details for Clinical Analytics & DOM Console">
             <div>
-              <!-- Mockup Preview Banner -->
-              <div class="h-48 w-full bg-gradient-to-br from-slate-900 via-slate-850 to-blue-950 p-6 flex flex-col justify-between border-b border-slate-200 dark:border-slate-800 relative overflow-hidden">
-                <div class="flex items-center justify-between z-10">
-                  <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-white/10 text-blue-400 border border-white/10 backdrop-blur-md">Clinical Platform</span>
-                  <span class="text-xs font-mono text-slate-400">Sub-second Render</span>
-                </div>
-                
-                <!-- Mockup Visual Elements -->
-                <div class="space-y-1.5 z-10 font-mono text-[11px] text-slate-300">
-                  <div class="text-white font-bold flex items-center gap-2">
-                    <span class="text-emerald-400">+30%</span> Cross-Browser DOM Speed
-                  </div>
-                  <div class="text-slate-400 text-xs">
-                    Multi-filter clinical tables · Zero Layout Shift (CLS: 0.00)
-                  </div>
-                </div>
-
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-blue-500/20 rounded-full blur-xl pointer-events-none"></div>
+              <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/80 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-105 transition-transform">
+                <i data-lucide="activity" class="w-6 h-6"></i>
               </div>
-
-              <!-- Body -->
-              <div class="p-6 space-y-3">
-                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                  Healthcare Clinical Analytics & Data Console
-                </h3>
-                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  High-density clinical records interface featuring virtualized patient tables, keyboard-navigable facets, and optimized DOM manipulation cycles that boosted cross-browser rendering speeds by 30%.
-                </p>
-
-                <!-- Tech Tags -->
-                <div class="flex flex-wrap gap-1.5 pt-2 font-mono text-xs">
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">DOM Optimization</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Vanilla JavaScript</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">CSS Grid & Flexbox</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">SVG Graphics</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">WCAG 2.1 AA</span>
-                </div>
-              </div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
+                Clinical Analytics & DOM Console
+              </h3>
+              <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1">
+                High-Throughput Tables
+              </p>
             </div>
-
-            <!-- Footer Action Links -->
-            <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 dark:border-slate-800/80 mt-4 font-mono text-xs">
-              <span class="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-semibold">
-                <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                <span>Enterprise Production Tested</span>
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-mono mt-5">
+              <span class="px-2 py-0.5 rounded-md text-[11px] font-bold bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 whitespace-nowrap">
+                Zero CLS
               </span>
-              <button onclick="openResumeModal()" class="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
-                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-                <span>View Details</span>
-              </button>
+              <span class="text-slate-400 dark:text-slate-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center gap-1 font-semibold text-[11px] whitespace-nowrap">
+                <span>Details</span>
+                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+              </span>
             </div>
           </article>
 
           <!-- Card 4: Centralized Accessible UI Component Suite -->
-          <article class="project-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:shadow-xl hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between" data-category="frontend">
+          <article onclick="openResumeModal()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openResumeModal();}" class="project-card project-clean-card group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-6 flex flex-col justify-between shadow-xs hover:border-purple-500/60 dark:hover:border-purple-500/60 transition-all duration-300 cursor-pointer min-h-[230px]" data-category="frontend" aria-label="View spec for Accessible UI Component Suite">
             <div>
-              <!-- Mockup Preview Banner -->
-              <div class="h-48 w-full bg-gradient-to-br from-slate-900 via-slate-850 to-purple-950 p-6 flex flex-col justify-between border-b border-slate-200 dark:border-slate-800 relative overflow-hidden">
-                <div class="flex items-center justify-between z-10">
-                  <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-white/10 text-purple-400 border border-white/10 backdrop-blur-md">Design Operations</span>
-                  <span class="text-xs font-mono text-slate-400">4+ Product Teams</span>
-                </div>
-                
-                <!-- Mockup Visual Elements -->
-                <div class="space-y-1.5 z-10 font-mono text-[11px]">
-                  <div class="text-white font-bold flex items-center gap-2">
-                    <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
-                    <span>Centralized UI Architecture</span>
-                  </div>
-                  <div class="text-slate-400 text-xs">
-                    -35% Defect Leakage · +40% Reusability
-                  </div>
-                </div>
-
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-purple-500/20 rounded-full blur-xl pointer-events-none"></div>
+              <div class="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800/80 flex items-center justify-center text-purple-600 dark:text-purple-400 mb-4 group-hover:scale-105 transition-transform">
+                <i data-lucide="layers" class="w-6 h-6"></i>
               </div>
-
-              <!-- Body -->
-              <div class="p-6 space-y-3">
-                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                  Centralized Accessible UI Component Suite
-                </h3>
-                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  Unified enterprise component library built with semantic markup, dynamic color tokens, and strict keyboard focus management. Reduced cross-team bug leakage by 35% across four product squads.
-                </p>
-
-                <!-- Tech Tags -->
-                <div class="flex flex-wrap gap-1.5 pt-2 font-mono text-xs">
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Design Systems</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Semantic HTML5</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">CSS Architecture</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Web Components</span>
-                  <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">A11y Tokens</span>
-                </div>
-              </div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors leading-snug">
+                Accessible UI Component Suite
+              </h3>
+              <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1">
+                Enterprise UI Library
+              </p>
             </div>
-
-            <!-- Footer Action Links -->
-            <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 dark:border-slate-800/80 mt-4 font-mono text-xs">
-              <button onclick="openResumeModal()" class="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 hover:underline font-semibold">
-                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-                <span>Review Architecture Spec</span>
-              </button>
-              <span class="text-slate-400 text-xs">ZeOmega Infotech</span>
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-mono mt-5">
+              <span class="px-2 py-0.5 rounded-md text-[11px] font-bold bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-800/60 whitespace-nowrap">
+                -35% Defects
+              </span>
+              <span class="text-slate-400 dark:text-slate-500 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors flex items-center gap-1 font-semibold text-[11px] whitespace-nowrap">
+                <span>Details</span>
+                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+              </span>
             </div>
           </article>
 
@@ -2377,6 +2772,42 @@ Sri Eshwar College of Engineering — Graduated 2018 (Tamil Nadu, India)
           category: 'Distributed Edge Mesh, BGP Anycast Routing & V8 Sandbox Benchmarks',
           badge: '318 GLOBAL PoPs ACTIVE',
           url: './public/works/hyperedge.html'
+        },
+        'aeris-aviation': {
+          title: 'AERIS AVIATION — Autonomous Flight & Supersonic Charter',
+          category: 'Autonomous Aviation, Canvas Flight Path Vectors & Suborbital Telemetry',
+          badge: 'MACH 3.2 · 60,000 FT CRUISE',
+          url: './public/works/aeris-aviation.html'
+        },
+        'kinetix-studio': {
+          title: 'KINETIX STUDIO — Real-Time Cloud Video & Neural VFX',
+          category: 'Cloud Non-Linear Editor, Neural Rotoscoping & Anamorphic Optics HUD',
+          badge: '8K PRORES XQ · 24.00 FPS',
+          url: './public/works/kinetix-studio.html'
+        },
+        'the-hidden-sanctuary': {
+          title: 'THE HIDDEN SANCTUARY — 3D Canopy Scroll Microsite',
+          category: 'Camera-Driven 3D Architecture, Procedural Shaders & Live Web Audio',
+          badge: 'THREE.JS & WEB AUDIO API',
+          url: './public/works/the-hidden-sanctuary.html'
+        },
+        'apex-f1': {
+          title: 'APEX F1 — Formula 1 Pit-Wall & Race Strategy Suite',
+          category: 'Live Grand Prix Telemetry, 2D Circuit Radar & Pit Undercut Calculator',
+          badge: '100Hz CAN-BUS · LIVE FIA FEED',
+          url: './public/works/f1.html'
+        },
+        'ajith-kumar-racing': {
+          title: 'AJITH KUMAR RACING — Formula 1 & VOLT-X Hyperdrive',
+          category: '3D Canvas Race Car, GSAP Scrollytelling & Web Audio Hybrid V6 Synth',
+          badge: '1,050 BHP HYBRID · GSAP SCROLLTRIGGER',
+          url: './public/works/ajith-kumar-racing.html'
+        },
+        'manga-vault': {
+          title: 'MANGA VAULT — Anime Collectibles & 3D Archive',
+          category: 'Three.js Procedural Shader, GSAP Scrollytelling & Web Audio Synth',
+          badge: 'THREE.JS · GSAP LENIS · WEB AUDIO',
+          url: './public/works/manga-vault.html'
         }
       };
 
@@ -2397,8 +2828,8 @@ Sri Eshwar College of Engineering — Graduated 2018 (Tamil Nadu, India)
         });
 
         cards.forEach(card => {
-          const cardCat = card.getAttribute('data-category');
-          if (category === 'all' || cardCat === category) {
+          const cardCat = card.getAttribute('data-category') || '';
+          if (category === 'all' || cardCat.split(' ').includes(category)) {
             card.style.display = 'flex';
           } else {
             card.style.display = 'none';

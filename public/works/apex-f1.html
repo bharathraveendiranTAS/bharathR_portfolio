@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APEX F1 — Formula 1 Pit-Wall Telemetry & Race Strategy</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            pit: {
+              950: '#06070a',
+              900: '#0b0d13',
+              850: '#10131d',
+              800: '#171b29',
+              700: '#23293d',
+              600: '#343d57',
+              500: '#536085'
+            },
+            racing: {
+              red: '#ef4444',
+              neon: '#ff1801',
+              green: '#22c55e',
+              cyan: '#06b6d4',
+              amber: '#f59e0b',
+              purple: '#a855f7'
+            }
+          },
+          fontFamily: {
+            sans: ['"Space Grotesk"', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            racing: ['"Rajdhani"', '"Space Grotesk"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #06070a;
+      color: #f1f5f9;
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-racing { font-family: 'Rajdhani', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Race Grid Background */
+    .carbon-mesh {
+      background-color: #06070a;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(239, 68, 68, 0.08) 0%, transparent 65%),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 32px 32px, 32px 32px;
+    }
+
+    /* Pit Wall Card Styling */
+    .pit-card {
+      background: linear-gradient(180deg, rgba(16, 19, 29, 0.95) 0%, rgba(11, 13, 19, 0.98) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    /* Shift Light Animations */
+    .shift-light {
+      transition: background-color 0.05s ease, box-shadow 0.05s ease;
+    }
+    .shift-light.active-green {
+      background-color: #22c55e !important;
+      box-shadow: 0 0 10px #22c55e;
+    }
+    .shift-light.active-red {
+      background-color: #ef4444 !important;
+      box-shadow: 0 0 12px #ef4444;
+    }
+    .shift-light.active-blue {
+      background-color: #3b82f6 !important;
+      box-shadow: 0 0 15px #3b82f6;
+    }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0b0d13; }
+    ::-webkit-scrollbar-thumb { background: #23293d; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #ef4444; }
+
+    /* Pulse Glow */
+    @keyframes telemetryPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.08); }
+    }
+    .pulse-drs {
+      animation: telemetryPulse 1.2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="carbon-mesh min-h-screen flex flex-col selection:bg-red-500 selection:text-white">
+
+  <!-- TOP COMMAND DECK -->
+  <header class="border-b border-white/10 bg-pit-950/90 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-[1720px] mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Brand & Sector Indicator -->
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-lg bg-red-600 flex items-center justify-center text-white font-racing font-extrabold text-xl shadow-lg shadow-red-600/40 tracking-tighter">
+            F1
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-racing font-extrabold tracking-wider text-lg text-white">APEX RACE OPS</span>
+              <span class="px-2 py-0.5 text-[10px] font-mono font-bold rounded bg-red-500/20 text-red-400 border border-red-500/30 tracking-wide">
+                FIA LIVE FEED
+              </span>
+            </div>
+            <p class="text-[11px] font-mono text-slate-400">PIT WALL TELEMETRY • BRITISH GRAND PRIX • 52 LAPS</p>
+          </div>
+        </div>
+
+        <div class="hidden xl:flex items-center gap-2 pl-4 border-l border-white/10 text-xs font-mono">
+          <span class="text-slate-400">CIRCUIT:</span>
+          <select id="circuitSelect" onchange="changeCircuit(this.value)" class="bg-pit-850 text-white border border-white/10 rounded px-2.5 py-1 text-xs font-mono focus:outline-none focus:border-red-500 cursor-pointer">
+            <option value="silverstone" selected>Silverstone (UK) • 5.891 km</option>
+            <option value="spa">Spa-Francorchamps (BEL) • 7.004 km</option>
+            <option value="monza">Monza (ITA) • 5.793 km</option>
+            <option value="monaco">Circuit de Monaco (MON) • 3.337 km</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Live Race Status Flag & Control -->
+      <div class="flex items-center gap-3">
+        <!-- Race Flag Badge -->
+        <div id="flagIndicator" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-950/80 border border-emerald-500/50 text-emerald-400 font-mono text-xs font-bold transition-all shadow-sm">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+          <span id="flagText">TRACK STATUS: TRACK CLEAR (GREEN)</span>
+        </div>
+
+        <!-- Simulation Controls -->
+        <div class="flex items-center gap-1.5 bg-pit-900 border border-white/10 rounded-lg p-1">
+          <button id="playPauseBtn" onclick="toggleSimulation()" class="px-2.5 py-1 text-xs font-mono rounded bg-white/10 hover:bg-white/20 text-white flex items-center gap-1.5 transition">
+            <i data-lucide="pause" id="playIcon" class="w-3.5 h-3.5"></i>
+            <span id="playText">PAUSE</span>
+          </button>
+          <button onclick="changeSpeed(1)" class="sim-speed-btn px-2 py-1 text-[11px] font-mono rounded bg-red-600 text-white font-bold" data-speed="1">1X</button>
+          <button onclick="changeSpeed(2)" class="sim-speed-btn px-2 py-1 text-[11px] font-mono rounded text-slate-400 hover:text-white" data-speed="2">2X</button>
+          <button onclick="changeSpeed(4)" class="sim-speed-btn px-2 py-1 text-[11px] font-mono rounded text-slate-400 hover:text-white" data-speed="4">4X</button>
+        </div>
+
+        <!-- Radio Comms Trigger -->
+        <button onclick="playTeamRadio()" class="px-3 py-1.5 rounded-lg bg-pit-800 border border-white/10 hover:border-red-500/50 text-white font-mono text-xs flex items-center gap-2 transition group shadow-sm">
+          <i data-lucide="radio" class="w-3.5 h-3.5 text-red-400 group-hover:animate-pulse"></i>
+          <span>TEAM RADIO</span>
+        </button>
+
+        <!-- Race Flag Switcher Dropdown -->
+        <select id="flagSelect" onchange="setRaceFlag(this.value)" class="bg-pit-850 text-slate-300 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs font-mono focus:outline-none focus:border-red-500 cursor-pointer">
+          <option value="GREEN">Green Flag (Racing)</option>
+          <option value="YELLOW">Yellow Flag (Sector 2)</option>
+          <option value="VSC">Virtual Safety Car (VSC)</option>
+          <option value="SC">Full Safety Car (SC)</option>
+          <option value="RED">Red Flag (Session Stopped)</option>
+        </select>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN COCKPIT & PIT-WALL GRID -->
+  <main class="max-w-[1720px] mx-auto px-4 sm:px-6 py-5 flex-1 w-full flex flex-col gap-5">
+    
+    <!-- ROW 1: PRIMARY TELEMETRY HUD & CIRCUIT RADAR -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+      
+      <!-- LEFT: F1 COCKPIT HUD & STEERING DASH (7 Cols) -->
+      <section class="lg:col-span-7 flex flex-col gap-4">
+        
+        <!-- F1 STEERING WHEEL TELEMETRY CONSOLE -->
+        <div class="pit-card rounded-2xl p-5 relative overflow-hidden">
+          <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+            <div class="flex items-center gap-3">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+              <h2 class="font-racing text-lg font-bold tracking-wider text-white">CAR #1 TELEMETRY • MAX VERSTAPPEN</h2>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                ORACLE RED BULL RACING • RB20
+              </span>
+            </div>
+            <div class="flex items-center gap-2 font-mono text-xs">
+              <span class="text-slate-400">SYNC:</span>
+              <span class="text-emerald-400 font-bold">LIVE 100Hz CAN-BUS</span>
+            </div>
+          </div>
+
+          <!-- SHIFT LIGHTS ARRAY (15 LEDs) -->
+          <div class="mb-4 bg-pit-950 p-2.5 rounded-xl border border-white/10 flex items-center justify-center gap-1.5">
+            <span class="text-[10px] font-mono text-slate-500 font-bold mr-2">RPM</span>
+            <!-- 5 Green LEDs -->
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-0"></div>
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-1"></div>
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-2"></div>
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-3"></div>
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-4"></div>
+            <!-- 5 Red LEDs -->
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-5"></div>
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-6"></div>
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-7"></div>
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-8"></div>
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-9"></div>
+            <!-- 5 Blue LEDs -->
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-10"></div>
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-11"></div>
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-12"></div>
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-13"></div>
+            <div class="shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10" id="led-14"></div>
+            <span id="rpmDisplay" class="text-xs font-mono text-amber-400 font-extrabold ml-3 min-w-[70px] text-right">12,840 RPM</span>
+          </div>
+
+          <!-- PRIMARY SPEED & GEAR READOUT -->
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 items-center">
+            
+            <!-- Gear Display -->
+            <div class="bg-pit-950 p-4 rounded-xl border border-white/10 text-center flex flex-col justify-center">
+              <span class="text-[10px] font-mono text-slate-400 uppercase tracking-wider">GEAR</span>
+              <div id="gearDisplay" class="font-racing text-6xl font-black text-white leading-none my-1">
+                7
+              </div>
+              <span class="text-[10px] font-mono text-emerald-400 font-bold" id="gearStatus">OPTIMAL RATIO</span>
+            </div>
+
+            <!-- Speedometer -->
+            <div class="bg-pit-950 p-4 rounded-xl border border-white/10 text-center flex flex-col justify-center">
+              <span class="text-[10px] font-mono text-slate-400 uppercase tracking-wider">SPEED</span>
+              <div class="flex items-baseline justify-center gap-1 my-1">
+                <span id="speedDisplay" class="font-racing text-6xl font-black text-white leading-none">318</span>
+                <span class="text-xs font-mono text-slate-400 font-bold">KM/H</span>
+              </div>
+              <div class="text-[10px] font-mono text-slate-400 flex items-center justify-center gap-1">
+                <span>PEAK:</span>
+                <span id="peakSpeed" class="text-amber-400 font-bold">339 KM/H</span>
+              </div>
+            </div>
+
+            <!-- Throttle & Brake Pedals -->
+            <div class="bg-pit-950 p-4 rounded-xl border border-white/10 flex flex-col justify-between h-full">
+              <span class="text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-2">PEDAL INPUT</span>
+              <div class="space-y-2">
+                <div>
+                  <div class="flex justify-between text-[10px] font-mono text-emerald-400 font-bold mb-1">
+                    <span>THROTTLE</span>
+                    <span id="throttleVal">98%</span>
+                  </div>
+                  <div class="w-full h-2 rounded bg-pit-800 overflow-hidden">
+                    <div id="throttleBar" class="h-full bg-emerald-500 transition-all duration-75" style="width: 98%;"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-[10px] font-mono text-red-400 font-bold mb-1">
+                    <span>BRAKE</span>
+                    <span id="brakeVal">0%</span>
+                  </div>
+                  <div class="w-full h-2 rounded bg-pit-800 overflow-hidden">
+                    <div id="brakeBar" class="h-full bg-red-500 transition-all duration-75" style="width: 0%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- DRS & ERS Energy State -->
+            <div class="bg-pit-950 p-4 rounded-xl border border-white/10 flex flex-col justify-between h-full">
+              <span class="text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-1">DRS / ERS STATUS</span>
+              <div class="space-y-2 my-auto">
+                <div id="drsBadge" class="px-2.5 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500 text-emerald-400 text-center font-racing font-extrabold text-sm tracking-wider pulse-drs">
+                  DRS OPEN (ACTIVE)
+                </div>
+                <div>
+                  <div class="flex justify-between text-[10px] font-mono text-cyan-400 font-bold mb-1">
+                    <span>ERS DEPLOY</span>
+                    <span id="ersVal">84%</span>
+                  </div>
+                  <div class="w-full h-2 rounded bg-pit-800 overflow-hidden">
+                    <div id="ersBar" class="h-full bg-cyan-400 transition-all duration-150" style="width: 84%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- DYNAMIC TELEMETRY TRACE CANVAS (Speed + Throttle + Brake Graph) -->
+          <div class="mt-4 pt-3 border-t border-white/10">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
+              <span class="flex items-center gap-2">
+                <i data-lucide="trending-up" class="w-3.5 h-3.5 text-red-500"></i>
+                <span>LIVE TELEMETRY TRACE (SPEED / THROTTLE / BRAKE)</span>
+              </span>
+              <div class="flex items-center gap-3 text-[11px]">
+                <span class="flex items-center gap-1"><span class="w-2.5 h-1 bg-amber-400 rounded-xs inline-block"></span> Speed</span>
+                <span class="flex items-center gap-1"><span class="w-2.5 h-1 bg-emerald-400 rounded-xs inline-block"></span> Throttle</span>
+                <span class="flex items-center gap-1"><span class="w-2.5 h-1 bg-red-400 rounded-xs inline-block"></span> Brake</span>
+              </div>
+            </div>
+            <canvas id="telemetryCanvas" class="w-full h-24 bg-pit-950 rounded-xl border border-white/10 block"></canvas>
+          </div>
+
+        </div>
+
+        <!-- 4-CORNER TYRE TEMPERATURE & PRESSURE MATRIX -->
+        <div class="pit-card rounded-2xl p-5">
+          <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
+            <div class="flex items-center gap-2 font-racing font-bold text-base text-white">
+              <i data-lucide="disc" class="w-4 h-4 text-red-500"></i>
+              <span>PIRELLI TYRE MATRIX • C3 SOFT COMPOUND (14 LAPS)</span>
+            </div>
+            <div class="text-[11px] font-mono text-slate-400">OPTIMAL WINDOW: 95°C - 110°C</div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
+            <!-- Front Left -->
+            <div class="bg-pit-950 p-3 rounded-xl border border-white/10">
+              <div class="flex justify-between text-[11px] text-slate-400 font-bold mb-1">
+                <span>FL TYRE</span>
+                <span class="text-emerald-400">82% LIFE</span>
+              </div>
+              <div class="text-xl font-racing font-extrabold text-amber-400" id="tempFL">102.4°C</div>
+              <div class="text-[10px] text-slate-500 flex justify-between mt-1">
+                <span>PRESSURE</span>
+                <span class="text-slate-300">22.8 PSI</span>
+              </div>
+            </div>
+
+            <!-- Front Right -->
+            <div class="bg-pit-950 p-3 rounded-xl border border-white/10">
+              <div class="flex justify-between text-[11px] text-slate-400 font-bold mb-1">
+                <span>FR TYRE</span>
+                <span class="text-emerald-400">79% LIFE</span>
+              </div>
+              <div class="text-xl font-racing font-extrabold text-red-400" id="tempFR">107.1°C</div>
+              <div class="text-[10px] text-slate-500 flex justify-between mt-1">
+                <span>PRESSURE</span>
+                <span class="text-slate-300">23.1 PSI</span>
+              </div>
+            </div>
+
+            <!-- Rear Left -->
+            <div class="bg-pit-950 p-3 rounded-xl border border-white/10">
+              <div class="flex justify-between text-[11px] text-slate-400 font-bold mb-1">
+                <span>RL TYRE</span>
+                <span class="text-emerald-400">85% LIFE</span>
+              </div>
+              <div class="text-xl font-racing font-extrabold text-amber-400" id="tempRL">98.6°C</div>
+              <div class="text-[10px] text-slate-500 flex justify-between mt-1">
+                <span>PRESSURE</span>
+                <span class="text-slate-300">21.4 PSI</span>
+              </div>
+            </div>
+
+            <!-- Rear Right -->
+            <div class="bg-pit-950 p-3 rounded-xl border border-white/10">
+              <div class="flex justify-between text-[11px] text-slate-400 font-bold mb-1">
+                <span>RR TYRE</span>
+                <span class="text-emerald-400">83% LIFE</span>
+              </div>
+              <div class="text-xl font-racing font-extrabold text-amber-400" id="tempRR">101.9°C</div>
+              <div class="text-[10px] text-slate-500 flex justify-between mt-1">
+                <span>PRESSURE</span>
+                <span class="text-slate-300">21.6 PSI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT: 2D CIRCUIT RADAR & TIMING TOWER (5 Cols) -->
+      <section class="lg:col-span-5 flex flex-col gap-4">
+        
+        <!-- 2D CIRCUIT GPS MAP & SECTOR RADAR -->
+        <div class="pit-card rounded-2xl p-5 flex flex-col">
+          <div class="flex items-center justify-between mb-3 border-b border-white/10 pb-3">
+            <div>
+              <h3 class="font-racing font-bold text-lg text-white" id="circuitName">SILVERSTONE CIRCUIT</h3>
+              <p class="text-[11px] font-mono text-slate-400" id="circuitStats">18 TURNS • 2 DRS ZONES • LAP RECORD: 1:27.097</p>
+            </div>
+            <div class="flex items-center gap-1.5 font-mono text-xs">
+              <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">
+                SECTOR 2 ACTIVE
+              </span>
+            </div>
+          </div>
+
+          <!-- Canvas Circuit Area -->
+          <div class="relative w-full aspect-[4/3] bg-pit-950 rounded-xl border border-white/10 overflow-hidden flex items-center justify-center">
+            <canvas id="circuitCanvas" class="w-full h-full block"></canvas>
+            
+            <!-- Map Overlay Legend -->
+            <div class="absolute bottom-2.5 left-2.5 bg-pit-900/90 backdrop-blur-sm border border-white/10 px-2.5 py-1.5 rounded-lg text-[10px] font-mono flex items-center gap-3">
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-500"></span> #1 VER</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-cyan-400"></span> #44 HAM</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-yellow-400"></span> #16 LEC</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-orange-400"></span> #4 NOR</span>
+            </div>
+
+            <!-- G-Force Friction Circle in corner -->
+            <div class="absolute top-2.5 right-2.5 bg-pit-900/90 backdrop-blur-sm border border-white/10 p-2 rounded-xl text-center">
+              <div class="text-[9px] font-mono text-slate-400 uppercase tracking-wider mb-1">G-FORCE</div>
+              <div class="relative w-16 h-16 border border-white/20 rounded-full flex items-center justify-center">
+                <div class="absolute w-full h-[1px] bg-white/10"></div>
+                <div class="absolute h-full w-[1px] bg-white/10"></div>
+                <div id="gDot" class="w-2.5 h-2.5 rounded-full bg-red-500 absolute transition-all duration-75 shadow-sm shadow-red-500" style="transform: translate(8px, -6px);"></div>
+              </div>
+              <span id="gVal" class="text-[10px] font-mono text-white font-bold block mt-1">3.8G LAT</span>
+            </div>
+          </div>
+
+          <!-- Live Sector Deltas -->
+          <div class="grid grid-cols-3 gap-2 mt-3 font-mono text-xs">
+            <div class="bg-pit-950 p-2.5 rounded-xl border border-white/10 text-center">
+              <div class="text-[10px] text-slate-400 uppercase">SECTOR 1</div>
+              <div class="font-bold text-purple-400 text-sm mt-0.5">27.481 s</div>
+              <div class="text-[9px] text-purple-400 font-semibold">SESSION FASTEST</div>
+            </div>
+            <div class="bg-pit-950 p-2.5 rounded-xl border border-white/10 text-center">
+              <div class="text-[10px] text-slate-400 uppercase">SECTOR 2</div>
+              <div class="font-bold text-emerald-400 text-sm mt-0.5">34.902 s</div>
+              <div class="text-[9px] text-emerald-400 font-semibold">PERSONAL BEST</div>
+            </div>
+            <div class="bg-pit-950 p-2.5 rounded-xl border border-white/10 text-center">
+              <div class="text-[10px] text-slate-400 uppercase">SECTOR 3</div>
+              <div class="font-bold text-yellow-400 text-sm mt-0.5">25.120 s</div>
+              <div class="text-[9px] text-yellow-400 font-semibold">+0.082s DELTA</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TIMING TOWER / LEADERBOARD -->
+        <div class="pit-card rounded-2xl p-4 flex-1 flex flex-col">
+          <div class="flex items-center justify-between mb-3 border-b border-white/10 pb-2">
+            <div class="flex items-center gap-2">
+              <i data-lucide="list-ordered" class="w-4 h-4 text-red-500"></i>
+              <h3 class="font-racing font-bold text-base text-white">LIVE TIMING TOWER • LAP 34/52</h3>
+            </div>
+            <span class="text-[10px] font-mono text-slate-400">CLICK DRIVER TO TRACK</span>
+          </div>
+
+          <!-- Standings Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left font-mono text-xs">
+              <thead>
+                <tr class="text-[10px] text-slate-500 border-b border-white/5 uppercase">
+                  <th class="py-1 px-2">POS</th>
+                  <th class="py-1 px-2">NO</th>
+                  <th class="py-1 px-2">DRIVER</th>
+                  <th class="py-1 px-2">GAP</th>
+                  <th class="py-1 px-2">INT</th>
+                  <th class="py-1 px-2">TYRE</th>
+                  <th class="py-1 px-2 text-right">LAST LAP</th>
+                </tr>
+              </thead>
+              <tbody id="timingTableBody" class="divide-y divide-white/5">
+                <!-- Dynamically Populated Drivers -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- ROW 2: RACE STRATEGY & PIT STOP UNDERCUT SIMULATOR -->
+    <section class="pit-card rounded-2xl p-5">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-4 border-b border-white/10 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-pit-800 border border-white/10 flex items-center justify-center text-red-500">
+            <i data-lucide="git-merge" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="font-racing font-bold text-lg text-white">UNDERCUT & PIT STOP STRATEGY PREDICTOR</h3>
+            <p class="text-[11px] font-mono text-slate-400">REAL-TIME PIT DELTA CALCULATOR & STINT LIFE PROJECTION</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 font-mono text-xs">
+          <span class="text-slate-400">PIT LOSS DELTA:</span>
+          <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-amber-400 font-bold">20.4 SECONDS</span>
+          <button onclick="triggerPitStop()" class="px-3.5 py-1.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold transition shadow-sm">
+            EXECUTE BOX CALL (IN THIS LAP)
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+        
+        <!-- Strategy Card 1 -->
+        <div class="bg-pit-950 p-4 rounded-xl border border-red-500/30">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-red-400 font-bold">PLAN A (CURRENT OPTIMAL)</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold">FAVORABLE</span>
+          </div>
+          <p class="text-slate-300 text-[11px] leading-relaxed mb-3">
+            Box Lap 36 for Hard (C1). Undercut Hamilton by +1.8s. Projected track exit in clean air ahead of Leclerc (P3).
+          </p>
+          <div class="flex items-center justify-between text-[11px] text-slate-400 border-t border-white/10 pt-2">
+            <span>PROJECTED FINISH:</span>
+            <span class="text-emerald-400 font-bold">P1 (+3.4s)</span>
+          </div>
+        </div>
+
+        <!-- Strategy Card 2 -->
+        <div class="bg-pit-950 p-4 rounded-xl border border-white/10">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-slate-300 font-bold">PLAN B (EXTEND MEDIUM)</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 font-bold">MODERATE RISK</span>
+          </div>
+          <p class="text-slate-300 text-[11px] leading-relaxed mb-3">
+            Extend stint to Lap 42 to defend against incoming safety car threat. Switch to Soft (C3) for 10-lap sprint.
+          </p>
+          <div class="flex items-center justify-between text-[11px] text-slate-400 border-t border-white/10 pt-2">
+            <span>PROJECTED FINISH:</span>
+            <span class="text-amber-400 font-bold">P2 (+0.8s)</span>
+          </div>
+        </div>
+
+        <!-- Strategy Card 3 -->
+        <div class="bg-pit-950 p-4 rounded-xl border border-white/10">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-slate-300 font-bold">METEOROLOGICAL RADAR</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 font-bold">TRACK DRY</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px] mb-2">
+            <div>TRACK TEMP: <span class="text-white font-bold">42.8°C</span></div>
+            <div>AIR TEMP: <span class="text-white font-bold">25.1°C</span></div>
+            <div>WIND SPEED: <span class="text-white font-bold">14 KM/H S</span></div>
+            <div>RAIN PROB: <span class="text-emerald-400 font-bold">0% (DRY)</span></div>
+          </div>
+          <div class="flex items-center justify-between text-[11px] text-slate-400 border-t border-white/10 pt-2">
+            <span>GRIP INDEX:</span>
+            <span class="text-cyan-400 font-bold">HIGH (RUBBERED IN)</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PIT WALL AUDIO & LOGIC ENGINE -->
+  <script>
+    // -------------------------------------------------------------
+    // F1 CIRCUIT DEFINITIONS (2D Vector Waypoints)
+    // -------------------------------------------------------------
+    const CIRCUITS = {
+      silverstone: {
+        name: 'SILVERSTONE CIRCUIT',
+        stats: '18 TURNS • 2 DRS ZONES • 5.891 KM • LAP RECORD: 1:27.097',
+        points: [
+          [120, 320], [180, 240], [240, 220], [300, 220], [350, 180], 
+          [400, 130], [480, 110], [550, 130], [580, 180], [530, 240],
+          [450, 250], [420, 290], [460, 330], [490, 370], [400, 380],
+          [310, 380], [210, 370], [140, 360]
+        ],
+        drsZones: [[2, 5], [10, 14]]
+      },
+      spa: {
+        name: 'CIRCUIT DE SPA-FRANCORCHAMPS',
+        stats: '19 TURNS • EAU ROUGE • 7.004 KM • LAP RECORD: 1:41.252',
+        points: [
+          [100, 350], [130, 280], [170, 220], [230, 150], [320, 110],
+          [430, 90], [520, 100], [570, 160], [530, 230], [460, 280],
+          [490, 330], [440, 370], [340, 380], [250, 380], [160, 370]
+        ],
+        drsZones: [[3, 6], [11, 14]]
+      },
+      monza: {
+        name: 'AUTODROMO NAZIONALE MONZA',
+        stats: '11 TURNS • TEMPLE OF SPEED • 5.793 KM • LAP RECORD: 1:21.046',
+        points: [
+          [110, 360], [140, 240], [200, 120], [310, 90], [440, 90],
+          [560, 120], [580, 220], [540, 320], [460, 370], [310, 370],
+          [200, 370]
+        ],
+        drsZones: [[2, 4], [7, 10]]
+      },
+      monaco: {
+        name: 'CIRCUIT DE MONACO',
+        stats: '19 TURNS • CASINO & TUNNEL • 3.337 KM • LAP RECORD: 1:12.909',
+        points: [
+          [150, 340], [190, 260], [240, 180], [290, 150], [360, 150],
+          [430, 190], [470, 250], [520, 290], [480, 340], [400, 350],
+          [330, 340], [260, 350], [190, 350]
+        ],
+        drsZones: [[0, 2]]
+      }
+    };
+
+    let activeCircuitKey = 'silverstone';
+    let currentCircuit = CIRCUITS.silverstone;
+
+    // -------------------------------------------------------------
+    // DRIVER TIMING TOWER DATA
+    // -------------------------------------------------------------
+    const DRIVERS = [
+      { pos: 1, no: '1', code: 'VER', name: 'Max Verstappen', team: 'Red Bull Racing', color: '#1e40af', gap: 'LEADER', int: '-', tyre: 'S', tyreColor: '#ef4444', laps: 14, lastLap: '1:28.452', progress: 0.72 },
+      { pos: 2, no: '44', code: 'HAM', name: 'Lewis Hamilton', team: 'Mercedes AMG', color: '#06b6d4', gap: '+2.148', int: '+2.148', tyre: 'M', tyreColor: '#eab308', laps: 18, lastLap: '1:28.710', progress: 0.68 },
+      { pos: 3, no: '16', code: 'LEC', name: 'Charles Leclerc', team: 'Ferrari', color: '#ef4444', gap: '+4.892', int: '+2.744', tyre: 'M', tyreColor: '#eab308', laps: 18, lastLap: '1:28.921', progress: 0.63 },
+      { pos: 4, no: '4', code: 'NOR', name: 'Lando Norris', team: 'McLaren', color: '#f97316', gap: '+6.120', int: '+1.228', tyre: 'S', tyreColor: '#ef4444', laps: 12, lastLap: '1:28.514', progress: 0.60 },
+      { pos: 5, no: '14', code: 'ALO', name: 'Fernando Alonso', team: 'Aston Martin', color: '#059669', gap: '+11.450', int: '+5.330', tyre: 'H', tyreColor: '#ffffff', laps: 24, lastLap: '1:29.340', progress: 0.52 },
+      { pos: 6, no: '81', code: 'PIA', name: 'Oscar Piastri', team: 'McLaren', color: '#f97316', gap: '+13.890', int: '+2.440', tyre: 'M', tyreColor: '#eab308', laps: 15, lastLap: '1:29.112', progress: 0.48 },
+      { pos: 7, no: '63', code: 'RUS', name: 'George Russell', team: 'Mercedes AMG', color: '#06b6d4', gap: '+15.220', int: '+1.330', tyre: 'M', tyreColor: '#eab308', laps: 16, lastLap: '1:29.240', progress: 0.44 },
+      { pos: 8, no: '55', code: 'SAI', name: 'Carlos Sainz', team: 'Ferrari', color: '#ef4444', gap: '+17.410', int: '+2.190', tyre: 'H', tyreColor: '#ffffff', laps: 22, lastLap: '1:29.580', progress: 0.39 }
+    ];
+
+    let selectedDriverCode = 'VER';
+    let simulationRunning = true;
+    let simSpeedMultiplier = 1;
+    let currentFlag = 'GREEN';
+
+    // Telemetry trace buffer (history of last 60 points)
+    const telemetryHistory = [];
+    const maxHistory = 80;
+
+    // Active state variables
+    let carTelemetry = {
+      speed: 318,
+      gear: 7,
+      rpm: 12840,
+      throttle: 98,
+      brake: 0,
+      ers: 84,
+      drsActive: true,
+      lateralG: 3.8
+    };
+
+    // -------------------------------------------------------------
+    // AUDIO ENGINE (Web Audio API Team Radio Synth)
+    // -------------------------------------------------------------
+    let audioCtx = null;
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playRadioChirp() {
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        // Bandpass radio noise filter
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 1800;
+        filter.Q.value = 3.0;
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1400, now);
+        osc.frequency.exponentialRampToValueAtTime(800, now + 0.12);
+
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.16);
+      } catch (e) {
+        console.warn('Audio not initialized yet:', e);
+      }
+    }
+
+    function playTeamRadio() {
+      playRadioChirp();
+
+      const messages = [
+        "Box, box, box. Box this lap for hards. Confirm pit confirm.",
+        "Lewis, gap behind to Leclerc is 2.4 seconds, manage your rear tyres in turn 9.",
+        "DRS is enabled on the Wellington straight. Push now, push.",
+        "Yellow in sector 2, watch for debris on turn 6 exit.",
+        "Engine mode Strat 2 available, you can use overtake for turn 15."
+      ];
+      const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+
+      if ('speechSynthesis' in window) {
+        setTimeout(() => {
+          const utterance = new SpeechSynthesisUtterance(randomMsg);
+          utterance.rate = 1.1;
+          utterance.pitch = 0.9;
+          window.speechSynthesis.speak(utterance);
+        }, 150);
+      }
+    }
+
+    function triggerPitStop() {
+      playRadioChirp();
+      alert("🚨 BOX BOX BOX CONFIRMED: Pit crew ready with C1 Hard compound (Target Stop: 2.1s)");
+    }
+
+    // -------------------------------------------------------------
+    // RACE FLAG MANAGEMENT
+    // -------------------------------------------------------------
+    function setRaceFlag(flag) {
+      currentFlag = flag;
+      const indicator = document.getElementById('flagIndicator');
+      const text = document.getElementById('flagText');
+
+      if (flag === 'GREEN') {
+        indicator.className = 'flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-950/80 border border-emerald-500/50 text-emerald-400 font-mono text-xs font-bold transition-all shadow-sm';
+        text.textContent = 'TRACK STATUS: TRACK CLEAR (GREEN)';
+      } else if (flag === 'YELLOW') {
+        indicator.className = 'flex items-center gap-2 px-3 py-1.5 rounded-lg bg-amber-950/80 border border-amber-500/50 text-amber-400 font-mono text-xs font-bold transition-all shadow-sm';
+        text.textContent = 'TRACK STATUS: YELLOW FLAG (SECTOR 2 HAZARD)';
+      } else if (flag === 'VSC') {
+        indicator.className = 'flex items-center gap-2 px-3 py-1.5 rounded-lg bg-amber-950/80 border border-amber-400/80 text-amber-300 font-mono text-xs font-bold transition-all animate-pulse';
+        text.textContent = 'VSC ACTIVE: DELTA POSITIVE REQUIRED';
+      } else if (flag === 'SC') {
+        indicator.className = 'flex items-center gap-2 px-3 py-1.5 rounded-lg bg-red-950/80 border border-red-500/60 text-red-400 font-mono text-xs font-bold transition-all animate-pulse';
+        text.textContent = 'SAFETY CAR DEPLOYED (NO OVERTAKING)';
+      } else if (flag === 'RED') {
+        indicator.className = 'flex items-center gap-2 px-3 py-1.5 rounded-lg bg-red-900 border border-red-400 text-white font-mono text-xs font-bold transition-all shadow-lg';
+        text.textContent = 'RED FLAG: SESSION SUSPENDED';
+      }
+    }
+
+    // -------------------------------------------------------------
+    // CONTROLS & TIMERS
+    // -------------------------------------------------------------
+    function toggleSimulation() {
+      simulationRunning = !simulationRunning;
+      const btnText = document.getElementById('playText');
+      const btnIcon = document.getElementById('playIcon');
+      if (simulationRunning) {
+        btnText.textContent = 'PAUSE';
+        btnIcon.setAttribute('data-lucide', 'pause');
+      } else {
+        btnText.textContent = 'RESUME';
+        btnIcon.setAttribute('data-lucide', 'play');
+      }
+      lucide.createIcons();
+    }
+
+    function changeSpeed(multiplier) {
+      simSpeedMultiplier = multiplier;
+      document.querySelectorAll('.sim-speed-btn').forEach(btn => {
+        if (parseInt(btn.getAttribute('data-speed')) === multiplier) {
+          btn.className = 'sim-speed-btn px-2 py-1 text-[11px] font-mono rounded bg-red-600 text-white font-bold';
+        } else {
+          btn.className = 'sim-speed-btn px-2 py-1 text-[11px] font-mono rounded text-slate-400 hover:text-white';
+        }
+      });
+    }
+
+    function changeCircuit(key) {
+      if (CIRCUITS[key]) {
+        activeCircuitKey = key;
+        currentCircuit = CIRCUITS[key];
+        document.getElementById('circuitName').textContent = currentCircuit.name;
+        document.getElementById('circuitStats').textContent = currentCircuit.stats;
+      }
+    }
+
+    function renderTimingTable() {
+      const tbody = document.getElementById('timingTableBody');
+      tbody.innerHTML = '';
+
+      DRIVERS.forEach(driver => {
+        const isSelected = driver.code === selectedDriverCode;
+        const tr = document.createElement('tr');
+        tr.className = `cursor-pointer transition hover:bg-white/5 ${isSelected ? 'bg-red-500/10 border-l-2 border-red-500' : ''}`;
+        tr.onclick = () => {
+          selectedDriverCode = driver.code;
+          renderTimingTable();
+        };
+
+        tr.innerHTML = `
+          <td class="py-2 px-2 font-bold ${driver.pos <= 3 ? 'text-amber-400' : 'text-slate-400'}">${driver.pos}</td>
+          <td class="py-2 px-2 font-mono text-slate-400">#${driver.no}</td>
+          <td class="py-2 px-2 font-bold text-white flex items-center gap-1.5">
+            <span class="w-1.5 h-3 rounded-xs inline-block" style="background-color: ${driver.color}"></span>
+            <span>${driver.code}</span>
+          </td>
+          <td class="py-2 px-2 font-mono ${driver.gap === 'LEADER' ? 'text-purple-400 font-bold' : 'text-slate-300'}">${driver.gap}</td>
+          <td class="py-2 px-2 font-mono text-slate-400">${driver.int}</td>
+          <td class="py-2 px-2">
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold text-black" style="background-color: ${driver.tyreColor}">${driver.tyre}</span>
+          </td>
+          <td class="py-2 px-2 text-right font-mono text-slate-200">${driver.lastLap}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // -------------------------------------------------------------
+    // RENDER 2D CANVAS CIRCUIT
+    // -------------------------------------------------------------
+    const circuitCanvas = document.getElementById('circuitCanvas');
+    const circuitCtx = circuitCanvas.getContext('2d');
+
+    function resizeCircuitCanvas() {
+      const rect = circuitCanvas.parentElement.getBoundingClientRect();
+      circuitCanvas.width = rect.width;
+      circuitCanvas.height = rect.height;
+    }
+    window.addEventListener('resize', resizeCircuitCanvas);
+    resizeCircuitCanvas();
+
+    function drawCircuit() {
+      circuitCtx.clearRect(0, 0, circuitCanvas.width, circuitCanvas.height);
+      const pts = currentCircuit.points;
+      if (!pts || pts.length < 3) return;
+
+      const scaleX = circuitCanvas.width / 700;
+      const scaleY = circuitCanvas.height / 500;
+
+      // Draw Base Track Surface
+      circuitCtx.beginPath();
+      circuitCtx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+      circuitCtx.lineWidth = 14;
+      circuitCtx.lineCap = 'round';
+      circuitCtx.lineJoin = 'round';
+      pts.forEach((pt, idx) => {
+        const x = pt[0] * scaleX;
+        const y = pt[1] * scaleY;
+        if (idx === 0) circuitCtx.moveTo(x, y);
+        else circuitCtx.lineTo(x, y);
+      });
+      circuitCtx.closePath();
+      circuitCtx.stroke();
+
+      // Draw Center Racing Line
+      circuitCtx.beginPath();
+      circuitCtx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+      circuitCtx.lineWidth = 2;
+      pts.forEach((pt, idx) => {
+        const x = pt[0] * scaleX;
+        const y = pt[1] * scaleY;
+        if (idx === 0) circuitCtx.moveTo(x, y);
+        else circuitCtx.lineTo(x, y);
+      });
+      circuitCtx.closePath();
+      circuitCtx.stroke();
+
+      // Highlight DRS zones in glowing green
+      if (currentCircuit.drsZones) {
+        currentCircuit.drsZones.forEach(zone => {
+          circuitCtx.beginPath();
+          circuitCtx.strokeStyle = '#22c55e';
+          circuitCtx.lineWidth = 5;
+          for (let i = zone[0]; i <= zone[1]; i++) {
+            const x = pts[i][0] * scaleX;
+            const y = pts[i][1] * scaleY;
+            if (i === zone[0]) circuitCtx.moveTo(x, y);
+            else circuitCtx.lineTo(x, y);
+          }
+          circuitCtx.stroke();
+        });
+      }
+
+      // Draw Moving Driver Cars along track
+      DRIVERS.forEach(driver => {
+        const totalPts = pts.length;
+        const floatIndex = (driver.progress * totalPts) % totalPts;
+        const baseIndex = Math.floor(floatIndex);
+        const nextIndex = (baseIndex + 1) % totalPts;
+        const frac = floatIndex - baseIndex;
+
+        const p1 = pts[baseIndex];
+        const p2 = pts[nextIndex];
+        const cx = (p1[0] + (p2[0] - p1[0]) * frac) * scaleX;
+        const cy = (p1[1] + (p2[1] - p1[1]) * frac) * scaleY;
+
+        // Draw car blip
+        circuitCtx.beginPath();
+        circuitCtx.arc(cx, cy, driver.code === selectedDriverCode ? 7 : 4.5, 0, Math.PI * 2);
+        circuitCtx.fillStyle = driver.color;
+        circuitCtx.fill();
+        circuitCtx.strokeStyle = '#ffffff';
+        circuitCtx.lineWidth = 1.5;
+        circuitCtx.stroke();
+
+        // Label for top drivers
+        if (driver.pos <= 4 || driver.code === selectedDriverCode) {
+          circuitCtx.fillStyle = '#ffffff';
+          circuitCtx.font = '10px "JetBrains Mono", monospace';
+          circuitCtx.fillText(driver.code, cx + 9, cy + 3);
+        }
+      });
+    }
+
+    // -------------------------------------------------------------
+    // RENDER TELEMETRY TRACE CANVAS
+    // -------------------------------------------------------------
+    const telCanvas = document.getElementById('telemetryCanvas');
+    const telCtx = telCanvas.getContext('2d');
+
+    function resizeTelemetryCanvas() {
+      const rect = telCanvas.parentElement.getBoundingClientRect();
+      telCanvas.width = rect.width - 24;
+      telCanvas.height = 96;
+    }
+    window.addEventListener('resize', resizeTelemetryCanvas);
+    resizeTelemetryCanvas();
+
+    function drawTelemetryTrace() {
+      telCtx.clearRect(0, 0, telCanvas.width, telCanvas.height);
+      const w = telCanvas.width;
+      const h = telCanvas.height;
+
+      // Draw background grid lines
+      telCtx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      telCtx.lineWidth = 1;
+      for (let y = 10; y < h; y += 25) {
+        telCtx.beginPath();
+        telCtx.moveTo(0, y);
+        telCtx.lineTo(w, y);
+        telCtx.stroke();
+      }
+
+      if (telemetryHistory.length < 2) return;
+
+      const step = w / maxHistory;
+
+      // 1. Draw Speed Trace (Yellow/Amber)
+      telCtx.beginPath();
+      telCtx.strokeStyle = '#fbbf24';
+      telCtx.lineWidth = 2;
+      telemetryHistory.forEach((item, i) => {
+        const x = i * step;
+        const normSpeed = Math.min(Math.max((item.speed - 80) / 260, 0), 1);
+        const y = h - (normSpeed * (h - 10)) - 5;
+        if (i === 0) telCtx.moveTo(x, y);
+        else telCtx.lineTo(x, y);
+      });
+      telCtx.stroke();
+
+      // 2. Draw Throttle Trace (Green)
+      telCtx.beginPath();
+      telCtx.strokeStyle = '#22c55e';
+      telCtx.lineWidth = 1.5;
+      telemetryHistory.forEach((item, i) => {
+        const x = i * step;
+        const y = h - ((item.throttle / 100) * (h - 10)) - 5;
+        if (i === 0) telCtx.moveTo(x, y);
+        else telCtx.lineTo(x, y);
+      });
+      telCtx.stroke();
+
+      // 3. Draw Brake Trace (Red)
+      telCtx.beginPath();
+      telCtx.strokeStyle = '#ef4444';
+      telCtx.lineWidth = 1.5;
+      telemetryHistory.forEach((item, i) => {
+        const x = i * step;
+        const y = h - ((item.brake / 100) * (h - 10)) - 5;
+        if (i === 0) telCtx.moveTo(x, y);
+        else telCtx.lineTo(x, y);
+      });
+      telCtx.stroke();
+    }
+
+    // -------------------------------------------------------------
+    // SHIFT LIGHTS & HUD TICKER
+    // -------------------------------------------------------------
+    function updateShiftLights(rpm) {
+      const minRpm = 10500;
+      const maxRpm = 14500;
+      const pct = Math.min(Math.max((rpm - minRpm) / (maxRpm - minRpm), 0), 1);
+      const activeCount = Math.floor(pct * 15);
+
+      for (let i = 0; i < 15; i++) {
+        const led = document.getElementById(`led-${i}`);
+        if (!led) continue;
+        led.className = 'shift-light w-4 h-3 rounded-sm bg-slate-800 border border-white/10';
+
+        if (i < activeCount) {
+          if (i < 5) led.classList.add('active-green');
+          else if (i < 10) led.classList.add('active-red');
+          else led.classList.add('active-blue');
+        }
+      }
+    }
+
+    // Main animation loop
+    let tickCount = 0;
+    function telemetryLoop() {
+      if (simulationRunning) {
+        tickCount++;
+
+        // Advance driver positions along track
+        DRIVERS.forEach(d => {
+          const deltaSpeed = (d.pos === 1 ? 0.0018 : 0.00175 - d.pos * 0.00004) * simSpeedMultiplier;
+          d.progress = (d.progress + deltaSpeed) % 1;
+        });
+
+        // Simulate realistic F1 acceleration, gear shifting, and braking waves
+        const cycle = (Math.sin(tickCount * 0.04) + 1) / 2; // 0 to 1
+        let speed = Math.round(140 + cycle * 195); // 140 to 335 km/h
+        let gear = 4;
+        if (speed < 170) gear = 4;
+        else if (speed < 220) gear = 5;
+        else if (speed < 275) gear = 6;
+        else if (speed < 315) gear = 7;
+        else gear = 8;
+
+        let throttle = 100;
+        let brake = 0;
+        if (cycle < 0.2) {
+          throttle = 15;
+          brake = 85;
+          speed = Math.max(90, speed - 35);
+        } else if (cycle < 0.4) {
+          throttle = 60;
+          brake = 0;
+        }
+
+        const rpm = Math.round(11000 + (speed % 30) * 110);
+        const drs = speed > 270;
+
+        carTelemetry = {
+          speed,
+          gear,
+          rpm,
+          throttle,
+          brake,
+          ers: Math.max(20, Math.round(88 - (tickCount * 0.05) % 65)),
+          drsActive: drs,
+          lateralG: (1.2 + (1 - Math.abs(cycle - 0.5) * 2) * 3.4).toFixed(1)
+        };
+
+        // Record history for graph
+        if (tickCount % 2 === 0) {
+          telemetryHistory.push({ ...carTelemetry });
+          if (telemetryHistory.length > maxHistory) telemetryHistory.shift();
+        }
+
+        // Update UI Elements
+        document.getElementById('speedDisplay').textContent = carTelemetry.speed;
+        document.getElementById('gearDisplay').textContent = carTelemetry.gear;
+        document.getElementById('rpmDisplay').textContent = carTelemetry.rpm.toLocaleString() + ' RPM';
+        document.getElementById('throttleVal').textContent = carTelemetry.throttle + '%';
+        document.getElementById('throttleBar').style.width = carTelemetry.throttle + '%';
+        document.getElementById('brakeVal').textContent = carTelemetry.brake + '%';
+        document.getElementById('brakeBar').style.width = carTelemetry.brake + '%';
+        document.getElementById('ersVal').textContent = carTelemetry.ers + '%';
+        document.getElementById('ersBar').style.width = carTelemetry.ers + '%';
+
+        // G-Force friction circle update
+        const gVal = document.getElementById('gVal');
+        const gDot = document.getElementById('gDot');
+        gVal.textContent = carTelemetry.lateralG + 'G LAT';
+        const gOffset = (carTelemetry.lateralG / 5) * 20;
+        gDot.style.transform = `translate(${gOffset * (tickCount % 40 < 20 ? 1 : -1)}px, ${-Math.abs(gOffset * 0.5)}px)`;
+
+        // DRS Indicator
+        const drsBadge = document.getElementById('drsBadge');
+        if (carTelemetry.drsActive) {
+          drsBadge.className = 'px-2.5 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500 text-emerald-400 text-center font-racing font-extrabold text-sm tracking-wider pulse-drs';
+          drsBadge.textContent = 'DRS OPEN (ACTIVE)';
+        } else {
+          drsBadge.className = 'px-2.5 py-1.5 rounded-lg bg-pit-800 border border-white/10 text-slate-500 text-center font-racing font-extrabold text-sm tracking-wider';
+          drsBadge.textContent = 'DRS CLOSED';
+        }
+
+        updateShiftLights(carTelemetry.rpm);
+
+        // Subtly fluctuate tire temps
+        document.getElementById('tempFL').textContent = (101.5 + Math.sin(tickCount * 0.05) * 2.2).toFixed(1) + '°C';
+        document.getElementById('tempFR').textContent = (106.8 + Math.cos(tickCount * 0.04) * 2.5).toFixed(1) + '°C';
+        document.getElementById('tempRL').textContent = (98.2 + Math.sin(tickCount * 0.03) * 1.8).toFixed(1) + '°C';
+        document.getElementById('tempRR').textContent = (101.3 + Math.cos(tickCount * 0.05) * 2.0).toFixed(1) + '°C';
+      }
+
+      drawCircuit();
+      drawTelemetryTrace();
+      requestAnimationFrame(telemetryLoop);
+    }
+
+    // Initialize View
+    renderTimingTable();
+    lucide.createIcons();
+    requestAnimationFrame(telemetryLoop);
+  </script>
+</body>
+</html>
