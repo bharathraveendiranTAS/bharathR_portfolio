@@ -1,0 +1,72 @@
+@use '../shared/styles/variables' as *;
+@use '../shared/styles/mixins' as *;
+
+.app-viewport {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: $slate-abyss;
+  color: $parchment;
+  font-family: $font-sans;
+  overflow-x: hidden;
+  selection-background-color: $chakra-cyan;
+  selection-color: $slate-abyss;
+}
+
+.canvas-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.scroll-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  pointer-events: none;
+}
+
+.interactive-layer {
+  pointer-events: auto;
+}
+
+.background-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.25) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 40%, rgba(3, 5, 8, 0.75) 100%);
+}
+
+.footer-credits {
+  padding: 40px 24px 100px;
+  text-align: center;
+  font-family: $font-mono;
+  font-size: 0.74rem;
+  color: $parchment-dim;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  pointer-events: auto;
+  position: relative;
+  z-index: 15;
+
+  p {
+    margin: 4px 0;
+  }
+
+  span {
+    color: $chakra-cyan;
+  }
+}

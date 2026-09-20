@@ -1,0 +1,842 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as *;
+
+.dom-overlay-container {
+  position: relative;
+  width: 100%;
+  pointer-events: none;
+  z-index: $z-overlay-content;
+}
+
+.section-stage {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  position: relative;
+  pointer-events: auto;
+
+  @include mobile {
+    padding: 70px 16px;
+  }
+}
+
+// ==================== SECTION 1: HERO OVERLAY ====================
+.hero {
+  text-align: center;
+  max-width: 960px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  z-index: 10;
+
+  &__card {
+    background: rgba(7, 10, 18, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 229, 255, 0.25);
+    border-radius: 28px;
+    padding: 48px 44px;
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.85), 0 0 45px rgba(0, 229, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    max-width: 880px;
+    width: 100%;
+    position: relative;
+
+    @include mobile {
+      padding: 32px 20px;
+      border-radius: 20px;
+      gap: 18px;
+    }
+  }
+
+  &__status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 18px;
+    border-radius: 9999px;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #34d399;
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+  }
+
+  &__status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #10b981;
+    box-shadow: 0 0 10px #10b981;
+    animation: pulseBeacon 2s infinite ease-in-out;
+  }
+
+  &__kicker {
+    font-family: $font-mono;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: $chakra-cyan;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px $chakra-cyan-glow;
+  }
+
+  &__title {
+    font-family: $font-sans;
+    font-size: clamp(2.8rem, 6.5vw, 5.0rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: #ffffff;
+    margin: 0;
+    text-shadow: 0 4px 25px rgba(0, 0, 0, 0.9);
+
+    span {
+      color: $chakra-cyan;
+      background: linear-gradient(135deg, $chakra-cyan 0%, #ffffff 55%, $gold-leaf 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 20px rgba(0, 229, 255, 0.4));
+    }
+  }
+
+  &__role {
+    font-family: $font-sans;
+    font-size: clamp(1.02rem, 1.85vw, 1.2rem);
+    color: #f1f5f9;
+    font-weight: 400;
+    letter-spacing: 0.012em;
+    max-width: 760px;
+    width: 100%;
+    line-height: 1.74;
+    margin: 0;
+    padding: 4px 0 8px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    text-wrap: balance;
+    overflow: visible;
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+    box-sizing: border-box;
+
+    strong {
+      color: #ffffff;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    @include mobile {
+      font-size: 0.96rem;
+      line-height: 1.65;
+      padding: 2px 0 6px;
+    }
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 6px;
+  }
+
+  &__tag {
+    padding: 7px 16px;
+    border-radius: 8px;
+    background: rgba(14, 20, 34, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-family: $font-mono;
+    font-size: 0.76rem;
+    color: #e2e8f0;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s ease;
+
+    &:hover {
+      border-color: $chakra-cyan;
+      color: #ffffff;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.25);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 10px;
+  }
+
+  &__scroll-hint {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: $parchment-dim;
+    font-family: $font-mono;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  &__scroll-icon {
+    width: 20px;
+    height: 32px;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 6px;
+      border-radius: 2px;
+      background-color: $chakra-cyan;
+      animation: mouseScroll 1.8s infinite ease-in-out;
+    }
+  }
+}
+
+@keyframes pulseBeacon {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+@keyframes mouseScroll {
+  0% { transform: translate(-50%, 0); opacity: 1; }
+  80% { transform: translate(-50%, 10px); opacity: 0; }
+  100% { transform: translate(-50%, 0); opacity: 0; }
+}
+
+// ==================== SECTION 2: ABOUT OVERLAY ====================
+.about {
+  max-width: 1100px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 32px;
+  align-items: center;
+
+  @include tablet {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  &__header {
+    margin-bottom: 16px;
+  }
+
+  &__kanji {
+    font-family: $font-mono;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: $vermilion;
+  }
+
+  &__title {
+    font-family: $font-sans;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #ffffff;
+    margin: 4px 0 16px 0;
+  }
+
+  &__bio {
+    color: $parchment-muted;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 24px;
+
+    strong {
+      color: #ffffff;
+    }
+  }
+
+  &__stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+
+  &__stat-box {
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(14, 20, 34, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    h4 {
+      font-family: $font-mono;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: $chakra-cyan;
+      margin: 0;
+    }
+
+    p {
+      font-size: 0.75rem;
+      color: $parchment-dim;
+      margin: 4px 0 0 0;
+      font-family: $font-mono;
+    }
+  }
+
+  &__pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  &__pillar-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px;
+    border-radius: 12px;
+    background: rgba(14, 20, 34, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+
+    .pillar-icon {
+      font-size: 1.3rem;
+      padding: 8px;
+      border-radius: 8px;
+      background: rgba(0, 229, 255, 0.1);
+      color: $chakra-cyan;
+    }
+
+    h5 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 0 0 4px 0;
+    }
+
+    p {
+      font-size: 0.82rem;
+      color: $parchment-muted;
+      margin: 0;
+      line-height: 1.5;
+    }
+  }
+}
+
+// ==================== SECTION 3: WORK OVERLAY ====================
+.work {
+  max-width: 1160px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  &__header {
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  &__kicker {
+    font-family: $font-mono;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: $chakra-cyan;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px $chakra-cyan-glow;
+    margin-bottom: 4px;
+  }
+
+  &__kanji {
+    font-family: $font-mono;
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    color: $gold-leaf;
+  }
+
+  &__title {
+    font-family: $font-sans;
+    font-size: clamp(2rem, 3.8vw, 3rem);
+    font-weight: 800;
+    color: #ffffff;
+    margin: 2px 0;
+  }
+
+  &__desc {
+    color: $parchment-muted;
+    font-size: 0.9rem;
+    max-width: 660px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  &__nav-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 4px 0 10px 0;
+    flex-wrap: wrap;
+  }
+
+  &__tab-btn {
+    padding: 6px 14px;
+    border-radius: 9999px;
+    background: rgba(14, 20, 34, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: $parchment-muted;
+    font-family: $font-mono;
+    font-size: 0.74rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: #ffffff;
+      border-color: rgba($chakra-cyan, 0.4);
+    }
+
+    &--active {
+      color: #ffffff;
+      background: rgba(0, 229, 255, 0.15);
+      border-color: $chakra-cyan;
+      box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+    }
+  }
+
+  &__cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+
+    @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__item-card {
+    padding: 14px 16px !important;
+    border-radius: 12px !important;
+    background: rgba(8, 12, 22, 0.82) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+
+    &:hover {
+      border-color: rgba(0, 229, 255, 0.45) !important;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.75), 0 0 18px rgba(0, 229, 255, 0.15) !important;
+      transform: translateY(-2px) !important;
+    }
+  }
+
+  &__card-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__card-kicker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  &__card-badge {
+    font-family: $font-mono;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    text-transform: uppercase;
+  }
+
+  &__badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  &__card-cat {
+    font-family: $font-mono;
+    font-size: 0.68rem;
+    color: #64748b;
+    white-space: nowrap;
+  }
+
+  &__card-title {
+    font-family: $font-sans;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 6px 0;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  &__card-text {
+    font-size: 0.78rem;
+    color: #94a3b8;
+    line-height: 1.45;
+    margin: 0 0 12px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__card-actions {
+    display: flex;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  &__btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: $font-mono;
+    font-size: 0.73rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+    line-height: 1;
+
+    &--primary {
+      flex: 1 1 auto;
+      color: #ffffff;
+      font-weight: 700;
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+
+      &:hover {
+        box-shadow: 0 0 18px rgba(0, 229, 255, 0.4);
+        transform: translateY(-1px);
+      }
+    }
+
+    &--secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+        transform: translateY(-1px);
+      }
+    }
+  }
+}
+
+// ==================== SECTION 4: SKILLS OVERLAY ====================
+.skills {
+  max-width: 1100px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+
+  &__header {
+    text-align: center;
+  }
+
+  &__kicker {
+    font-family: $font-mono;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: $chakra-cyan;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px $chakra-cyan-glow;
+    margin-bottom: 4px;
+  }
+
+  &__kanji {
+    font-family: $font-mono;
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    color: $chakra-cyan;
+  }
+
+  &__title {
+    font-family: $font-sans;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    color: #ffffff;
+    margin: 4px 0;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+
+    @include tablet {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__category {
+    padding: 22px;
+  }
+
+  &__category-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 14px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    span {
+      font-size: 1.2rem;
+    }
+  }
+
+  &__badge-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  &__badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: rgba(14, 20, 34, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    color: $parchment-muted;
+    transition: all 0.2s ease;
+    cursor: default;
+
+    &:hover {
+      border-color: $chakra-cyan;
+      color: #ffffff;
+      background: rgba(0, 229, 255, 0.1);
+    }
+  }
+}
+
+// ==================== SECTION 5: CONTACT OVERLAY ====================
+.contact {
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+
+  &__header {
+    text-align: center;
+  }
+
+  &__kicker {
+    font-family: $font-mono;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: $vermilion;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px rgba($vermilion, 0.4);
+    margin-bottom: 4px;
+  }
+
+  &__kanji {
+    font-family: $font-mono;
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    color: $vermilion;
+  }
+
+  &__title {
+    font-family: $font-sans;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    color: #ffffff;
+    margin: 4px 0;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+
+    @include tablet {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__info-card {
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  &__terminal-title {
+    font-family: $font-mono;
+    font-size: 1.1rem;
+    color: $chakra-cyan;
+    margin: 0 0 10px 0;
+  }
+
+  &__terminal-desc {
+    color: $parchment-muted;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  &__quick-copy {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: $font-mono;
+    font-size: 0.8rem;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: $chakra-cyan;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+    }
+  }
+
+  &__socials {
+    display: flex;
+    gap: 12px;
+  }
+
+  &__social-link {
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: rgba(14, 20, 34, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: $parchment-muted;
+    font-family: $font-mono;
+    font-size: 0.78rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: $chakra-cyan;
+      border-color: $chakra-cyan;
+    }
+  }
+
+  &__form {
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    label {
+      font-family: $font-mono;
+      font-size: 0.74rem;
+      color: $parchment-muted;
+      letter-spacing: 0.05em;
+    }
+
+    input, textarea {
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: rgba(7, 10, 18, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-family: $font-sans;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+      @include focus-ring($chakra-cyan);
+
+      &:hover {
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+
+  &__submit-btn {
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(135deg, $vermilion 0%, #b91c1c 100%);
+    color: #ffffff;
+    font-family: $font-mono;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255, 42, 20, 0.3);
+    transition: all 0.25s ease;
+
+    &:hover {
+      box-shadow: 0 0 25px rgba(255, 42, 20, 0.5);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: $z-toast;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  background: rgba(7, 10, 18, 0.92);
+  border: 1px solid $chakra-cyan;
+  color: #ffffff;
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  box-shadow: 0 0 25px $chakra-cyan-glow;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

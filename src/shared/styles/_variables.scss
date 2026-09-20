@@ -1,0 +1,35 @@
+// Shared Design Tokens
+$chakra-cyan: #00e5ff;
+$chakra-cyan-glow: rgba(0, 229, 255, 0.4);
+$vermilion: #ff2a14;
+$vermilion-glow: rgba(255, 42, 20, 0.4);
+$gold-leaf: #f59e0b;
+$gold-leaf-glow: rgba(245, 158, 11, 0.35);
+
+$slate-abyss: #030508;
+$slate-deep: #070a12;
+$slate-surface: #0e1422;
+$slate-card: rgba(14, 20, 34, 0.75);
+$slate-border: rgba(255, 255, 255, 0.08);
+$slate-border-glow: rgba(0, 229, 255, 0.25);
+
+$parchment: #f5efe6;
+$parchment-muted: #94a3b8;
+$parchment-dim: #64748b;
+
+// Typography Clamps
+$font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+$font-mono: 'JetBrains Mono', monospace;
+
+// Z-index scale
+$z-canvas: 0;
+$z-overlay-content: 10;
+$z-modal: 400;
+$z-hud: 600;
+$z-toast: 700;
+
+// Breakpoints
+$bp-mobile: 640px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+$bp-wide: 1280px;

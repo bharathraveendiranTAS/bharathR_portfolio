@@ -1,0 +1,52 @@
+@use 'variables' as *;
+
+// Glassmorphism Overlay
+@mixin glass-panel($blur: 16px, $opacity: 0.72) {
+  background: rgba(14, 20, 34, $opacity);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), 
+              0 0 20px rgba(0, 229, 255, 0.04);
+}
+
+// Glowing Interactive Border
+@mixin glowing-border($color: $chakra-cyan, $glow-color: $chakra-cyan-glow) {
+  border: 1px solid rgba($color, 0.3);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    border-color: $color;
+    box-shadow: 0 0 25px $glow-color;
+  }
+}
+
+// Accessible Focus Ring
+@mixin focus-ring($color: $chakra-cyan) {
+  outline: none;
+
+  &:focus-visible {
+    outline: 2px solid $color;
+    outline-offset: 3px;
+    box-shadow: 0 0 12px rgba($color, 0.5);
+  }
+}
+
+// Responsive Breakpoint Helpers
+@mixin mobile {
+  @media (max-width: #{$bp-mobile - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: #{$bp-tablet - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$bp-desktop}) {
+    @content;
+  }
+}
