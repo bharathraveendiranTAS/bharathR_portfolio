@@ -347,7 +347,7 @@ export function WorkOverlay({ closeModalSignal, onHover, onSelectProject, onModa
                 </button>
 
                 <a
-                  href={`/works/${project.file}`}
+                  href={`${import.meta.env.BASE_URL}works/${project.file}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`${styles['work__btn']} ${styles['work__btn--secondary']}`}
@@ -702,7 +702,7 @@ export function WorkOverlay({ closeModalSignal, onHover, onSelectProject, onModa
 
                   {/* Open in New Tab */}
                   <a
-                    href={`/works/${activeModalApp.file}`}
+                    href={`${import.meta.env.BASE_URL}works/${activeModalApp.file}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
@@ -1050,7 +1050,7 @@ export function WorkOverlay({ closeModalSignal, onHover, onSelectProject, onModa
                 <iframe
                   ref={modalIframeRef}
                   key={activeModalApp.id}
-                  src={`/works/${activeModalApp.file}`}
+                  src={`${import.meta.env.BASE_URL}works/${activeModalApp.file}`}
                   title={activeModalApp.title}
                   data-lenis-prevent="true"
                   onLoad={handleIframeLoad}

@@ -7,47 +7,46 @@ A modern, accessible, and interactive developer portfolio showcasing 6.3+ years 
 
 ---
 
-## 🚀 Quick Deploy to GitHub Pages (2 Minutes)
+## 🚀 Deploy to GitHub Pages (2 Methods)
 
-This portfolio is built to be **100% zero-configuration and static-ready**. You can deploy it to GitHub Pages immediately without configuring any build steps or CI/CD pipelines:
+Because this is a modern React + Vite + TypeScript application, it compiles into static files in `dist/`. Choose either of the two standard deployment methods below:
 
-### Step 1: Create a GitHub Repository
-1. Log in to [GitHub](https://github.com) and click **New Repository**.
-2. Name it either:
-   - `<your-username>.github.io` (for a user domain: `https://<your-username>.github.io`), or
-   - `portfolio` (for a project domain: `https://<your-username>.github.io/portfolio`).
-3. Set visibility to **Public** and leave initialize with README unchecked.
+### Method 1: GitHub Actions (Recommended — 100% Automated)
 
-### Step 2: Push Files Using Git
+A pre-configured GitHub Actions workflow is already included in `.github/workflows/deploy.yml`. Whenever you push to `main`, GitHub will automatically install dependencies, build the app, and deploy it.
 
-Run the following commands in your local project folder:
+1. Push your repository to GitHub:
+   ```bash
+   git add .
+   git commit -m "feat: setup GitHub Pages deployment"
+   git push origin main
+   ```
+2. In your GitHub repository:
+   - Go to **Settings** (top navigation tab)
+   - On the left sidebar, click **Pages**
+   - Under **Build and deployment** > **Source**, choose **GitHub Actions**
+3. That's it! GitHub Actions will automatically run the build and publish your site. You can track progress in the **Actions** tab.
 
-```bash
-# Initialize git (if not already initialized)
-git init
-git branch -M main
+---
 
-# Add all project files
-git add .
+### Method 2: 1-Command Deploy via `gh-pages`
 
-# Commit changes
-git commit -m "feat: initial release of Bharath Kumar portfolio"
+You can also deploy directly from your local terminal with one command:
 
-# Link your GitHub repository
-git remote add origin https://github.com/<your-username>/<your-repo-name>.git
-
-# Push to GitHub
-git push -u origin main
-```
-
-### Step 3: Enable GitHub Pages in 1 Click
-1. In your GitHub repository, open **Settings** (top tab).
-2. On the left sidebar, click **Pages**.
-3. Under **Build and deployment**:
-   - **Source**: Select `Deploy from a branch`.
-   - **Branch**: Select `main` and folder `/ (root)`.
-4. Click **Save**.
-5. Within 30–60 seconds, your site will be live at `https://<your-username>.github.io/`!
+1. Ensure your git remote is set:
+   ```bash
+   git remote add origin https://github.com/<your-username>/<your-repo-name>.git
+   ```
+2. Run the deploy script:
+   ```bash
+   npm run deploy
+   ```
+   *(This automatically runs `npm run build` and pushes the `dist` folder to the `gh-pages` branch on GitHub).*
+3. In your GitHub repository:
+   - Go to **Settings** > **Pages**
+   - Under **Build and deployment** > **Source**, select **Deploy from a branch**
+   - Choose branch **`gh-pages`** and folder **`/ (root)`**, then click **Save**.
+4. Your site will be live at `https://<your-username>.github.io/<your-repo-name>/`!
 
 ---
 
